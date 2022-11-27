@@ -1,0 +1,51 @@
+<head>
+    <style>
+        *{
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+
+
+<body>
+    <!-- canvas-->
+    <div style="position: relative; display: inline-block">
+        <!--espacio HUD-->
+        <div style="position: absolute; display:flex; width: 100%; align-items:center; padding: 20px">
+            <!-- Vida player-->
+            <div style="position: relative; height: 30px; width: 100%; display: flex; justify-content: flex-end">
+                <!-- barra de vida max para comparar-->
+                <div style="background-color: yellow; height:30px; width:100%"></div>
+                <!-- Barra de vida variable-->
+                <div id="playerHealth" style="position: absolute; background: blue; top:0; right:0; bottom:0; width:100%"> </div>
+            </div>
+            <!-- Timer-->
+            <div 
+                id="timer"
+                style=
+                    "background-color: red; 
+                    height: 100px; 
+                    width: 100px; 
+                    flex-shrink:0;
+                    display:flex;
+                    align-items: center;
+                    justify-content: center;
+                    "
+            >
+            10
+            </div>
+            <!-- Vida enemy-->
+            <!-- espacio para la barra de vida max-->
+            <div style="position: relative; height: 30px; width: 100%">
+                <!-- barra de vida max para comparar-->
+                <div style="background-color: yellow; height:30px"></div>
+                <!-- Barra de vida variable-->
+                <div id="enemyHealth" style="position: absolute; background: blue; top:0; right:0; bottom:0; left:0"> </div>
+            </div>
+        </div>
+        <div id="displayResults" style="font-size: 100px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; position: absolute; color: white; display: flex; align-items: center; justify-content: center; top: 0; right: 0; bottom: 0; left: 0 "></div>
+    <canvas></canvas>
+    </div>
+
+    <script src="index.js"></script>
+</body>
