@@ -1,3 +1,5 @@
+import { Sprite, FPS } from './charactersData.js';
+
 const canvas = document.querySelector("canvas")
 const c = canvas.getContext("2d")
 
@@ -9,110 +11,10 @@ canvas.height = 576
 c.fillRect(0,0,canvas.width,canvas.height)
 
 //aceleración de la gravedad para cuando no toquen el suelo
-const gravity = 0.5
+
 const speed = 3
 const jumpForce = -15
 
-//object for POO, are the characters
-class Sprite {
-    //parametros iniciales de cualquier objeto que creemos de esta clase.
-    //({}) --> el orden ya no importa pq son propiedades de un objeto y no son obligatorias
-    constructor({position, velocity, jumps, color, unable, offset, jumpMaxPoint}){
-        //creación de atributos del objeto
-        this.position = position
-        this.velocity = velocity
-        this.height = 150
-        this.width = 50
-        //number of jumps before touching floor again
-        this.jumps = jumps
-        this.jumpMaxPoint = jumpMaxPoint
-        //no estas haciendo nada
-        this.unable = unable
-        //color of the character
-        this.color = color
-        //creation of hitbox
-        this.hitBox = {
-            position: {
-                x: this.position.x +10,
-                y: this.position.y +10,
-            },
-            width: 100,
-            height: 50,
-        }
-        //desplazamiento de la hitbox para cambios de sentido
-        this.offset = offset
-        //control barra de vida
-        this.health = 100
-        //has pulsado el boton para atacar
-        this.isAttacking
-    }
-    draw() {
-        //pintar personaje
-        c.fillStyle = this.color //color
-        c.fillRect(this.position.x, this.position.y, this.width, this.height)
-    
-
-        //painting hitBox
-        if (this.isAttacking){
-            c.fillStyle = "white"
-        c.fillRect(
-            this.hitBox.position.x, 
-            this.hitBox.position.y, 
-            this.hitBox.width, 
-            this.hitBox.height)
-        
-        }
-    }
-
-    //comprueba si se ha llegado a la posición de salto máx
-    checkJumpMaxHeight(){
-        if (this.velocity.y == 0 && this.position.y + this.height + this.velocity.y != canvas.height){
-            this.jumpMaxPoint = true
-        }else this.jumpMaxPoint = false
-    }
-
-    //para dibujar las cosas en la posición actualizada
-    update() {
-        //movimiento en eje x
-        this.position.x += this.velocity.x
-        //posición en y se le suma la velocidad que tenga en ese momento
-        this.position.y += this.velocity.y
-
-        this.hitBox.position.y = this.position.y + this.offset.y
-        this.hitBox.position.x = this.position.x + this.offset.x
-
-        this.draw()
-
-        //comprobar si toca el suelo
-        if(this.position.y + this.height + this.velocity.y >= canvas.height){
-            this.velocity.y = 0
-            this.jumps.n = 2
-            this.offset.y = 10
-            if(this.unable == true){
-                this.velocity.x = 0
-            }
-        } else {
-            this.offset.y = 110
-            this.velocity.y += gravity//aceleración en caida
-        }
-        this.checkJumpMaxHeight()
-    }
-        
-    //startup,active,recovery
-    attack() {
-        this.unable = true
-        setTimeout(() =>{
-            this.isAttacking = true
-            setTimeout(() =>{
-                this.isAttacking = false
-                setTimeout(() => {
-                    this.unable = false
-                },(4+2+9)*1000/fps)
-            },(4+2)*1000/fps)
-        },4*1000/fps)
-    }
-
-}
 
 //crear un objeto de la clase Sprite-->({})
 const player = new Sprite({
@@ -134,9 +36,11 @@ const player = new Sprite({
     },
     unable: false,
     color: "blue",
-    jumpMaxPoint: false
+    jumpMaxPoint: false,
+    canvasContext: c,
+    canvasRef: canvas
 
-})
+});
 
 const enemy = new Sprite({
     position: {
@@ -157,8 +61,10 @@ const enemy = new Sprite({
     },
     unable: false,
     color: "red",
-    jumpMaxPoint: false
-})
+    jumpMaxPoint: false,
+    canvasContext: c,
+    canvasRef: canvas
+});
 
 
 
@@ -189,7 +95,7 @@ const keys = {
     dot: {
         pressed: false
     }
-}
+};
 
 var pDerecha = "izq"
 //checkea que personaje esta más a la izquierda del otro
@@ -268,7 +174,7 @@ function decreaseTimer() {
 
 decreaseTimer()
 
-const fps = 60
+
 //barras de vida, movimiento, ataques...
 function animate(){
 
@@ -278,7 +184,7 @@ function animate(){
     //Crea un bucle infinito para que el juego funcione a un numero de fps concreto
     setTimeout(() => {
         requestAnimationFrame(animate)
-    },1000/fps)
+    },1000/FPS)
 
     //pintar fondo por encima como si fuese processing
     c.fillStyle = "black"
