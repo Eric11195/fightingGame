@@ -16,6 +16,9 @@ export const keys = {
     f: {
         pressed: false
     },
+    s: {
+        pressed: false
+    },
 
     AL: {
         pressed: false
@@ -24,6 +27,9 @@ export const keys = {
         pressed: false
     },
     AU: {
+        pressed: false
+    },
+    AD: {
         pressed: false
     },
     dot: {
@@ -47,31 +53,17 @@ export const KEYDOWN = window.addEventListener('keydown', (event) => {
         case 'f':
             keys.f.pressed = true
             break
+        case 's':
+            keys.s.pressed = true
+            break
         case ' ':
+            //condición para que en caso de que se pulse la tecla durante más de un frame no haga los dos saltos instantaneamente
+            //registra solo 1 vez cada vez que se pulse la tecla
             if(!jumpingP){
                 //doble salto direccional
                 keys.space.pressed = true
             }
             jumpingP = true
-
-            /*if(playing){
-                if (player.jumps.n > 0 ){
-                        if (pDerecha == "izq"){
-                            player.offset.x = 10
-                        }else{
-                            player.offset.x = -60                
-                        }
-                    if (keys.a.pressed == false && keys.d.pressed == false || keys.a.pressed == true && keys.d.pressed == true){
-                        player.velocity.x = 0
-                    }else if (keys.a.pressed == true){
-                        player.velocity.x = -speed
-                    }else if (keys.d.pressed == true){
-                        player.velocity.x = speed
-                    }
-                    player.velocity.y= jumpForce
-                    player.jumps.n--
-                }
-            }*/
             break
 
 
@@ -83,7 +75,9 @@ export const KEYDOWN = window.addEventListener('keydown', (event) => {
         case 'ArrowLeft':
             keys.AL.pressed = true
             break
-
+        case 'ArrowDown':
+            keys.AD.pressed = true
+            break   
         case '.':
             keys.dot.pressed = true
             break
@@ -116,12 +110,18 @@ export const KEYUP = window.addEventListener('keyup', (event) => {
         case 'f':
             keys.f.pressed = false
             break
+        case 's':
+            keys.s.pressed = false
+            break
 
         case 'ArrowRight':
             keys.AR.pressed = false
             break
         case 'ArrowLeft':
             keys.AL.pressed = false
+            break
+        case 'ArrowDown':
+            keys.AD.pressed = false
             break
         case '.':
             keys.dot.pressed = false

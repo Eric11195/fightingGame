@@ -1,5 +1,3 @@
-
-
 const GRAVITY = 0.8;
 export const speed = 4
 export const jumpForce = -16
@@ -15,13 +13,15 @@ export class Sprite {
     
     //parametros iniciales de cualquier objeto que creemos de esta clase.
     //({}) --> el orden ya no importa pq son propiedades de un objeto y no son obligatorias
-    constructor({position, velocity, jumps, color, offset, jumpMaxPoint, canvasContext, canvasRef, unable}){
+    constructor({position, velocity, jumps, color, offset, jumpMaxPoint, canvasContext, canvasRef, unable, block, framesBlocking, height, agachado, fakePosition}){
         //creación de atributos del objeto
-        this.canvasContext = canvasContext;
-        this.canvasRef = canvasRef;
+        this.canvasContext = canvasContext
+        this.canvasRef = canvasRef
         this.position = position
+        this.fakePosition = fakePosition
+        this.agachado = agachado
         this.velocity = velocity
-        this.height = 150
+        this.height = height
         this.width = 50
         //number of jumps before touching floor again
         this.jumps = jumps
@@ -45,11 +45,14 @@ export class Sprite {
         this.health = 100
         //has pulsado el boton para atacar
         this.isAttacking
+        this.block = block
+        this.framesBlocking = framesBlocking
     }
     draw() {
         //pintar personaje
         this.canvasContext.fillStyle = this.color //color
         this.canvasContext.fillRect(this.position.x, this.position.y, this.width, this.height)
+        //agachado
     
 
         //painting hitBox
@@ -73,11 +76,20 @@ export class Sprite {
 
     //para dibujar las cosas en la posición actualizada
     update() {
+        console.log()
         
         //movimiento en eje x
-        this.position.x += this.velocity.x
+        this.fakePosition.x += this.velocity.x
         //posición en y se le suma la velocidad que tenga en ese momento
-        this.position.y += this.velocity.y
+        this.fakePosition.y += this.velocity.y
+        if(this.agachado){
+            this.height = 100
+            this.position.y = this.fakePosition.y
+        }else{
+            this.height = 150
+            this.position.y = this.fakePosition.y - 50
+        }
+        this.position.x = this.fakePosition.x
 
         this.hitBox.position.y = this.position.y + this.offset.y
         this.hitBox.position.x = this.position.x + this.offset.x
@@ -139,14 +151,24 @@ export const player = new Sprite({
     color: "blue",
     jumpMaxPoint: false,
     canvasContext: c,
-    canvasRef: canvas
-
+    canvasRef: canvas,
+    block: {
+        state: false,
+        type: "none"
+    },
+    framesBlocking: 0,
+    height: 150,
+    agachado: false,
+    fakePosition:{
+        x:0,
+        y:0
+    }
 });
 
 export const enemy = new Sprite({
     position: {
-        x:400,
-        y:100
+        x:0,
+        y:0
     },//velocity es otro objeto
     velocity: {
         x:0,
@@ -164,7 +186,18 @@ export const enemy = new Sprite({
     color: "red",
     jumpMaxPoint: false,
     canvasContext: c,
-    canvasRef: canvas
+    canvasRef: canvas,
+    block: {
+        state: false,
+        type: "none"
+    },
+    framesBlocking: 0,
+    height: 150,
+    agachado: false,
+    fakePosition:{
+        x:400,
+        y:100
+    }
 });
 
 //-----------------------------------------------------------------------------
@@ -173,10 +206,9 @@ export function playerSide() {
     if (player.position.x < enemy.position.x){
         pDerecha = "izq"
     } else pDerecha = "der"
+        
 
 }
-
-
 
 //condicion la hitbox de un player tocando la del otro
 export function hitboxCollision({hitbox, Enemy}) {

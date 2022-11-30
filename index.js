@@ -6,17 +6,64 @@ import {checkWinner, decreaseTimer, timer, timerId, playing, canvas, c} from './
 //hacer un rectangulo con vertices--> fillRect(xPosInicial,yPosInicial,xPosFinal,yPosInicial)
 c.fillRect(0,0,canvas.width,canvas.height)
 
-//aceleración de la gravedad para cuando no toquen el suelo
-
-
-
 
 //barras de vida, movimiento, ataques...
 function animate(){
 
+
+    console.log(player.agachado)
+
     //console.log(player.offset.y)
     //checkea para donde se mira y cambia la hitbox en consecuencia
     playerSide()
+    if(pDerecha == "izq"){
+        if (keys.a.pressed){
+            player.block.state = true
+            player.framesBlocking++
+        }else {
+            player.block.state = false
+            player.framesBlocking = 0
+        }
+        if (keys.AR.pressed){
+            enemy.block.state = true
+            enemy.framesBlocking++
+        }else {
+            enemy.block.state = false
+            enemy.framesBlocking = 0
+        }
+    }else{
+        if (keys.d.pressed){
+            player.block.state = true
+            player.framesBlocking++
+        }else {
+            player.block.state = false
+            player.framesBlocking = 0
+        }
+        if (keys.AL.pressed){
+            enemy.block.state = true
+            enemy.framesBlocking++
+        }else {
+            enemy.block.state = false
+            enemy.framesBlocking = 0
+        }
+    }
+
+
+    //checkea bloqueos perfectos--------------------------
+    if (player.framesBlocking <= 3 && player.framesBlocking != 0){
+        console.log("perfect")
+    }else  {
+
+    }
+
+    if (enemy.framesBlocking <= 3 && enemy.framesBlocking != 0){
+        console.log("perfect")
+    }else {
+        
+    }
+
+
+
     //Crea un bucle infinito para que el juego funcione a un numero de fps concreto
     setTimeout(() => {
         requestAnimationFrame(animate)
@@ -29,8 +76,15 @@ function animate(){
     player.update()//objeto player de la clase Sprite usando metodo update del
     enemy.update()
     
+
     if(playing) {
-        if(keys.space.pressed && ((!player.unable && !(player.velocity.y != 0 || player.jumpMaxPoint == true)) || (player.velocity.y != 0 || player.jumpMaxPoint == true))){
+        //player.realPOSnHEIGHT()
+        //enemy.realPOSnHEIGHT()
+
+
+
+//player--------------------------------------------------------------------------------------------------------
+        if(keys.space.pressed && ((!player.unable && player.velocity.y == 0 || !player.jumpMaxPoint) || (player.velocity.y != 0 || player.jumpMaxPoint))){
             keys.space.pressed = false
             if (player.jumps.n > 0 ){
                 if (pDerecha == "izq"){
@@ -49,6 +103,11 @@ function animate(){
             player.jumps.n--
             }
         }
+        if(keys.s.pressed && enemy.velocity.y == 0 && !player.jumpMaxPoint){
+            player.agachado = true
+        }else{
+            player.agachado = false
+        }
         if (!player.unable){
             if(!(player.velocity.y != 0 || player.jumpMaxPoint == true)){
                 if (pDerecha == "izq"){
@@ -65,13 +124,13 @@ function animate(){
                     player.velocity.x = 0
                 }
                 //los saltos no son controlables en el aire
-            }else if (keys.d.pressed && keys.a.pressed){
+            }else if (keys.d.pressed && keys.a.pressed && !player.agachado){
                 player.velocity.x = 0
-            }else if (keys.d.pressed){
+            }else if (keys.d.pressed && !player.agachado){
                 if(!xPlayerCollision({ me: player, opponent: enemy}) || (enemy.velocity.y != 0 || enemy.jumpMaxPoint == true)){
                     player.velocity.x = speed
                 }else player.velocity.x = 0
-            } else if (keys.a.pressed){
+            } else if (keys.a.pressed && !player.agachado){
                 if(!minusxPlayerCollision({ Me: player, Opponent: enemy}) || (enemy.velocity.y != 0 || enemy.jumpMaxPoint == true)){
                     player.velocity.x = -speed
                 }else player.velocity.x = 0
@@ -80,8 +139,8 @@ function animate(){
             }
         }
 
-
-        if(keys.AU.pressed && ((!enemy.unable && !(enemy.velocity.y != 0 || enemy.jumpMaxPoint == true)) || (enemy.velocity.y != 0 || enemy.jumpMaxPoint == true))){
+//enemy---------------------------------------------------------------------------------------------------------
+        if(keys.AU.pressed && ((enemy.unable && enemy.velocity.y != 0 || !enemy.jumpMaxPoint) || (enemy.velocity.y != 0 || enemy.jumpMaxPoint))){
             keys.AU.pressed = false
             if (enemy.jumps.n > 0 ){
                 if (pDerecha == "der"){
@@ -89,21 +148,26 @@ function animate(){
                 }else{
                     enemy.offset.x = -60                
                 }
-                if (keys.AL.pressed == false && keys.AR.pressed == false || keys.AL.pressed == true && keys.AR.pressed == true){
+                if (!keys.AL.pressed && !keys.AR.pressed || keys.AL.pressed && keys.AR.pressed){
                     enemy.velocity.x = 0
-                }else if (keys.AL.pressed == true){
+                }else if (keys.AL.pressed){
                     enemy.velocity.x = -speed
-                }else if (keys.AR.pressed == true){
+                }else if (keys.AR.pressed){
                     enemy.velocity.x = speed
                 }
-                enemy.velocity.y= jumpForce
+                enemy.velocity.y = jumpForce
                 enemy.jumps.n--
             }
+        }
+        if(keys.AD.pressed && enemy.velocity.y == 0 && !enemy.jumpMaxPoint){
+            enemy.agachado = true
+        }else{
+            enemy.agachado = false
         }
         if (!enemy.unable){
             //acciones cuando hay alguna tecla pulsada
             if (keys.dot.pressed){
-                if(!(enemy.velocity.y != 0 || enemy.jumpMaxPoint == true)){
+                if(enemy.velocity.y = 0 || enemy.jumpMaxPoint){
                     if (pDerecha == "der"){
                         enemy.offset.x = 10
                     }else{
@@ -112,24 +176,25 @@ function animate(){
                 }
                 enemy.attack()
             //los saltos no son controlables en el aire
-            }else if (enemy.velocity.y != 0 || enemy.jumpMaxPoint == true){
-                if((player.velocity.y != 0 || player.jumpMaxPoint == true) && (xEnemyCollision({ meE: enemy, opponentE: player}) || minusxEnemyCollision({ MeE: enemy, OpponentE: player}))){
+            }else if (enemy.velocity.y != 0 || enemy.jumpMaxPoint){
+                if((player.velocity.y != 0 || player.jumpMaxPoint) && (xEnemyCollision({ meE: enemy, opponentE: player}) || minusxEnemyCollision({ MeE: enemy, OpponentE: player}))){
                     enemy.velocity.x = 0
                 }
-            }else if (keys.AL.pressed && keys.AR.pressed){
+            }else if (keys.AL.pressed && keys.AR.pressed && !enemy.agachado){
                 enemy.velocity.x = 0
-            } else if (keys.AR.pressed){
-                if(!xEnemyCollision({ meE: enemy, opponentE: player}) || (player.velocity.y != 0 || player.jumpMaxPoint == true)){
+            } else if (keys.AR.pressed && !enemy.agachado){
+                if(!xEnemyCollision({ meE: enemy, opponentE: player}) || (player.velocity.y != 0 || player.jumpMaxPoint)){
                     enemy.velocity.x = speed
                 }else enemy.velocity.x = 0
-            } else if (keys.AL.pressed){
-                if(!minusxEnemyCollision({ MeE: enemy, OpponentE: player}) || (player.velocity.y != 0 || player.jumpMaxPoint == true)){
+            } else if (keys.AL.pressed && !enemy.agachado){
+                if(!minusxEnemyCollision({ MeE: enemy, OpponentE: player}) || (player.velocity.y != 0 || player.jumpMaxPoint)){
                     enemy.velocity.x = -speed
                 }else enemy.velocity.x = 0
             } else {
                 enemy.velocity.x = 0
             }
         }
+//common--------------------------------------------------------------------------------------------
 
         //detect for collision of hitbox and contrary character
         //se detecta si el lado más alejado del personaje de la hitbox, esta a más distancia que el lado más cercano del enemigo 
