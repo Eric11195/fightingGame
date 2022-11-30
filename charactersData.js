@@ -1,13 +1,19 @@
 
 
-const GRAVITY = 0.5;
+const GRAVITY = 0.8;
+export const speed = 4
+export const jumpForce = -16
+
+const canvas = document.querySelector("canvas")
+const c = canvas.getContext("2d")
+
 export const FPS = 60;
 export class Sprite {
     
     
     //parametros iniciales de cualquier objeto que creemos de esta clase.
     //({}) --> el orden ya no importa pq son propiedades de un objeto y no son obligatorias
-    constructor({position, velocity, jumps, color, unable, offset, jumpMaxPoint, canvasContext, canvasRef}){
+    constructor({position, velocity, jumps, color, offset, jumpMaxPoint, canvasContext, canvasRef, unable}){
         //creación de atributos del objeto
         this.canvasContext = canvasContext;
         this.canvasRef = canvasRef;
@@ -58,7 +64,7 @@ export class Sprite {
 
     //comprueba si se ha llegado a la posición de salto máx
     checkJumpMaxHeight(){
-        if (this.velocity.y == 0 && this.position.y + this.height + this.velocity.y != this.canvasRef.height){
+        if ((this.velocity.y == 0) && ((this.position.y + this.height + this.velocity.y) < this.canvasRef.height)){
             this.jumpMaxPoint = true
         }else this.jumpMaxPoint = false
     }
@@ -106,3 +112,55 @@ export class Sprite {
     }
 
 }
+
+
+
+//crear un objeto de la clase Sprite-->({})
+export const player = new Sprite({
+    //posición es un objeto
+    position: {
+        x:0,
+        y:0
+    },//velocity es otro objeto
+    velocity: {
+        x:0,
+        y:0
+    },
+    jumps: {
+        n:0
+    },
+    offset: {
+        x:0,
+        y:0
+    },
+    unable: false,
+    color: "blue",
+    jumpMaxPoint: false,
+    canvasContext: c,
+    canvasRef: canvas
+
+});
+
+export const enemy = new Sprite({
+    position: {
+        x:400,
+        y:100
+    },//velocity es otro objeto
+    velocity: {
+        x:0,
+        y:0
+    },
+    //you can jump twice
+    jumps: {
+        n:0
+    },
+    offset: {
+        x:0,
+        y:0
+    },
+    unable: false,
+    color: "red",
+    jumpMaxPoint: false,
+    canvasContext: c,
+    canvasRef: canvas
+});

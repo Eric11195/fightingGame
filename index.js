@@ -1,10 +1,6 @@
-import { Sprite, FPS } from './charactersData.js';
-
-const canvas = document.querySelector("canvas")
-const c = canvas.getContext("2d")
-
-canvas.width = 1024
-canvas.height = 576
+import {FPS, player, enemy, speed, jumpForce} from './charactersData.js'
+import {keys, jumpingE, jumpingP} from './inputHandler.js'
+import {checkWinner, decreaseTimer, timer, timerId, playing, canvas, c} from './System.js'
 
 //fondo
 //hacer un rectangulo con vertices--> fillRect(xPosInicial,yPosInicial,xPosFinal,yPosInicial)
@@ -12,90 +8,6 @@ c.fillRect(0,0,canvas.width,canvas.height)
 
 //aceleración de la gravedad para cuando no toquen el suelo
 
-const speed = 3
-const jumpForce = -15
-
-
-//crear un objeto de la clase Sprite-->({})
-const player = new Sprite({
-    //posición es un objeto
-    position: {
-        x:0,
-        y:0
-    },//velocity es otro objeto
-    velocity: {
-        x:0,
-        y:0
-    },
-    jumps: {
-        n:0
-    },
-    offset: {
-        x:0,
-        y:0
-    },
-    unable: false,
-    color: "blue",
-    jumpMaxPoint: false,
-    canvasContext: c,
-    canvasRef: canvas
-
-});
-
-const enemy = new Sprite({
-    position: {
-        x:400,
-        y:100
-    },//velocity es otro objeto
-    velocity: {
-        x:0,
-        y:0
-    },
-    //you can jump twice
-    jumps: {
-        n:0
-    },
-    offset: {
-        x:0,
-        y:0
-    },
-    unable: false,
-    color: "red",
-    jumpMaxPoint: false,
-    canvasContext: c,
-    canvasRef: canvas
-});
-
-
-
-//crear un objeto para saber que teclas se estan tocando
-const keys = {
-    a: {
-        pressed: false
-    },
-    d: {
-        pressed: false
-    },
-    space: {
-        pressed: false
-    },
-    f: {
-        pressed: false
-    },
-
-    AL: {
-        pressed: false
-    },
-    AR: {
-        pressed: false
-    },
-    AU: {
-        pressed: false
-    },
-    dot: {
-        pressed: false
-    }
-};
 
 var pDerecha = "izq"
 //checkea que personaje esta más a la izquierda del otro
@@ -142,43 +54,10 @@ function minusxEnemyCollision({MeE, OpponentE}){
     )
 }
 
-//checkea si la partida se ha acabado
-var playing = true
-
-function checkWinner({player, enemy, timerId}){
-    playing = false
-    clearTimeout(timerId)
-    if(player.health === enemy.health || player.health <=0 && enemy.health <=0){
-        document.querySelector('#displayResults').innerHTML = 'Tie'
-    }else if (player.health > enemy.health){
-        document.querySelector('#displayResults').innerHTML = 'Player 1 WINS'
-    }else if (player.health < enemy.health){
-        document.querySelector('#displayResults').innerHTML = 'Player 2 WINS'
-    }
-}
-
-
-let timer = 60;
-let timerId
-function decreaseTimer() {
-    if (timer> 0) {
-        //loop
-        timerId = setTimeout (decreaseTimer, 1000)
-        timer--
-        document.querySelector('#timer').innerHTML = timer
-    }else {
-        checkWinner({player, enemy, timerId})
-    }
-
-}
-
-decreaseTimer()
-
-
 //barras de vida, movimiento, ataques...
 function animate(){
 
-    console.log(player.offset.y)
+    //console.log(player.offset.y)
     //checkea para donde se mira y cambia la hitbox en consecuencia
     playerSide()
     //Crea un bucle infinito para que el juego funcione a un numero de fps concreto
@@ -194,7 +73,6 @@ function animate(){
     enemy.update()
     
     if(playing) {
-
         if (!player.unable){
             if(!(player.velocity.y != 0 || player.jumpMaxPoint == true)){
                 if (pDerecha == "izq"){
@@ -206,14 +84,32 @@ function animate(){
             //acciones cuando hay alguna tecla pulsada
             if (keys.f.pressed){
                 player.attack()
-            }else if (player.velocity.y != 0 || player.jumpMaxPoint == true){
-                if((enemy.velocity.y != 0 || enemy.jumpMaxPoint == true) && (xPlayerCollision({ me: player, opponent: enemy}) || minusxPlayerCollision({ Me: player, Opponent: enemy}))){
+            }else if(keys.space.pressed){
+                keys.space.pressed = false
+                if (player.jumps.n > 0 ){
+                    if (pDerecha == "izq"){
+                        player.offset.x = 10
+                    }else{
+                        player.offset.x = -60                
+                    }
+                    if (keys.a.pressed == false && keys.d.pressed == false || keys.a.pressed == true && keys.d.pressed == true){
+                        player.velocity.x = 0
+                    }else if (keys.a.pressed == true){
+                        player.velocity.x = -speed
+                    }else if (keys.d.pressed == true){
+                        player.velocity.x = speed
+                    }
+                player.velocity.y= jumpForce
+                player.jumps.n--
+                }
+            }else if (player.velocity.y != 0 || player.jumpMaxPoint){
+                if((enemy.velocity.y != 0 || enemy.jumpMaxPoint) && (xPlayerCollision({ me: player, opponent: enemy}) || minusxPlayerCollision({ Me: player, Opponent: enemy}))){
                     player.velocity.x = 0
                 }
                 //los saltos no son controlables en el aire
             }else if (keys.d.pressed && keys.a.pressed){
                 player.velocity.x = 0
-            } else if (keys.d.pressed){
+            }else if (keys.d.pressed){
                 if(!xPlayerCollision({ me: player, opponent: enemy}) || (enemy.velocity.y != 0 || enemy.jumpMaxPoint == true)){
                     player.velocity.x = speed
                 }else player.velocity.x = 0
@@ -239,6 +135,25 @@ function animate(){
                 }
                 enemy.attack()
             //los saltos no son controlables en el aire
+            }else if(keys.AU.pressed){
+                keys.AU.pressed = false
+                if (enemy.jumps.n > 0 ){
+                    if (pDerecha == "der"){
+                        enemy.offset.x = 10
+                    }else{
+                        enemy.offset.x = -60                
+                    }
+                    if (keys.AL.pressed == false && keys.AR.pressed == false || keys.AR.pressed == true && keys.AL.pressed == true){
+                        enemy.velocity.x = 0
+                    }else if (keys.AL.pressed == true){
+                        enemy.velocity.x = -speed
+                    }else if (keys.AR.pressed == true){
+                        enemy.velocity.x = speed
+                    }
+                enemy.velocity.y= jumpForce
+                enemy.jumps.n--
+                }
+            
             }else if (enemy.velocity.y != 0 || enemy.jumpMaxPoint == true){
                 if((player.velocity.y != 0 || player.jumpMaxPoint == true) && (xEnemyCollision({ meE: enemy, opponentE: player}) || minusxEnemyCollision({ MeE: enemy, OpponentE: player}))){
                     enemy.velocity.x = 0
@@ -266,7 +181,6 @@ function animate(){
             Enemy: enemy,
             }) && player.isAttacking
         ) {
-            console.log("goPlayer")
             enemy.health -= 20
             document.querySelector('#enemyHealth').style.width = enemy.health + '%'
             //solo detecta una vez la colisión por cada vez que pulsemos la tecla
@@ -277,7 +191,6 @@ function animate(){
             Enemy: player,
             }) && enemy.isAttacking
         ) {
-            console.log("goEnemy")
             player.health -= 20
             document.querySelector('#playerHealth').style.width = player.health + '%'
             //solo detecta una vez la colisión por cada vez que pulsemos la tecla
@@ -297,115 +210,7 @@ function animate(){
 }
 
 animate()
-
-//espera a que pase algo (''), y devuelve lo siguiente ,()
-//se activa cada vez que se presiona una tecla
-window.addEventListener('keydown', (event) => {
-    //mira que teclas as tocado
-    switch (event.key) {
-        case 'd':
-            //si la d esta presionada el objeto keys dice que d= true
-            //o sea que estamos pulsando esta tecla vamos
-            keys.d.pressed = true
-            break
-        case 'a':
-            keys.a.pressed = true
-            break
-        case 'f':
-            keys.f.pressed = true
-            break
-        case ' ':
-            //doble salto direccional
-            keys.space.pressed = true
-            if(playing){
-                if (player.jumps.n > 0 ){
-                        if (pDerecha == "izq"){
-                            player.offset.x = 10
-                        }else{
-                            player.offset.x = -60                
-                        }
-                    if (keys.a.pressed == false && keys.d.pressed == false || keys.a.pressed == true && keys.d.pressed == true){
-                        player.velocity.x = 0
-                    }else if (keys.a.pressed == true){
-                        player.velocity.x = -speed
-                    }else if (keys.d.pressed == true){
-                        player.velocity.x = speed
-                    }
-                    player.velocity.y= jumpForce
-                    player.jumps.n--
-                }
-            }
-            break
+decreaseTimer()
 
 
-        case 'ArrowRight':
-            //si la d esta presionada el objeto keys dice que d= true
-            //o sea que estamos pulsando esta tecla vamos
-            keys.AR.pressed = true
-            break
-        case 'ArrowLeft':
-            keys.AL.pressed = true
-            break
 
-        case '.':
-            keys.dot.pressed = true
-            break
-        case 'ArrowUp':
-            keys.AU.pressed = true
-            if (playing){                 
-                if (enemy.jumps.n > 0){
-                    if (pDerecha == "der"){
-                        enemy.offset.x = 10
-                    }else{
-                        enemy.offset.x = -60                
-                    }
-                    if (keys.AL.pressed == false && keys.AR.pressed == false || keys.AL.pressed == true && keys.AR.pressed == true){
-                        enemy.velocity.x = 0
-                    }else if (keys.AL.pressed == true){
-                        enemy.velocity.x = -speed
-                    }else if (keys.AU.pressed == true){
-                        enemy.velocity.x = speed
-                    }
-                    enemy.velocity.y= jumpForce
-                    enemy.jumps.n--
-                }
-            }
-            break
-        }
-    }
-)
-
-
-//se activa cada vez que se suelta una tecla
-window.addEventListener('keyup', (event) => {
-    //mira que teclas as levantado y poner esa tecla como que no esta siendo pulsada
-    switch (event.key) {
-        case 'd':
-            keys.d.pressed = false
-            break
-        case 'a':
-            keys.a.pressed = false
-            break
-        case ' ':
-            keys.space.pressed = false
-            break
-        case 'f':
-            keys.f.pressed = false
-            break
-
-        case 'ArrowRight':
-            keys.AR.pressed = false
-            break
-        case 'ArrowLeft':
-            keys.AL.pressed = false
-            break
-        case '.':
-            keys.dot.pressed = false
-            break
-        case 'ArrowUp':
-            keys.AU.pressed = false
-            break
-
-    }
-    //console.log(event)
-})
