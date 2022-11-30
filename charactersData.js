@@ -7,6 +7,8 @@ export const jumpForce = -16
 const canvas = document.querySelector("canvas")
 const c = canvas.getContext("2d")
 
+export var pDerecha = "izq"
+
 export const FPS = 60;
 export class Sprite {
     
@@ -164,3 +166,48 @@ export const enemy = new Sprite({
     canvasContext: c,
     canvasRef: canvas
 });
+
+//-----------------------------------------------------------------------------
+//checkea que personaje esta más a la izquierda del otro
+export function playerSide() {
+    if (player.position.x < enemy.position.x){
+        pDerecha = "izq"
+    } else pDerecha = "der"
+
+}
+
+
+
+//condicion la hitbox de un player tocando la del otro
+export function hitboxCollision({hitbox, Enemy}) {
+    return (
+        hitbox.hitBox.position.x + hitbox.hitBox.width >= Enemy.position.x && 
+        hitbox.hitBox.position.x <= Enemy.position.x + Enemy.width &&
+        hitbox.hitBox.position.y + hitbox.hitBox.height >= Enemy.position.y &&
+        hitbox.hitBox.position.y <= Enemy.position.y + Enemy.height
+    )
+}
+
+//si se chocan al andar o en salto
+export function xPlayerCollision({me, opponent}) {
+    return (
+        me.position.x + me.width + me.velocity.x + 10 >= opponent.position.x && pDerecha == "izq"
+    )
+}
+
+export function xEnemyCollision({meE, opponentE}) {
+    return (
+        meE.position.x + meE.width + meE.velocity.x + 10 >= opponentE.position.x && pDerecha == "der"
+    )
+}
+
+export function minusxPlayerCollision({Me, Opponent}){
+    return (
+        Opponent.position.x + Opponent.width + 10 >= Me.position.x && pDerecha == "der"
+    )
+}
+export function minusxEnemyCollision({MeE, OpponentE}){
+    return (
+        OpponentE.position.x + OpponentE.width + 10 >= MeE.position.x && pDerecha == "izq"
+    )
+}
