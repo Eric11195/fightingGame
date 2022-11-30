@@ -1,6 +1,6 @@
 import {FPS, player, enemy, speed, jumpForce, pDerecha, playerSide, xEnemyCollision, xPlayerCollision, minusxEnemyCollision, minusxPlayerCollision, hitboxCollision} from './charactersData.js'
 import {keys, jumpingE, jumpingP} from './inputHandler.js'
-import {checkWinner, decreaseTimer, timer, timerId, playing, canvas, c} from './System.js'
+import {checkWinner, decreaseTimer, timer, timerId, playing, canvas, c, CROUCHING, STANDING} from './System.js'
 
 //fondo
 //hacer un rectangulo con vertices--> fillRect(xPosInicial,yPosInicial,xPosFinal,yPosInicial)
@@ -10,9 +10,6 @@ c.fillRect(0,0,canvas.width,canvas.height)
 //barras de vida, movimiento, ataques...
 function animate(){
 
-
-    console.log(player.agachado)
-
     //console.log(player.offset.y)
     //checkea para donde se mira y cambia la hitbox en consecuencia
     playerSide()
@@ -20,6 +17,9 @@ function animate(){
         if (keys.a.pressed){
             player.block.state = true
             player.framesBlocking++
+            if(keys.s.pressed){
+                player.block.type = CROUCHING
+            }else player.block.type = STANDING
         }else {
             player.block.state = false
             player.framesBlocking = 0
@@ -27,6 +27,9 @@ function animate(){
         if (keys.AR.pressed){
             enemy.block.state = true
             enemy.framesBlocking++
+            if(keys.AD.pressed){
+                enemy.block.type = CROUCHING
+            }else enemy.block.type = STANDING
         }else {
             enemy.block.state = false
             enemy.framesBlocking = 0
@@ -51,13 +54,11 @@ function animate(){
 
     //checkea bloqueos perfectos--------------------------
     if (player.framesBlocking <= 3 && player.framesBlocking != 0){
-        console.log("perfect")
     }else  {
 
     }
 
     if (enemy.framesBlocking <= 3 && enemy.framesBlocking != 0){
-        console.log("perfect")
     }else {
         
     }
@@ -167,14 +168,13 @@ function animate(){
         if (!enemy.unable){
             //acciones cuando hay alguna tecla pulsada
             if (keys.dot.pressed){
-                if(enemy.velocity.y = 0 || enemy.jumpMaxPoint){
-                    if (pDerecha == "der"){
-                        enemy.offset.x = 10
-                    }else{
-                        enemy.offset.x = -60                
+                if((enemy.velocity.y = 0 || enemy.jumpMaxPoint) && pDerecha == "der"){
+                    enemy.offset.x = 10
+                }else{
+                    enemy.offset.x = -60                
                     }
-                }
                 enemy.attack()
+
             //los saltos no son controlables en el aire
             }else if (enemy.velocity.y != 0 || enemy.jumpMaxPoint){
                 if((player.velocity.y != 0 || player.jumpMaxPoint) && (xEnemyCollision({ meE: enemy, opponentE: player}) || minusxEnemyCollision({ MeE: enemy, OpponentE: player}))){
@@ -194,27 +194,45 @@ function animate(){
                 enemy.velocity.x = 0
             }
         }
+        if(enemy.blockStun){
+            enemy.unable = true
+        }else{
+            enemy.unable = false
+        }
+
 //common--------------------------------------------------------------------------------------------
 
         //detect for collision of hitbox and contrary character
         //se detecta si el lado más alejado del personaje de la hitbox, esta a más distancia que el lado más cercano del enemigo 
         //eje x
-        if (hitboxCollision({
-            hitbox: player,
-            Enemy: enemy,
-            }) && player.isAttacking
-        ) {
-            enemy.health -= 20
-            document.querySelector('#enemyHealth').style.width = enemy.health + '%'
-            //solo detecta una vez la colisión por cada vez que pulsemos la tecla
-            player.isAttacking = false
+        if (hitboxCollision({hitbox: player,Enemy: enemy,})) {
+            if(player.initAttack){
+                enemy.blockStun = true
+            }else {
+                enemy.blockStun = false
+            }
+            if(player.isAttacking){
+                if (enemy.block.state){
+                    enemy.health -= 1
+                }else {
+                    enemy.health -= 20
+                }
+
+                document.querySelector('#enemyHealth').style.width = enemy.health + '%'
+                //solo detecta una vez la colisión por cada vez que pulsemos la tecla
+                player.isAttacking = false
+            }
         }
         if (hitboxCollision({
             hitbox: enemy,
             Enemy: player,
             }) && enemy.isAttacking
         ) {
-            player.health -= 20
+            if (player.block.state){
+                player.health -= 1
+            }else {
+                player.health -= 20
+            }
             document.querySelector('#playerHealth').style.width = player.health + '%'
             //solo detecta una vez la colisión por cada vez que pulsemos la tecla
             enemy.isAttacking = false

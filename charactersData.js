@@ -9,11 +9,9 @@ export var pDerecha = "izq"
 
 export const FPS = 60;
 export class Sprite {
-    
-    
     //parametros iniciales de cualquier objeto que creemos de esta clase.
     //({}) --> el orden ya no importa pq son propiedades de un objeto y no son obligatorias
-    constructor({position, velocity, jumps, color, offset, jumpMaxPoint, canvasContext, canvasRef, unable, block, framesBlocking, height, agachado, fakePosition}){
+    constructor({position, velocity, jumps, color, offset, jumpMaxPoint, canvasContext, canvasRef, unable, block, framesBlocking, height, agachado, fakePosition, initAttack, blockStun}){
         //creación de atributos del objeto
         this.canvasContext = canvasContext
         this.canvasRef = canvasRef
@@ -47,6 +45,8 @@ export class Sprite {
         this.isAttacking
         this.block = block
         this.framesBlocking = framesBlocking
+        this.initAttack = initAttack
+        this.blockStun = blockStun
     }
     draw() {
         //pintar personaje
@@ -114,11 +114,13 @@ export class Sprite {
     //startup,active,recovery
     attack() {
         this.unable = true
+        this.initAttack = true
         setTimeout(() =>{
             this.isAttacking = true
             setTimeout(() =>{
                 this.isAttacking = false
                 setTimeout(() => {
+                    this.initAttack = false
                     this.unable = false
                 },(4+2+9)*1000/FPS)
             },(4+2)*1000/FPS)
@@ -162,7 +164,9 @@ export const player = new Sprite({
     fakePosition:{
         x:0,
         y:0
-    }
+    },
+    initAttack: false,
+    blockStun: false
 });
 
 export const enemy = new Sprite({
@@ -197,7 +201,9 @@ export const enemy = new Sprite({
     fakePosition:{
         x:400,
         y:100
-    }
+    },
+    initAttack: false,
+    blockStun: false
 });
 
 //-----------------------------------------------------------------------------
