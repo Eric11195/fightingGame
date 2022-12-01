@@ -2,6 +2,8 @@ import {FPS, player, enemy, speed, jumpForce, pDerecha, playerSide, xEnemyCollis
 import {keys, jumpingE, jumpingP} from './inputHandler.js'
 import {checkWinner, decreaseTimer, timer, timerId, playing, canvas, c, CROUCHING, STANDING} from './System.js'
 
+
+
 //fondo
 //hacer un rectangulo con vertices--> fillRect(xPosInicial,yPosInicial,xPosFinal,yPosInicial)
 c.fillRect(0,0,canvas.width,canvas.height)
@@ -122,6 +124,7 @@ function animate(){
             //acciones cuando hay alguna tecla pulsada
             if (keys.f.pressed){
                 attack(player,stAone)
+                player.myAttack = stAone
             }else if (player.velocity.y != 0 || player.jumpMaxPoint){
                 if((enemy.velocity.y != 0 || enemy.jumpMaxPoint) && (xPlayerCollision({ me: player, opponent: enemy}) || minusxPlayerCollision({ Me: player, Opponent: enemy}))){
                     player.velocity.x = 0
@@ -176,6 +179,7 @@ function animate(){
                     //enemy.side = "left"                
                     }*/
                 attack(enemy,stAtwo)
+                enemy.myAttack = stAtwo
 
             //los saltos no son controlables en el aire
             }else if (enemy.velocity.y != 0 || enemy.jumpMaxPoint){
@@ -207,42 +211,43 @@ function animate(){
         //detect for collision of hitbox and contrary character
         //se detecta si el lado más alejado del personaje de la hitbox, esta a más distancia que el lado más cercano del enemigo 
         //eje x
-        if (hitboxCollision({hitbox: player,Enemy: enemy,})) {
-            if(player.initAttack){
-                enemy.blockStun = true
-            }else {
-                enemy.blockStun = false
-            }
-            if(player.isAttacking){
-                if (enemy.block.state){
-                    enemy.health -= 1
+        if(player.myAttack != "none"){
+            if (hitboxCollision({hitbox: player.myAttack ,Enemy: enemy,})) {
+                if(player.initAttack){
+                    enemy.blockStun = true
                 }else {
-                    enemy.health -= 20
+                    enemy.blockStun = false
                 }
+                if(player.isAttacking){
+                    if (enemy.block.state){
+                        enemy.health -= 1
+                    }else {
+                        enemy.health -= 20
+                    }
 
-                document.querySelector('#enemyHealth').style.width = enemy.health + '%'
+                    document.querySelector('#enemyHealth').style.width = enemy.health + '%'
+                    //solo detecta una vez la colisión por cada vez que pulsemos la tecla
+                    player.isAttacking = false
+                }
+            }
+        }
+
+        if(player.myAttack != "none"){
+            if (hitboxCollision({hitbox: enemy.myAttack, Enemy: player}) && enemy.isAttacking) {
+                if (player.block.state){
+                    player.health -= 1
+                }else {
+                    player.health -= 20
+                }
+                document.querySelector('#playerHealth').style.width = player.health + '%'
                 //solo detecta una vez la colisión por cada vez que pulsemos la tecla
-                player.isAttacking = false
+                enemy.isAttacking = false
             }
-        }
-        if (hitboxCollision({
-            hitbox: enemy,
-            Enemy: player,
-            }) && enemy.isAttacking
-        ) {
-            if (player.block.state){
-                player.health -= 1
-            }else {
-                player.health -= 20
+
+            if(enemy.health <= 0 || player.health <= 0 || timer <=0){
+                checkWinner({player, enemy, timerId})
+
             }
-            document.querySelector('#playerHealth').style.width = player.health + '%'
-            //solo detecta una vez la colisión por cada vez que pulsemos la tecla
-            enemy.isAttacking = false
-        }
-
-        if(enemy.health <= 0 || player.health <= 0 || timer <=0){
-            checkWinner({player, enemy, timerId})
-
         }
     }else{
         player.isAttacking = false
@@ -250,6 +255,7 @@ function animate(){
         enemy.velocity.x = 0
         player.velocity.x = 0
     }
+    console.log(player.fakePosition.y)
 }
 
 animate()

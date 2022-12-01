@@ -11,7 +11,7 @@ export const FPS = 60;
 export class Sprite {
     //parametros iniciales de cualquier objeto que creemos de esta clase.
     //({}) --> el orden ya no importa pq son propiedades de un objeto y no son obligatorias
-    constructor({position, velocity, jumps, color, side, jumpMaxPoint, canvasContext, canvasRef, unable, block, framesBlocking, height, agachado, fakePosition, initAttack, blockStun}){
+    constructor({myAttack, position, velocity, jumps, color, side, jumpMaxPoint, canvasContext, canvasRef, unable, block, framesBlocking, height, agachado, fakePosition, initAttack, blockStun}){
         //creación de atributos del objeto
         this.canvasContext = canvasContext
         this.canvasRef = canvasRef
@@ -37,6 +37,7 @@ export class Sprite {
         this.initAttack = initAttack
         this.blockStun = blockStun
         this.side = side
+        this.myAttack = myAttack
     }
 
     //comprueba si se ha llegado a la posición de salto máx
@@ -148,7 +149,8 @@ export const player = new Sprite({
     },
     initAttack: false,
     blockStun: false,
-    side: "left"
+    side: "left",
+    myAttack: "none"
 })
 
 export const enemy = new Sprite({
@@ -186,7 +188,8 @@ export const enemy = new Sprite({
     },
     initAttack: false,
     blockStun: false,
-    side: "right"
+    side: "right",
+    myAttack: "none"
 })
 
 //-----------------------------------------------------------------------------
@@ -201,11 +204,11 @@ export function playerSide() {
 
 //condicion la hitbox de un player tocando la del otro
 export function hitboxCollision({hitbox, Enemy}) {
-    return ( "miau"
-        /*hitbox.hitBox.position.x + hitbox.hitBox.width >= Enemy.position.x && 
-        hitbox.hitBox.position.x <= Enemy.position.x + Enemy.width &&
-        hitbox.hitBox.position.y + hitbox.hitBox.height >= Enemy.position.y &&
-        hitbox.hitBox.position.y <= Enemy.position.y + Enemy.height*/
+    return (
+        hitbox.position.x + hitbox.width >= Enemy.position.x && 
+        hitbox.position.x <= Enemy.position.x + Enemy.width &&
+        hitBox.position.y + hitBox.height >= Enemy.position.y &&
+        hitBox.position.y <= Enemy.position.y + Enemy.height
     )
 }
 
@@ -251,14 +254,14 @@ export function attack(who,move) {
             setTimeout(() => {
                 who.initAttack = false
                 who.unable = false
+                who.myAttack = "none"
             },(move.startup+move.active+move.recovery)*1000/FPS)
         },(move.startup+move.active)*1000/FPS)
     },move.startup*1000/FPS)
 }
 
 export function update(who, move) {
-    //console.log(enemy.position.y)
-    console.log(player.fakePosition.y)
+    //console.log(enemy.position.y)aaa.
     //console.log(player.position.y)
     if(who.agachado){
         who.height = 100
@@ -280,6 +283,7 @@ export function update(who, move) {
         who.velocity.y = 0
         who.position.y = who.canvasRef.height - who.height
         who.jumps.n = 2
+        who.fakePosition.y = 476
         playerSide()
         if(who == player){
             if(pDerecha == "der"){
@@ -318,6 +322,5 @@ export function draw(who, move) {
             move.position.y, 
             move.width, 
             move.height)
-
         }
 }
