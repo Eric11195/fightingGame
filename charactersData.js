@@ -13,7 +13,7 @@ export let timerId
 //la partida no ha acabado
 export let playing = true
 
-export const FPS = 20;
+export const FPS = 60;
 export class Sprite {
     //parametros iniciales de cualquier objeto que creemos de esta clase.
     //({}) --> el orden ya no importa pq son propiedades de un objeto y no son obligatorias
@@ -203,7 +203,7 @@ export const player = new Sprite({
     agachado: false,
     fakePosition:{
         x:362 ,
-        y:0
+        y:874
     },
     initAttack: false,
     blockStun: false,
@@ -240,7 +240,7 @@ export const enemy = new Sprite({
     agachado: false,
     fakePosition:{
         x:612,
-        y:0
+        y:874
     },
     initAttack: false,
     blockStun: false,
