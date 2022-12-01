@@ -1,4 +1,4 @@
-import {FPS, player, enemy, speed, jumpForce, pDerecha, playerSide, xEnemyCollision, xPlayerCollision, minusxEnemyCollision, minusxPlayerCollision, hitboxCollision} from './charactersData.js'
+import {FPS, player, enemy, speed, jumpForce, pDerecha, playerSide, xEnemyCollision, xPlayerCollision, minusxEnemyCollision, minusxPlayerCollision, hitboxCollision, attack, update, stAone, stAtwo} from './charactersData.js'
 import {keys, jumpingE, jumpingP} from './inputHandler.js'
 import {checkWinner, decreaseTimer, timer, timerId, playing, canvas, c, CROUCHING, STANDING} from './System.js'
 
@@ -8,7 +8,9 @@ c.fillRect(0,0,canvas.width,canvas.height)
 
 
 //barras de vida, movimiento, ataques...
-function animate(){
+function animate(){   
+    
+    //console.log(keys.AU.pressed && ((enemy.unable && enemy.velocity.y != 0 || !enemy.jumpMaxPoint) || (enemy.velocity.y != 0 || enemy.jumpMaxPoint)))
 
     //console.log(player.offset.y)
     //checkea para donde se mira y cambia la hitbox en consecuencia
@@ -74,8 +76,8 @@ function animate(){
     c.fillStyle = "black"
     c.fillRect(0, 0, canvas.width, canvas.height)
     //dibuja a los jugadores en la posición actualizada
-    player.update()//objeto player de la clase Sprite usando metodo update del
-    enemy.update()
+    update(player, stAone)//objeto player de la clase Sprite usando metodo update del
+    update(enemy,stAtwo)
     
 
     if(playing) {
@@ -85,13 +87,13 @@ function animate(){
 
 
 //player--------------------------------------------------------------------------------------------------------
-        if(keys.space.pressed && ((!player.unable && player.velocity.y == 0 || !player.jumpMaxPoint) || (player.velocity.y != 0 || player.jumpMaxPoint))){
+        if(keys.space.pressed && ((player.unable && player.velocity.y == !0 || !player.jumpMaxPoint) || (player.velocity.y != 0 || player.jumpMaxPoint))){
             keys.space.pressed = false
             if (player.jumps.n > 0 ){
                 if (pDerecha == "izq"){
-                    player.offset.x = 10
+                    player.side = "left"
                 }else{
-                    player.offset.x = -60                
+                    player.side = "right"               
                 }
                 if (keys.a.pressed == false && keys.d.pressed == false || keys.a.pressed == true && keys.d.pressed == true){
                     player.velocity.x = 0
@@ -111,15 +113,15 @@ function animate(){
         }
         if (!player.unable){
             if(!(player.velocity.y != 0 || player.jumpMaxPoint == true)){
-                if (pDerecha == "izq"){
-                    player.offset.x = 10
+                /*if (pDerecha == "izq"){
+                    //player.side = "right"
                 }else{
-                    player.offset.x = -60                
-                }
+                    //player.side = "left"               
+                }*/
             }
             //acciones cuando hay alguna tecla pulsada
             if (keys.f.pressed){
-                player.attack()
+                attack(player,stAone)
             }else if (player.velocity.y != 0 || player.jumpMaxPoint){
                 if((enemy.velocity.y != 0 || enemy.jumpMaxPoint) && (xPlayerCollision({ me: player, opponent: enemy}) || minusxPlayerCollision({ Me: player, Opponent: enemy}))){
                     player.velocity.x = 0
@@ -145,9 +147,9 @@ function animate(){
             keys.AU.pressed = false
             if (enemy.jumps.n > 0 ){
                 if (pDerecha == "der"){
-                    enemy.offset.x = 10
+                    enemy.side = "left"
                 }else{
-                    enemy.offset.x = -60                
+                    enemy.side = "right"               
                 }
                 if (!keys.AL.pressed && !keys.AR.pressed || keys.AL.pressed && keys.AR.pressed){
                     enemy.velocity.x = 0
@@ -168,12 +170,12 @@ function animate(){
         if (!enemy.unable){
             //acciones cuando hay alguna tecla pulsada
             if (keys.dot.pressed){
-                if((enemy.velocity.y = 0 || enemy.jumpMaxPoint) && pDerecha == "der"){
-                    enemy.offset.x = 10
+                /*if((enemy.velocity.y = 0 || enemy.jumpMaxPoint) && pDerecha == "der"){
+                    //enemy.side = "right"
                 }else{
-                    enemy.offset.x = -60                
-                    }
-                enemy.attack()
+                    //enemy.side = "left"                
+                    }*/
+                attack(enemy,stAtwo)
 
             //los saltos no son controlables en el aire
             }else if (enemy.velocity.y != 0 || enemy.jumpMaxPoint){
@@ -194,11 +196,11 @@ function animate(){
                 enemy.velocity.x = 0
             }
         }
-        if(enemy.blockStun){
+        /*if(enemy.blockStun){
             enemy.unable = true
         }else{
             enemy.unable = false
-        }
+        }*/
 
 //common--------------------------------------------------------------------------------------------
 
