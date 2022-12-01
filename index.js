@@ -1,10 +1,12 @@
-import {FPS, player, enemy, speed, jumpForce, pDerecha, playerSide, xEnemyCollision, xPlayerCollision, minusxEnemyCollision, minusxPlayerCollision, hitboxCollision, attack, update, stAone, stAtwo} from './charactersData.js'
+import {FPS, player, enemy, speed, jumpForce, pDerecha, playerSide, xEnemyCollision, xPlayerCollision, minusxEnemyCollision, minusxPlayerCollision, hitboxCollision, attack, update, stAone, stAtwo, aAone ,aAtwo , timer, timerId, playing, checkWinner, decreaseTimer,} from './charactersData.js'
 import {keys, jumpingE, jumpingP} from './inputHandler.js'
-import {checkWinner, decreaseTimer, timer, timerId, playing, canvas, c, CROUCHING, STANDING} from './System.js'
+import {canvas, c, CROUCHING, STANDING} from './System.js'
 
-var myAttack1
-var myAttack2
 var A5 = "5A"
+var aA = "a.A"
+var myAttack1 = A5
+var myAttack2 = A5 
+
 
 //fondo
 //hacer un rectangulo con vertices--> fillRect(xPosInicial,yPosInicial,xPosFinal,yPosInicial)
@@ -17,42 +19,48 @@ function animate(){
     //console.log(keys.AU.pressed && ((enemy.unable && enemy.velocity.y != 0 || !enemy.jumpMaxPoint) || (enemy.velocity.y != 0 || enemy.jumpMaxPoint)))
 
     //console.log(player.offset.y)
-    //checkea para donde se mira y cambia la hitbox en consecuencia
+    //checkea para donde se mira y cambia la hitbox en consecuencia, mira a ver si toca bloquar
     playerSide()
     if(pDerecha == "izq"){
         if (keys.a.pressed){
-            player.block.state = true
+            player.blockState= true
             player.framesBlocking++
             if(keys.s.pressed){
-                player.block.type = CROUCHING
-            }else player.block.type = STANDING
+                player.blockState = CROUCHING
+            }else player.blockType = STANDING
         }else {
-            player.block.state = false
+            player.block = false
             player.framesBlocking = 0
         }
         if (keys.AR.pressed){
-            enemy.block.state = true
+            enemy.blockState = true
             enemy.framesBlocking++
             if(keys.AD.pressed){
-                enemy.block.type = CROUCHING
-            }else enemy.block.type = STANDING
+                enemy.blockType = CROUCHING
+            }else enemy.blockType = STANDING
         }else {
-            enemy.block.state = false
+            enemy.blockState = false
             enemy.framesBlocking = 0
         }
     }else{
         if (keys.d.pressed){
-            player.block.state = true
+            player.blockState = true
             player.framesBlocking++
+            if(keys.s.pressed){
+                player.blockState = CROUCHING
+            }else player.blockType = STANDING
         }else {
-            player.block.state = false
+            player.blockState = false
             player.framesBlocking = 0
         }
         if (keys.AL.pressed){
-            enemy.block.state = true
+            enemy.blockState = true
             enemy.framesBlocking++
+            if(keys.AD.pressed){
+                enemy.blockType = CROUCHING
+            }else enemy.blockType = STANDING
         }else {
-            enemy.block.state = false
+            enemy.blockState = false
             enemy.framesBlocking = 0
         }
     }
@@ -80,9 +88,19 @@ function animate(){
     c.fillStyle = "black"
     c.fillRect(0, 0, canvas.width, canvas.height)
     //dibuja a los jugadores en la posición actualizada
-    update(player, stAone)//objeto player de la clase Sprite usando metodo update del
-    update(enemy,stAtwo)
-    
+
+    //updateeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
+    if (myAttack1 == aA){
+        update(player, aAone)//objeto player de la clase Sprite usando metodo update del
+    }else if(myAttack1 == A5){
+        update(player, stAone)
+    }
+
+    if (myAttack2 == aA){
+        update(enemy, aAtwo)//objeto player de la clase Sprite usando metodo update del
+    }else if(myAttack2 == A5){
+        update(enemy, stAtwo)
+    }
 
     if(playing) {
 
@@ -115,16 +133,16 @@ function animate(){
         }
         if (!player.unable){
             if(!(player.velocity.y != 0 || player.jumpMaxPoint == true)){
-                /*if (pDerecha == "izq"){
-                    //player.side = "right"
-                }else{
-                    //player.side = "left"               
-                }*/
             }
             //acciones cuando hay alguna tecla pulsada
             if (keys.f.pressed){
-                attack(player,stAone)
-                myAttack1 = A5
+                if(player.velocity.y != 0 || player.jumpMaxPoint){
+                    myAttack1 = aA
+                    attack(player,aAone)
+                }else{
+                    attack(player,stAone)
+                    myAttack1 = A5
+                }
             }else if (player.velocity.y != 0 || player.jumpMaxPoint){
                 if((enemy.velocity.y != 0 || enemy.jumpMaxPoint) && (xPlayerCollision({ me: player, opponent: enemy}) || minusxPlayerCollision({ Me: player, Opponent: enemy}))){
                     player.velocity.x = 0
@@ -173,13 +191,13 @@ function animate(){
         if (!enemy.unable){
             //acciones cuando hay alguna tecla pulsada
             if (keys.dot.pressed){
-                /*if((enemy.velocity.y = 0 || enemy.jumpMaxPoint) && pDerecha == "der"){
-                    //enemy.side = "right"
+                if(enemy.velocity.y != 0 || enemy.jumpMaxPoint){
+                    myAttack2 = aA
+                    attack(enemy,aAtwo)
                 }else{
-                    //enemy.side = "left"                
-                    }*/
-                attack(enemy,stAtwo)
-                myAttack2 = A5
+                    attack(enemy,stAtwo)
+                    myAttack2 = A5
+                }
 
             //los saltos no son controlables en el aire
             }else if (enemy.velocity.y != 0 || enemy.jumpMaxPoint){
@@ -206,7 +224,7 @@ function animate(){
             enemy.unable = false
         }*/
 
-//common--------------------------------------------------------------------------------------------
+//hit detection--------------------------------------------------------------------------------------------
 
         //detect for collision of hitbox and contrary character
         //se detecta si el lado más alejado del personaje de la hitbox, esta a más distancia que el lado más cercano del enemigo 
@@ -219,10 +237,17 @@ function animate(){
                     enemy.blockStun = false
                 }
                 if(player.isAttacking){
-                    if (enemy.block.state){
+                    if (enemy.blockState){
                         enemy.health -= stAone.damage/20
+                        if(pDerecha == "izq"){
+                            enemy.fakePosition.x += stAone.pushblock
+                        }else enemy.fakePosition.x -= stAone.pushblock
                     }else {
+                        console.log(pDerecha)
                         enemy.health -= stAone.damage
+                        if(pDerecha == "izq"){
+                            enemy.fakePosition.x += stAone.pushhit
+                        }else enemy.fakePosition.x -= stAone.pushhit
                     }
 
                     document.querySelector('#enemyHealth').style.width = enemy.health + '%'
@@ -233,11 +258,82 @@ function animate(){
         }
 
         if(myAttack2 == A5){
-            if (hitboxCollision({hitbox: stAtwo, Enemy: player}) && enemy.isAttacking) {
-                if (player.block.state){
-                    player.health -= stAtwo.damage/20
+            if (hitboxCollision({hitbox: stAtwo, Enemy: player})){
+                if(enemy.initAttack){
+                    player.blockStun = true
                 }else {
-                    player.health -= stAtwo.damage
+                    player.blockStun = false
+                }
+                if(enemy.isAttacking) {
+                    if (player.blockState){
+                        player.health -= stAtwo.damage/20
+                        if(pDerecha == "der"){
+                            player.fakePosition.x += stAtwo.pushblock
+                        }else player.fakePosition.x -= stAtwo.pushblock
+                    }else {
+                        player.health -= stAtwo.damage
+                        if(pDerecha == "der"){
+                            player.fakePosition.x += stAtwo.pushhit
+                        }else player.fakePosition.x -= stAtwo.pushhit
+                    }
+                }
+                document.querySelector('#playerHealth').style.width = player.health + '%'
+                //solo detecta una vez la colisión por cada vez que pulsemos la tecla
+                enemy.isAttacking = false
+            }
+
+            if(enemy.health <= 0 || player.health <= 0 || timer <=0){
+                checkWinner({player, enemy, timerId})
+            }
+        }
+
+        if(myAttack1 == aA){
+            if (hitboxCollision({hitbox: aAone ,Enemy: enemy})) {
+                if(player.initAttack){
+                    enemy.blockStun = true
+                }else {
+                    enemy.blockStun = false
+                }
+                if(player.isAttacking){
+                    if (enemy.blockState){
+                        enemy.health -= aAone.damage/20
+                        if(pDerecha == "izq"){
+                            enemy.fakePosition.x += aAone.pushblock
+                        }else enemy.fakePosition.x -= aAone.pushblock
+                    }else {
+                        console.log(pDerecha)
+                        enemy.health -= aAone.damage
+                        if(pDerecha == "izq"){
+                            enemy.fakePosition.x += aAone.pushhit
+                        }else enemy.fakePosition.x -= aAone.pushhit
+                    }
+
+                    document.querySelector('#enemyHealth').style.width = enemy.health + '%'
+                    //solo detecta una vez la colisión por cada vez que pulsemos la tecla
+                    player.isAttacking = false
+                }
+            }
+        }
+
+        if(myAttack2 == aA){
+            if (hitboxCollision({hitbox: aAtwo, Enemy: player})){
+                if(enemy.initAttack){
+                    player.blockStun = true
+                }else {
+                    player.blockStun = false
+                }
+                if(enemy.isAttacking) {
+                    if (player.blockState){
+                        player.health -= aAtwo.damage/20
+                        if(pDerecha == "der"){
+                            player.fakePosition.x += aAtwo.pushblock
+                        }else player.fakePosition.x -= aAtwo.pushblock
+                    }else {
+                        player.health -= aAtwo.damage
+                        if(pDerecha == "der"){
+                            player.fakePosition.x += aAtwo.pushhit
+                        }else player.fakePosition.x -= aAtwo.pushhit
+                    }
                 }
                 document.querySelector('#playerHealth').style.width = player.health + '%'
                 //solo detecta una vez la colisión por cada vez que pulsemos la tecla
@@ -265,8 +361,7 @@ function animate(){
     if(enemy.unable) {
         enemy.color = "yellow"
     }else enemy.color = "red"
-
-    //console.log(enemy.unable)
+    console.log(myAttack1)
 }
 
 animate()

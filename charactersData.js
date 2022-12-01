@@ -7,11 +7,17 @@ const c = canvas.getContext("2d")
 
 export var pDerecha = "izq"
 
+
+export let timer = 60;
+export let timerId
+//la partida no ha acabado
+export let playing = true
+
 export const FPS = 60;
 export class Sprite {
     //parametros iniciales de cualquier objeto que creemos de esta clase.
     //({}) --> el orden ya no importa pq son propiedades de un objeto y no son obligatorias
-    constructor({ position, velocity, jumps, color, side, jumpMaxPoint, canvasContext, canvasRef, unable, block, framesBlocking, height, agachado, fakePosition, initAttack, blockStun}){
+    constructor({ position, velocity, jumps, color, side, jumpMaxPoint, canvasContext, canvasRef, unable, blockType, blockState, framesBlocking, height, agachado, fakePosition, initAttack, blockStun}){
         //creación de atributos del objeto
         this.canvasContext = canvasContext
         this.canvasRef = canvasRef
@@ -32,7 +38,8 @@ export class Sprite {
         this.health = 100
         //has pulsado el boton para atacar
         this.isAttacking
-        this.block = block
+        this.blockState = blockState
+        this.blockType = blockType
         this.framesBlocking = framesBlocking
         this.initAttack = initAttack
         this.blockStun = blockStun
@@ -53,7 +60,7 @@ export class Sprite {
 
 
 export class Attack{
-    constructor({attackClass, startup, active, recovery, position, width, height, offset,damage}){
+    constructor({attackClass, startup, active, recovery, position, width, height, offset, damage, pushblock, pushhit }){
             this.attackClass = attackClass
             this.damage = damage
 
@@ -66,10 +73,13 @@ export class Attack{
             this.width = width
             this.height = height
             //desplazamiento de la hitbox para cambios de sentido
-            this.offset = offset             
+            this.offset = offset
+            this.pushblock = pushblock
+            this.pushhit = pushhit             
             }
 
 }
+
 
 export const stAone = new Attack({
     attackClass: "HIGH",
@@ -88,7 +98,9 @@ export const stAone = new Attack({
         x: 40,
         y: 20,
     },
-    damage:5
+    damage:5,
+    pushblock:20,
+    pushhit:15, 
 
 })
 export const stAtwo = new Attack({
@@ -108,7 +120,53 @@ export const stAtwo = new Attack({
         x: 40,
         y: 20,
     },
-    damage:5
+    damage:5,
+    pushblock:20,
+    pushhit:15, 
+
+})
+export const aAone = new Attack({
+    attackClass: "HIGH",
+
+    startup: 5,
+    active: 3,
+    recovery: 12,
+
+    position: {
+        x:0,
+        y:0
+    },
+    width:70,
+    height:50,
+    offset: {
+        x: -10,
+        y: 120,
+    },
+    damage:2,
+    pushblock:15,
+    pushhit:5, 
+
+})
+export const aAtwo = new Attack({
+    attackClass: "HIGH",
+
+    startup: 5,
+    active: 3,
+    recovery: 12,
+
+    position: {
+        x:0,
+        y:0
+    },
+    width:70,
+    height:50,
+    offset: {
+        x: -10,
+        y: 120,
+    },
+    damage:2,
+    pushblock:15,
+    pushhit:5, 
 
 })
 
@@ -138,10 +196,8 @@ export const player = new Sprite({
     jumpMaxPoint: false,
     canvasContext: c,
     canvasRef: canvas,
-    block: {
-        state: false,
-        type: "none"
-    },
+    blockState: false,
+    blocktype: "none",
     framesBlocking: 0,
     height: 150,
     agachado: false,
@@ -152,6 +208,7 @@ export const player = new Sprite({
     initAttack: false,
     blockStun: false,
     side: "left",
+    isAttacking: false
 })
 
 export const enemy = new Sprite({
@@ -176,10 +233,8 @@ export const enemy = new Sprite({
     jumpMaxPoint: false,
     canvasContext: c,
     canvasRef: canvas,
-    block: {
-        state: false,
-        type: "none"
-    },
+    blockState: false,
+    blockType: "none",
     framesBlocking: 0,
     height: 150,
     agachado: false,
@@ -190,6 +245,7 @@ export const enemy = new Sprite({
     initAttack: false,
     blockStun: false,
     side: "right",
+    isAttacking: false
 })
 
 //-----------------------------------------------------------------------------
@@ -239,14 +295,6 @@ export function minusxEnemyCollision({MeE, OpponentE}){
 export function attack(who,move) {
     who.unable = true
     who.initAttack = true
-
-    /*if(who.side == "left"){
-        move.position.x = who.fakePosition.x + move.offset.x
-    }else{
-        move.position.x = who.fakePosition.x - move.width + who.width - move.offset.x//10
-    }
-    move.position.y = who.position.y + move.offset.y 
-    */
 
     setTimeout(() =>{
         who.isAttacking = true
@@ -331,4 +379,29 @@ export function draw(who, move) {
             move.width, 
             move.height)
         }
+}
+
+//reloj-----------------------------------------------------------------------------------
+export function decreaseTimer() {
+    if (timer> 0) {
+        //loop
+        timerId = setTimeout (decreaseTimer, 1000)
+        timer--
+        document.querySelector('#timer').innerHTML = timer
+    }else {
+        checkWinner({player, enemy, timerId})
+    }
+
+}
+
+export function checkWinner({player, enemy, timerId}){
+    playing = false
+    clearTimeout(timerId)
+    if(player.health === enemy.health || player.health <=0 && enemy.health <=0){
+        document.querySelector('#displayResults').innerHTML = 'Tie'
+    }else if (player.health > enemy.health){
+        document.querySelector('#displayResults').innerHTML = 'Player 1 WINS'
+    }else if (player.health < enemy.health){
+        document.querySelector('#displayResults').innerHTML = 'Player 2 WINS'
+    }
 }
