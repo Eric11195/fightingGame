@@ -255,7 +255,7 @@ function animate(){
         enemy.velocity.x = 0
         player.velocity.x = 0
     }
-    console.log(player.fakePosition.y)
+    //console.log(stAtwo.offset)
 }
 
 animate()

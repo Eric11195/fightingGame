@@ -85,8 +85,8 @@ export const stAone = new Attack({
     width:100,
     height:35,
     offset: {
-        x: 50,
-        y: 0,
+        x: 40,
+        y: 20,
     }
 
 })
@@ -104,8 +104,8 @@ export const stAtwo = new Attack({
     width:100,
     height:35,
     offset: {
-        x: 50,
-        y: 0,
+        x: 40,
+        y: 20,
     }
 
 })
@@ -240,12 +240,13 @@ export function attack(who,move) {
     who.unable = true
     who.initAttack = true
 
-    if(who.side == "left"){
+    /*if(who.side == "left"){
         move.position.x = who.fakePosition.x + move.offset.x
     }else{
-        move.position.x = who.fakePosition.x - move.width //- move.offset.x
+        move.position.x = who.fakePosition.x - move.width + who.width - move.offset.x//10
     }
     move.position.y = who.position.y + move.offset.y 
+    */
 
     setTimeout(() =>{
         who.isAttacking = true
@@ -262,7 +263,7 @@ export function attack(who,move) {
 
 export function update(who, move) {
     //console.log(enemy.position.y)aaa.
-    //console.log(player.position.y)
+    //console.log(who.width - move.offset)
     if(who.agachado){
         who.height = 100
         who.position.y = who.fakePosition.y
@@ -274,7 +275,14 @@ export function update(who, move) {
     //movimiento en eje x
     who.fakePosition.x += who.velocity.x
     //posición en y se le suma la velocidad que tenga en ese momento
-    who.fakePosition.y += who.velocity.y
+    who.fakePosition.y += who.velocity.y 
+    //posición hitbox
+    if(who.side == "left"){
+        move.position.x = who.fakePosition.x + move.offset.x
+    }else{
+        move.position.x = who.fakePosition.x - move.width + who.width - move.offset.x//10
+    }
+    move.position.y = who.position.y + move.offset.y 
 
     draw(who, move)
 
