@@ -11,7 +11,7 @@ export const FPS = 60;
 export class Sprite {
     //parametros iniciales de cualquier objeto que creemos de esta clase.
     //({}) --> el orden ya no importa pq son propiedades de un objeto y no son obligatorias
-    constructor({myAttack, position, velocity, jumps, color, side, jumpMaxPoint, canvasContext, canvasRef, unable, block, framesBlocking, height, agachado, fakePosition, initAttack, blockStun}){
+    constructor({ position, velocity, jumps, color, side, jumpMaxPoint, canvasContext, canvasRef, unable, block, framesBlocking, height, agachado, fakePosition, initAttack, blockStun}){
         //creación de atributos del objeto
         this.canvasContext = canvasContext
         this.canvasRef = canvasRef
@@ -37,7 +37,6 @@ export class Sprite {
         this.initAttack = initAttack
         this.blockStun = blockStun
         this.side = side
-        this.myAttack = myAttack
     }
 
     //comprueba si se ha llegado a la posición de salto máx
@@ -54,8 +53,9 @@ export class Sprite {
 
 
 export class Attack{
-    constructor({attackClass, startup, active, recovery, position, width, height, offset}){
+    constructor({attackClass, startup, active, recovery, position, width, height, offset,damage}){
             this.attackClass = attackClass
+            this.damage = damage
 
             this.startup = startup
             this.active = active
@@ -87,7 +87,8 @@ export const stAone = new Attack({
     offset: {
         x: 40,
         y: 20,
-    }
+    },
+    damage:5
 
 })
 export const stAtwo = new Attack({
@@ -106,7 +107,8 @@ export const stAtwo = new Attack({
     offset: {
         x: 40,
         y: 20,
-    }
+    },
+    damage:5
 
 })
 
@@ -150,7 +152,6 @@ export const player = new Sprite({
     initAttack: false,
     blockStun: false,
     side: "left",
-    myAttack: "none"
 })
 
 export const enemy = new Sprite({
@@ -189,7 +190,6 @@ export const enemy = new Sprite({
     initAttack: false,
     blockStun: false,
     side: "right",
-    myAttack: "none"
 })
 
 //-----------------------------------------------------------------------------
@@ -202,13 +202,13 @@ export function playerSide() {
 
 }
 
-//condicion la hitbox de un player tocando la del otro
+//condicion la hitbox de un player tocando la del otro....................................................hereadbnawuiodhbauiowd
 export function hitboxCollision({hitbox, Enemy}) {
     return (
         hitbox.position.x + hitbox.width >= Enemy.position.x && 
         hitbox.position.x <= Enemy.position.x + Enemy.width &&
-        hitBox.position.y + hitBox.height >= Enemy.position.y &&
-        hitBox.position.y <= Enemy.position.y + Enemy.height
+        hitbox.position.y + hitbox.height >= Enemy.position.y &&
+        hitbox.position.y <= Enemy.position.y + Enemy.height
     )
 }
 
