@@ -1,4 +1,4 @@
-const GRAVITY = 0.8;
+const GRAVITY = 0.6;
 export const speed = 4
 export const jumpForce = -16
 
@@ -13,7 +13,7 @@ export let timerId
 //la partida no ha acabado
 export let playing = true
 
-export const FPS = 60;
+export const FPS = 20;
 export class Sprite {
     //parametros iniciales de cualquier objeto que creemos de esta clase.
     //({}) --> el orden ya no importa pq son propiedades de un objeto y no son obligatorias
@@ -271,24 +271,24 @@ export function hitboxCollision({hitbox, Enemy}) {
 //si se chocan al andar o en salto
 export function xPlayerCollision({me, opponent}) {
     return (
-        me.position.x + me.width + me.velocity.x + 10 >= opponent.position.x && pDerecha == "izq"
+        (me.fakePosition.x + me.width + me.velocity.x + 10 >= opponent.fakePosition.x) && ((pDerecha == "izq") && (me.fakePosition.y + me.height >= opponent.fakePosition.y && me.fakePosition.y <= opponent.fakePosition.y + opponent.height))
     )
 }
 
 export function xEnemyCollision({meE, opponentE}) {
     return (
-        meE.position.x + meE.width + meE.velocity.x + 10 >= opponentE.position.x && pDerecha == "der"
-    )
+        (meE.fakePosition.x + meE.width + meE.velocity.x + 10 >= opponentE.fakePosition.x) && ((pDerecha == "der") && (meE.fakePosition.y + meE.height >= opponentE.fakePosition.y && meE.fakePosition.y <= opponentE.fakePosition.y + opponentE.height))
+        )
 }
 
 export function minusxPlayerCollision({Me, Opponent}){
     return (
-        Opponent.position.x + Opponent.width + 10 >= Me.position.x && pDerecha == "der"
+        Opponent.position.x + Opponent.width + 10 >= Me.position.x && ((pDerecha == "der") && (Me.fakePosition.y + Me.height >= Opponent.fakePosition.y && Me.fakePosition.y <= Opponent.fakePosition.y + Opponent.height))
     )
 }
 export function minusxEnemyCollision({MeE, OpponentE}){
     return (
-        OpponentE.position.x + OpponentE.width + 10 >= MeE.position.x && pDerecha == "izq"
+        MeE.position.x + MeE.width + 10 >= MeE.position.x && ((pDerecha == "izq") && (MeE.fakePosition.y + MeE.height >= OpponentE.fakePosition.y && MeE.fakePosition.y <= OpponentE.fakePosition.y + OpponentE.height))
     )
 }
 

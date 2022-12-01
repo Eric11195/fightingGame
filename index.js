@@ -143,19 +143,25 @@ function animate(){
                     attack(player,stAone)
                     myAttack1 = A5
                 }
+                //para no quedarte dentro del ENEMIGO
             }else if (player.velocity.y != 0 || player.jumpMaxPoint){
-                if((enemy.velocity.y != 0 || enemy.jumpMaxPoint) && (xPlayerCollision({ me: player, opponent: enemy}) || minusxPlayerCollision({ Me: player, Opponent: enemy}))){
-                    player.velocity.x = 0
+                if(minusxPlayerCollision({ Me: player, Opponent: enemy})){
+                    player.fakePosition.x = enemy.fakePosition.x + player.width + 10.1
+                }else if(xPlayerCollision({ me: player, opponent: enemy})){
+                    player.fakePosition.x = enemy.fakePosition.x - enemy.width - 10
                 }
                 //los saltos no son controlables en el aire
             }else if (keys.d.pressed && keys.a.pressed && !player.agachado){
                 player.velocity.x = 0
             }else if (keys.d.pressed && !player.agachado){
-                if(!xPlayerCollision({ me: player, opponent: enemy}) || (enemy.velocity.y != 0 || enemy.jumpMaxPoint == true)){
+                if(!xPlayerCollision({ me: player, opponent: enemy}) /*|| (enemy.velocity.y != 0 || enemy.jumpMaxPoint == true)*/){
                     player.velocity.x = speed
-                }else player.velocity.x = 0
+                }else {
+                    player.velocity.x = 0
+                }
+
             } else if (keys.a.pressed && !player.agachado){
-                if(!minusxPlayerCollision({ Me: player, Opponent: enemy}) || (enemy.velocity.y != 0 || enemy.jumpMaxPoint == true)){
+                if(!minusxPlayerCollision({ Me: player, Opponent: enemy})/* || (enemy.velocity.y != 0 || enemy.jumpMaxPoint == true)*/){
                     player.velocity.x = -speed
                 }else player.velocity.x = 0
             } else {
@@ -201,7 +207,7 @@ function animate(){
 
             //los saltos no son controlables en el aire
             }else if (enemy.velocity.y != 0 || enemy.jumpMaxPoint){
-                if((player.velocity.y != 0 || player.jumpMaxPoint) && (xEnemyCollision({ meE: enemy, opponentE: player}) || minusxEnemyCollision({ MeE: enemy, OpponentE: player}))){
+                if((player.velocity.y != 0 || player.jumpMaxPoint) && (xEnemyCollision({meE: enemy, opponentE: player}) || minusxEnemyCollision({ MeE: enemy, OpponentE: player}))){
                     enemy.velocity.x = 0
                 }
             }else if (keys.AL.pressed && keys.AR.pressed && !enemy.agachado){
@@ -361,7 +367,7 @@ function animate(){
     if(enemy.unable) {
         enemy.color = "yellow"
     }else enemy.color = "red"
-    console.log(myAttack1)
+    console.log(player.velocity.x)
 }
 
 animate()
