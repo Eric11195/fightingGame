@@ -143,12 +143,14 @@ function animate(){
                     attack(player,stAone)
                     myAttack1 = A5
                 }
-                //para no quedarte dentro del ENEMIGO
+                //para no quedarte dentro del ENEMIGO, pero poder saltarr sin que pasen cosas raras
             }else if (player.velocity.y != 0 || player.jumpMaxPoint){
-                if(minusxPlayerCollision({ Me: player, Opponent: enemy})){
-                    player.fakePosition.x = enemy.fakePosition.x + player.width + 10.1
-                }else if(xPlayerCollision({ me: player, opponent: enemy})){
-                    player.fakePosition.x = enemy.fakePosition.x - enemy.width - 10
+                if (player.velocity.y >0){
+                    if(minusxPlayerCollision({ Me: player, Opponent: enemy})){
+                        player.fakePosition.x = enemy.fakePosition.x + player.width + 10.1
+                    }else if(xPlayerCollision({ me: player, opponent: enemy})){
+                        player.fakePosition.x = enemy.fakePosition.x - enemy.width - 10
+                    }
                 }
                 //los saltos no son controlables en el aire
             }else if (keys.d.pressed && keys.a.pressed && !player.agachado){
