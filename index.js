@@ -102,9 +102,10 @@ function animate(){
         update(enemy, stAtwo)
     }
 
+
+
+
     if(playing) {
-
-
 
 //player--------------------------------------------------------------------------------------------------------
         if(keys.space.pressed && ((!player.unable || (player.velocity.y != 0 || player.jumpMaxPoint)))){
@@ -115,7 +116,7 @@ function animate(){
                 }else{
                     player.side = "right"               
                 }
-                if (keys.a.pressed == false && keys.d.pressed == false || keys.a.pressed == true && keys.d.pressed == true){
+                if (!keys.a.pressed && !keys.d.pressed || keys.a.pressed && keys.d.pressed){
                     player.velocity.x = 0
                 }else if (keys.a.pressed == true){
                     player.velocity.x = -speed
@@ -145,8 +146,9 @@ function animate(){
             }else if (player.velocity.y != 0 || player.jumpMaxPoint){
                 if (player.velocity.y > 0){
                     if(minusxPlayerCollision({ Me: player, Opponent: enemy})){
-                        player.fakePosition.x = enemy.fakePosition.x + player.width + 10.1
-                    }else if(xPlayerCollision({ me: player, opponent: enemy})){
+                        //player.fakePosition.x = enemy.fakePosition.x + player.width + 10.1
+                    }
+                    if(xPlayerCollision({ me: player, opponent: enemy})){
                         player.fakePosition.x = enemy.fakePosition.x - enemy.width - 10.1
                     }
                 }
@@ -193,6 +195,20 @@ function animate(){
         }else{
             enemy.agachado = false
         }
+
+        if(enemy.velocity.y != 0 || enemy.jumpMaxPoint){
+            if(enemy.velocity.y > 0){
+                if(minusxEnemyCollision({ MeE: enemy, OpponentE: player})){
+                    enemy.fakePosition.x = player.fakePosition.x + enemy.width + 10.1
+                }
+                if(xEnemyCollision({ meE: enemy, opponentE: player})){
+                    console.log("miau")
+                    enemy.fakePosition.x = player.fakePosition.x - player.width - 10
+                }
+            }
+        }
+
+    
         if (!enemy.unable){
             //acciones cuando hay alguna tecla pulsada
             if (keys.dot.pressed){
@@ -206,13 +222,6 @@ function animate(){
 
             //los saltos no son controlables en el aire
             }else if (enemy.velocity.y != 0 || enemy.jumpMaxPoint){
-                if(enemy.velocity.y > 0){
-                    if(minusxEnemyCollision({ MeE: enemy, OpponentE: player})){
-                        enemy.fakePosition.x = player.fakePosition.x + enemy.width + 10.1
-                    }else if(xEnemyCollision({ meE: player, opponentE: enemy})){
-                        //enemy.fakePosition.x = player.fakePosition.x - player.width - 10
-                    }
-                }
             }else if (keys.AL.pressed && keys.AR.pressed){
                 enemy.velocity.x = 0
             } else if (keys.AR.pressed && !enemy.agachado){
@@ -239,7 +248,7 @@ function animate(){
         //se detecta si el lado más alejado del personaje de la hitbox, esta a más distancia que el lado más cercano del enemigo 
         //eje x
         if(myAttack1 == A5){
-            if (hitboxCollision({hitbox: stAone ,Enemy: enemy})) {
+            if (hitboxCollision({hitbox: stAone, Enemy: enemy})) {
                 if(player.initAttack){
                     enemy.blockStun = true
                 }else {
@@ -370,7 +379,7 @@ function animate(){
     if(enemy.unable) {
         enemy.color = "yellow"
     }else enemy.color = "red"
-    console.log(enemy.fakePosition.x + enemy.width + enemy.velocity.x + 6 >= player.fakePosition.x) && ((pDerecha == "der") && (enemy.fakePosition.y + enemy.height >= player.fakePosition.y && enemy.fakePosition.y <= player.fakePosition.y + player.height))
+    //console.log(meE.fakePosition.x + meE.width + meE.velocity.x + 6 >= opponentE.fakePosition.x && pDerecha == "der" && (meE.fakePosition.y + meE.height >= opponentE.fakePosition.y && meE.fakePosition.y <= opponentE.fakePosition.y + opponentE.height))
 }
 
 animate()

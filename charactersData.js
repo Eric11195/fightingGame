@@ -271,24 +271,24 @@ export function hitboxCollision({hitbox, Enemy}) {
 //si se chocan al andar o en salto
 export function xPlayerCollision({me, opponent}) {
     return (
-        (me.fakePosition.x + me.width + me.velocity.x + 6 >= opponent.fakePosition.x) && ((pDerecha == "izq") && (me.fakePosition.y + me.height >= opponent.fakePosition.y && me.fakePosition.y <= opponent.fakePosition.y + opponent.height))
+        (me.fakePosition.x + me.width + me.velocity.x + 6 >= opponent.fakePosition.x) && ((pDerecha == "izq") && (me.fakePosition.y + me.height >= opponent.fakePosition.y +30 && me.fakePosition.y <= opponent.fakePosition.y + opponent.height))
     )
 }
 
 export function xEnemyCollision({meE, opponentE}) {
     return (
-        ((meE.fakePosition.x + meE.width + meE.velocity.x + 6 >= opponentE.fakePosition.x) && ((pDerecha == "der") && (meE.fakePosition.y + meE.height >= opponentE.fakePosition.y && meE.fakePosition.y <= opponentE.fakePosition.y + opponentE.height)))
+        (meE.fakePosition.x + meE.width + meE.velocity.x + 6 >= opponentE.fakePosition.x && pDerecha == "der" && (meE.fakePosition.y + meE.height >= opponentE.fakePosition.y +30 && meE.fakePosition.y <= opponentE.fakePosition.y + opponentE.height))
     )
 }
 
 export function minusxPlayerCollision({Me, Opponent}){
     return (
-        Opponent.fakePosition.x + Opponent.width + 6 >= Me.fakePosition.x - Me.velocity.x && ((pDerecha == "der") && (Me.fakePosition.y + Me.height >= Opponent.fakePosition.y && Me.fakePosition.y <= Opponent.fakePosition.y + Opponent.height))
+        Opponent.fakePosition.x + Opponent.width + 6 >= Me.fakePosition.x - Me.velocity.x && ((pDerecha == "der") && (Me.fakePosition.y + Me.height >= Opponent.fakePosition.y +30 && Me.fakePosition.y <= Opponent.fakePosition.y + Opponent.height))
     )
 }
 export function minusxEnemyCollision({MeE, OpponentE}){
     return (
-        (OpponentE.fakePosition.x + OpponentE.width + 6 >= MeE.fakePosition.x - MeE.velocity.x) && ((pDerecha == "izq") && (MeE.fakePosition.y + MeE.height >= OpponentE.fakePosition.y && MeE.fakePosition.y <= OpponentE.fakePosition.y + OpponentE.height))
+        (OpponentE.fakePosition.x + OpponentE.width + 6 >= MeE.fakePosition.x - MeE.velocity.x) && ((pDerecha == "izq") && (MeE.fakePosition.y + MeE.height >= OpponentE.fakePosition.y + 30 && MeE.fakePosition.y <= OpponentE.fakePosition.y + OpponentE.height))
     )
 }
 
