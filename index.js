@@ -224,6 +224,7 @@ function animate(){
         if (!enemy.unable){
             //acciones cuando hay alguna tecla pulsada
             if (keys.dot.pressed){
+                n = 0
                 if(enemy.velocity.y != 0 || enemy.jumpMaxPoint){
                     myAttack2 = aA
                     attack(enemy,aAtwo)
@@ -257,18 +258,9 @@ function animate(){
         if(player.initAttack && enemy.blockState){
             enemy.velocity.x = 0
         }
-
-        /*if (minusxPlayerCollision({ Me: player, Opponent: enemy}) && player.velocity.x == -4){
-            if (enemy.velocity.x == 0){
-                enemy.velocity.x = -speed/2
-            }else if(enemy.velocity == speed){
-                enemy.velocity.x = speed/2
-            }
-            player.velocity =speed/2
-
-
-        }true
-        */
+        if(enemy.initAttack && player.blockState){
+            player.velocity.x = 0
+        }
 
 //hit detection--------------------------------------------------------------------------------------------
 
@@ -279,24 +271,21 @@ function animate(){
             if (hitboxCollision({hitbox: stAone, Enemy: enemy})) {
                 if(player.isAttacking){
                     enemy.unable = true
-                    //console.log((stAone.active + stAone.recovery + stAone.onHit)*1000/FPS)
                     if (enemy.blockState && (enemy.blockType == STANDING || enemy.blockType == CROUCHING)){
                         enemy.health -= stAone.damage/20
 
-                        setTimeout(console.log, (/*move.startup*/+stAone.active + stAone.recovery + stAone.onBlock)*1000/FPS, "recuperao2")
+                        setTimeout(unableE, (stAone.active + stAone.recovery + stAone.onBlock)*1000/FPS)
+
                         if(pDerecha == "izq"){
                             enemy.fakePosition.x += stAone.pushblock
                         }else enemy.fakePosition.x -= stAone.pushblock
 
                     }else {
                         enemy.health -= stAone.damage
-                        setTimeout(console.log, (stAone.active + stAone.recovery + stAone.onHit)*1000/FPS, "recuperao2")
 
-                        /*setTimeout(() => {
-                            enemy.unable = false
-                            //console.log("recuperao2")
-                        },(stAone.startup + stAone.active + stAone.recovery + stAone.onHit)*1000/FPS)
-*/
+                        setTimeout(unableE, (stAone.active + stAone.recovery + stAone.onHit)*1000/FPS)
+
+
                         if(pDerecha == "izq"){
                             enemy.fakePosition.x += stAone.pushhit
                         }else enemy.fakePosition.x -= stAone.pushhit
@@ -312,19 +301,21 @@ function animate(){
 
         if(myAttack2 == A5){
             if (hitboxCollision({hitbox: stAtwo, Enemy: player})){
-                if(enemy.initAttack){
-                    player.blockStun = true
-                }else {
-                    player.blockStun = false
-                }
                 if(enemy.isAttacking) {
+                    player.unable = true
                     if (player.blockState && (player.blockType == STANDING || player.blockType == CROUCHING)){
                         player.health -= stAtwo.damage/20
+
+                        setTimeout(unableP, (stAtwo.active + stAtwo.recovery + stAtwo.onBlock)*1000/FPS)
+
                         if(pDerecha == "der"){
                             player.fakePosition.x += stAtwo.pushblock
                         }else player.fakePosition.x -= stAtwo.pushblock
                     }else {
                         player.health -= stAtwo.damage
+
+                        setTimeout(unableP, (stAtwo.active + stAtwo.recovery + stAtwo.onHit)*1000/FPS)
+
                         if(pDerecha == "der"){
                             player.fakePosition.x += stAtwo.pushhit
                         }else player.fakePosition.x -= stAtwo.pushhit
@@ -342,19 +333,21 @@ function animate(){
 
         if(myAttack1 == aA){
             if (hitboxCollision({hitbox: aAone ,Enemy: enemy})) {
-                if(player.initAttack){
-                    enemy.blockStun = true
-                }else {
-                    enemy.blockStun = false
-                }
                 if(player.isAttacking){
+                    enemy.unable = true
                     if (enemy.blockState && enemy.blockType == STANDING){
                         enemy.health -= aAone.damage/20
+
+                        setTimeout(unableE, (aAone.active + aAone.recovery + aAone.onBlock)*1000/FPS)
+
                         if(pDerecha == "izq"){
                             enemy.fakePosition.x += aAone.pushblock
                         }else enemy.fakePosition.x -= aAone.pushblock
                     }else {
                         enemy.health -= aAone.damage
+
+                        setTimeout(unableE, (aAone.active + aAone.recovery + aAone.onHit)*1000/FPS)
+
                         if(pDerecha == "izq"){
                             enemy.fakePosition.x += aAone.pushhit
                         }else enemy.fakePosition.x -= aAone.pushhit
@@ -369,19 +362,21 @@ function animate(){
 
         if(myAttack2 == aA){
             if (hitboxCollision({hitbox: aAtwo, Enemy: player})){
-                if(enemy.initAttack){
-                    player.blockStun = true
-                }else {
-                    player.blockStun = false
-                }
                 if(enemy.isAttacking) {
+                    player.unable = true
                     if (player.blockState && player.blockType == STANDING){
                         player.health -= aAtwo.damage/20
+
+                        setTimeout(unableP, (aAtwo.active + aAtwo.recovery + aAtwo.onBlock)*1000/FPS)
+
                         if(pDerecha == "der"){
                             player.fakePosition.x += aAtwo.pushblock
                         }else player.fakePosition.x -= aAtwo.pushblock
                     }else {
                         player.health -= aAtwo.damage
+
+                        setTimeout(unableP, (aAtwo.active + aAtwo.recovery + aAtwo.onHit)*1000/FPS)
+                        
                         if(pDerecha == "der"){
                             player.fakePosition.x += aAtwo.pushhit
                         }else player.fakePosition.x -= aAtwo.pushhit
@@ -399,19 +394,21 @@ function animate(){
 
         if(myAttack1 == A2){
             if (hitboxCollision({hitbox: crAone ,Enemy: enemy})) {
-                if(player.initAttack){
-                    enemy.blockStun = true
-                }else {
-                    enemy.blockStun = false
-                }
                 if(player.isAttacking){
+                    enemy.unable = true
                     if (enemy.blockState && enemy.blockType == CROUCHING){
                         enemy.health -= crAone.damage/20
+
+                        setTimeout(unableE, (crAone.active + crAone.recovery + crAone.onBlock)*1000/FPS)
+
                         if(pDerecha == "izq"){
                             enemy.fakePosition.x += crAone.pushblock
                         }else enemy.fakePosition.x -= crAone.pushblock
                     }else {
                         enemy.health -= crAone.damage
+
+                        setTimeout(unableE, (crAone.active + crAone.recovery + crAone.onHit)*1000/FPS)
+
                         if(pDerecha == "izq"){
                             enemy.fakePosition.x += crAone.pushhit
                         }else enemy.fakePosition.x -= crAone.pushhit
@@ -426,19 +423,21 @@ function animate(){
 
         if(myAttack2 == A2){
             if (hitboxCollision({hitbox: crAtwo, Enemy: player})){
-                if(enemy.initAttack){
-                    player.blockStun = true
-                }else {
-                    player.blockStun = false
-                }
                 if(enemy.isAttacking) {
+                    player.unable = true
                     if (player.blockState && player.blockType == CROUCHING){
                         player.health -= crAtwo.damage/20
+
+                        setTimeout(unableP, (crAtwo.active + crAtwo.recovery + crAtwo.onBlock)*1000/FPS)
+                        
                         if(pDerecha == "der"){
                             player.fakePosition.x += crAtwo.pushblock
                         }else player.fakePosition.x -= crAtwo.pushblock
                     }else {
                         player.health -= crAtwo.damage
+
+                        setTimeout(unableP, (crAtwo.active + crAtwo.recovery + crAtwo.onHit)*1000/FPS)
+                        
                         if(pDerecha == "der"){
                             player.fakePosition.x += crAtwo.pushhit
                         }else player.fakePosition.x -= crAtwo.pushhit
@@ -470,14 +469,23 @@ function animate(){
     if(enemy.unable) {
         enemy.color = "yellow"
     }else enemy.color = "red"
-    //console.log(enemy.blockState)
-    //console.log(myAttack2)
+
+
     //Crea un bucle infinito para que el juego funcione a un numero de fps concreto
     setTimeout(() => {
         requestAnimationFrame(animate)
     },1000/FPS)
 
     console.log(n)
+}
+
+function unableP(){
+    player.unable = false
+    console.log("recuperao1")
+}
+function unableE(){
+    enemy.unable = false
+    console.log("recuperao2")
 }
 
 animate()

@@ -90,8 +90,8 @@ export const stAone = new Attack({
     active: 2,
     recovery: 9,
 
-    onHit: 1,
-    onBlock: -3,
+    onHit: 3,
+    onBlock: -2,
 
     position: {
         x:0,
@@ -115,7 +115,7 @@ export const stAtwo = new Attack({
     active: 2,
     recovery: 9,
 
-    onHit: 1,
+    onHit: 3,
     onBlock: -2,
 
     position: {
@@ -138,7 +138,7 @@ export const aAone = new Attack({
 
     startup: 5,
     active: 3,
-    recovery: 5,
+    recovery: 7,
 
     onHit: 5,
     onBlock: 2,
@@ -198,7 +198,7 @@ export const crAone = new Attack({
         x:0,
         y:0
     },
-    width:130,
+    width:140,
     height:30,
     offset: {
         x: 30,
@@ -222,7 +222,7 @@ export const crAtwo = new Attack({
         x:0,
         y:0
     },
-    width:130,
+    width:140,
     height:30,
     offset: {
         x: 30,
@@ -374,7 +374,9 @@ function ACTIVE(who){
 }
 
 function RECOVERY(who){
-    console.log("recuperao1")
+    if (who == player){
+        console.log("recuperao1")
+    }else console.log("recuperao2")
     who.unable = false
     who.myAttack = "none"
 }
