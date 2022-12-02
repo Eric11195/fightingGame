@@ -136,10 +136,10 @@ export const aAone = new Attack({
         x:0,
         y:0
     },
-    width:70,
+    width:80,
     height:50,
     offset: {
-        x: -10,
+        x: -15,
         y: 120,
     },
     damage:2,
@@ -158,10 +158,10 @@ export const aAtwo = new Attack({
         x:0,
         y:0
     },
-    width:70,
+    width:80,
     height:50,
     offset: {
-        x: -10,
+        x: -15,
         y: 120,
     },
     damage:2,
