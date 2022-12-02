@@ -170,7 +170,48 @@ export const aAtwo = new Attack({
 
 })
 
+export const crAone = new Attack({
+    attackClass: "LOW",
 
+    startup: 7,
+    active: 2,
+    recovery: 8,
+
+    position: {
+        x:0,
+        y:0
+    },
+    width:130,
+    height:30,
+    offset: {
+        x: 30,
+        y: 70,
+    },
+    damage:4,
+    pushblock:30,
+    pushhit:20, 
+})
+export const crAtwo = new Attack({
+    attackClass: "LOW",
+
+    startup: 7,
+    active: 2,
+    recovery: 8,
+
+    position: {
+        x:0,
+        y:0
+    },
+    width:130,
+    height:30,
+    offset: {
+        x: 30,
+        y: 70,
+    },
+    damage:4,
+    pushblock:30,
+    pushhit:20, 
+})
 
 
 //crear un objeto de la clase Sprite-->({})
