@@ -60,7 +60,7 @@ export class Sprite {
 
 
 export class Attack{
-    constructor({attackClass, startup, active, recovery, position, width, height, offset, damage, pushblock, pushhit }){
+    constructor({attackClass, startup, active, recovery, position, width, height, offset, damage, pushblock, pushhit, onHit, onBlock}){
             this.attackClass = attackClass
             this.damage = damage
 
@@ -75,7 +75,9 @@ export class Attack{
             //desplazamiento de la hitbox para cambios de sentido
             this.offset = offset
             this.pushblock = pushblock
-            this.pushhit = pushhit             
+            this.pushhit = pushhit
+            this.onBlock = onBlock
+            this.onHit = onHit
             }
 
 }
@@ -87,6 +89,9 @@ export const stAone = new Attack({
     startup: 4,
     active: 2,
     recovery: 9,
+
+    onHit: 1,
+    onBlock: -3,
 
     position: {
         x:0,
@@ -110,6 +115,9 @@ export const stAtwo = new Attack({
     active: 2,
     recovery: 9,
 
+    onHit: 1,
+    onBlock: -2,
+
     position: {
         x:0,
         y:0
@@ -130,7 +138,10 @@ export const aAone = new Attack({
 
     startup: 5,
     active: 3,
-    recovery: 12,
+    recovery: 5,
+
+    onHit: 5,
+    onBlock: 2,
 
     position: {
         x:0,
@@ -153,6 +164,9 @@ export const aAtwo = new Attack({
     startup: 5,
     active: 3,
     recovery: 12,
+
+    onHit: 5,
+    onBlock: 2,
 
     position: {
         x:0,
@@ -177,6 +191,9 @@ export const crAone = new Attack({
     active: 2,
     recovery: 12,
 
+    onHit: 1,
+    onBlock: -4,
+
     position: {
         x:0,
         y:0
@@ -197,6 +214,9 @@ export const crAtwo = new Attack({
     startup: 7,
     active: 2,
     recovery: 12,
+
+    onHit: 1,
+    onBlock: -4,
 
     position: {
         x:0,
@@ -337,19 +357,27 @@ export function attack(who,move) {
     who.unable = true
     who.initAttack = true
 
-    setTimeout(() =>{
-        who.isAttacking = true
-        setTimeout(() =>{
-            who.isAttacking = false
-            setTimeout(() => {
-                who.initAttack = false
-                who.unable = false
-                who.myAttack = "none"
-            },(move.startup+move.active+move.recovery)*1000/FPS)
-        },(move.startup+move.active)*1000/FPS)
-    },move.startup*1000/FPS)
+    setTimeout(STARTUP, move.startup*1000/FPS, who)
+    setTimeout(ACTIVE, (move.startup+move.active)*1000/FPS, who)
+    setTimeout(RECOVERY, (move.startup+move.active+move.recovery)*1000/FPS, who)
 }
 
+function STARTUP(who){
+    console.log("S")
+    who.isAttacking = true
+    who.initAttack = false
+}
+
+function ACTIVE(who){
+    console.log("A")
+    who.isAttacking = false
+}
+
+function RECOVERY(who){
+    console.log("recuperao1")
+    who.unable = false
+    who.myAttack = "none"
+}
 export function update(who, move) {
     //console.log(enemy.position.y)aaa.
     //console.log(who.width - move.offset)

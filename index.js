@@ -1,5 +1,5 @@
 import {FPS, player, enemy, speed, jumpForce, pDerecha, playerSide, xEnemyCollision, xPlayerCollision, minusxEnemyCollision, minusxPlayerCollision, hitboxCollision, attack, update, stAone, stAtwo, aAone ,aAtwo, crAone, crAtwo , timer, timerId, playing, checkWinner, decreaseTimer,} from './charactersData.js'
-import {keys, jumpingE, jumpingP} from './inputHandler.js'
+import {keys} from './inputHandler.js'
 import {canvas, c, CROUCHING, STANDING} from './System.js'
 
 var A5 = "5A"
@@ -7,6 +7,7 @@ var aA = "a.A"
 var A2 = "2A"
 var myAttack1 = A5
 var myAttack2 = A5 
+var n = 0
 
 
 //fondo
@@ -14,12 +15,11 @@ var myAttack2 = A5
 c.fillRect(0,0,canvas.width,canvas.height)
 
 
-//barras de vida, movimiento, ataques...
-function animate(){   
-    
-    //console.log(keys.AU.pressed && ((enemy.unable && enemy.velocity.y != 0 || !enemy.jumpMaxPoint) || (enemy.velocity.y != 0 || enemy.jumpMaxPoint)))
 
-    //console.log(player.offset.y)
+//barras de vida, movimiento, ataques...
+function animate(){ 
+    n++
+    
     //checkea para donde se mira y cambia la hitbox en consecuencia, mira a ver si toca bloquar
     playerSide()
     if(pDerecha == "izq"){
@@ -79,12 +79,6 @@ function animate(){
     }
 
 
-
-    //Crea un bucle infinito para que el juego funcione a un numero de fps concreto
-    setTimeout(() => {
-        requestAnimationFrame(animate)
-    },1000/FPS)
-
     //pintar fondo por encima como si fuese processing
     c.fillStyle = "black"
     c.fillRect(0, 0, canvas.width, canvas.height)
@@ -112,6 +106,7 @@ function animate(){
 
 
     if(playing) {
+        //console.log(n)
 
 //player--------------------------------------------------------------------------------------------------------
         if(keys.space.pressed && ((!player.unable || (player.velocity.y != 0 || player.jumpMaxPoint)))){
@@ -155,6 +150,7 @@ function animate(){
         if (!player.unable){
             //acciones cuando hay alguna tecla pulsada
             if (keys.f.pressed){
+                n=0
                 if(player.velocity.y != 0 || player.jumpMaxPoint){
                     myAttack1 = aA
                     attack(player,aAone)
@@ -255,13 +251,13 @@ function animate(){
                 enemy.velocity.x = 0
             }
         }
-        /*if(enemy.blockStun){
-            enemy.unable = true
-        }else{
-            enemy.unable = false
-        }*/
+
 
 //general
+        if(player.initAttack && enemy.blockState){
+            enemy.velocity.x = 0
+        }
+
         /*if (minusxPlayerCollision({ Me: player, Opponent: enemy}) && player.velocity.x == -4){
             if (enemy.velocity.x == 0){
                 enemy.velocity.x = -speed/2
@@ -271,7 +267,7 @@ function animate(){
             player.velocity =speed/2
 
 
-        }
+        }true
         */
 
 //hit detection--------------------------------------------------------------------------------------------
@@ -281,24 +277,32 @@ function animate(){
         //eje x
         if(myAttack1 == A5){
             if (hitboxCollision({hitbox: stAone, Enemy: enemy})) {
-                if(player.initAttack){
-                    enemy.blockStun = true
-                }else {
-                    enemy.blockStun = false
-                }
                 if(player.isAttacking){
+                    enemy.unable = true
+                    //console.log((stAone.active + stAone.recovery + stAone.onHit)*1000/FPS)
                     if (enemy.blockState && (enemy.blockType == STANDING || enemy.blockType == CROUCHING)){
                         enemy.health -= stAone.damage/20
+
+                        setTimeout(console.log, (/*move.startup*/+stAone.active + stAone.recovery + stAone.onBlock)*1000/FPS, "recuperao2")
                         if(pDerecha == "izq"){
                             enemy.fakePosition.x += stAone.pushblock
                         }else enemy.fakePosition.x -= stAone.pushblock
+
                     }else {
                         enemy.health -= stAone.damage
+                        setTimeout(console.log, (stAone.active + stAone.recovery + stAone.onHit)*1000/FPS, "recuperao2")
+
+                        /*setTimeout(() => {
+                            enemy.unable = false
+                            //console.log("recuperao2")
+                        },(stAone.startup + stAone.active + stAone.recovery + stAone.onHit)*1000/FPS)
+*/
                         if(pDerecha == "izq"){
                             enemy.fakePosition.x += stAone.pushhit
                         }else enemy.fakePosition.x -= stAone.pushhit
-                    }
 
+                    }
+                    
                     document.querySelector('#enemyHealth').style.width = enemy.health + '%'
                     //solo detecta una vez la colisión por cada vez que pulsemos la tecla
                     player.isAttacking = false
@@ -468,6 +472,12 @@ function animate(){
     }else enemy.color = "red"
     //console.log(enemy.blockState)
     //console.log(myAttack2)
+    //Crea un bucle infinito para que el juego funcione a un numero de fps concreto
+    setTimeout(() => {
+        requestAnimationFrame(animate)
+    },1000/FPS)
+
+    console.log(n)
 }
 
 animate()
