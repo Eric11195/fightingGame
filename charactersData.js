@@ -175,7 +175,7 @@ export const crAone = new Attack({
 
     startup: 7,
     active: 2,
-    recovery: 8,
+    recovery: 12,
 
     position: {
         x:0,
@@ -196,7 +196,7 @@ export const crAtwo = new Attack({
 
     startup: 7,
     active: 2,
-    recovery: 8,
+    recovery: 12,
 
     position: {
         x:0,

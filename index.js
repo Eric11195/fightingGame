@@ -104,7 +104,8 @@ function animate(){
     }else if(myAttack2 == A5){
         update(enemy, stAtwo)
     }else if(myAttack2 == A2){
-        update(enemy, crAone)
+        //console.log(crAtwo.position.y)
+        update(enemy, crAtwo)
     }
 
 
@@ -433,7 +434,6 @@ function animate(){
                             player.fakePosition.x += crAtwo.pushblock
                         }else player.fakePosition.x -= crAtwo.pushblock
                     }else {
-                        console.log("miau")
                         player.health -= crAtwo.damage
                         if(pDerecha == "der"){
                             player.fakePosition.x += crAtwo.pushhit
@@ -467,8 +467,7 @@ function animate(){
         enemy.color = "yellow"
     }else enemy.color = "red"
     //console.log(enemy.blockState)
-    console.log(player.blockState)
-    //console.log(enemy.blockState && enemy.blockType =="STANDING")
+    //console.log(myAttack2)
 }
 
 animate()
