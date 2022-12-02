@@ -137,8 +137,8 @@ export const aAone = new Attack({
     attackClass: "OVERHEAD",
 
     startup: 5,
-    active: 3,
-    recovery: 7,
+    active: 5,
+    recovery: 8,
 
     onHit: 5,
     onBlock: 2,
@@ -162,8 +162,8 @@ export const aAtwo = new Attack({
     attackClass: "OVERHEAD",
 
     startup: 5,
-    active: 3,
-    recovery: 12,
+    active: 5,
+    recovery: 8,
 
     onHit: 5,
     onBlock: 2,
