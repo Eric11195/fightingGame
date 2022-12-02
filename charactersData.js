@@ -82,7 +82,7 @@ export class Attack{
 
 
 export const stAone = new Attack({
-    attackClass: "HIGH",
+    attackClass: "MID",
 
     startup: 4,
     active: 2,
@@ -104,7 +104,7 @@ export const stAone = new Attack({
 
 })
 export const stAtwo = new Attack({
-    attackClass: "HIGH",
+    attackClass: "MID",
 
     startup: 4,
     active: 2,
@@ -126,7 +126,7 @@ export const stAtwo = new Attack({
 
 })
 export const aAone = new Attack({
-    attackClass: "HIGH",
+    attackClass: "OVERHEAD",
 
     startup: 5,
     active: 3,
@@ -148,7 +148,7 @@ export const aAone = new Attack({
 
 })
 export const aAtwo = new Attack({
-    attackClass: "HIGH",
+    attackClass: "OVERHEAD",
 
     startup: 5,
     active: 3,
@@ -271,24 +271,24 @@ export function hitboxCollision({hitbox, Enemy}) {
 //si se chocan al andar o en salto
 export function xPlayerCollision({me, opponent}) {
     return (
-        (me.fakePosition.x + me.width + me.velocity.x + 10 >= opponent.fakePosition.x) && ((pDerecha == "izq") && (me.fakePosition.y + me.height >= opponent.fakePosition.y && me.fakePosition.y <= opponent.fakePosition.y + opponent.height))
+        (me.fakePosition.x + me.width + me.velocity.x + 6 >= opponent.fakePosition.x) && ((pDerecha == "izq") && (me.fakePosition.y + me.height >= opponent.fakePosition.y && me.fakePosition.y <= opponent.fakePosition.y + opponent.height))
     )
 }
 
 export function xEnemyCollision({meE, opponentE}) {
     return (
-        (meE.fakePosition.x + meE.width + meE.velocity.x + 10 >= opponentE.fakePosition.x) && ((pDerecha == "der") && (meE.fakePosition.y + meE.height >= opponentE.fakePosition.y && meE.fakePosition.y <= opponentE.fakePosition.y + opponentE.height))
-        )
+        ((meE.fakePosition.x + meE.width + meE.velocity.x + 6 >= opponentE.fakePosition.x) && ((pDerecha == "der") && (meE.fakePosition.y + meE.height >= opponentE.fakePosition.y && meE.fakePosition.y <= opponentE.fakePosition.y + opponentE.height)))
+    )
 }
 
 export function minusxPlayerCollision({Me, Opponent}){
     return (
-        Opponent.position.x + Opponent.width + 10 >= Me.position.x && ((pDerecha == "der") && (Me.fakePosition.y + Me.height >= Opponent.fakePosition.y && Me.fakePosition.y <= Opponent.fakePosition.y + Opponent.height))
+        Opponent.fakePosition.x + Opponent.width + 6 >= Me.fakePosition.x - Me.velocity.x && ((pDerecha == "der") && (Me.fakePosition.y + Me.height >= Opponent.fakePosition.y && Me.fakePosition.y <= Opponent.fakePosition.y + Opponent.height))
     )
 }
 export function minusxEnemyCollision({MeE, OpponentE}){
     return (
-        MeE.position.x + MeE.width + 10 >= MeE.position.x && ((pDerecha == "izq") && (MeE.fakePosition.y + MeE.height >= OpponentE.fakePosition.y && MeE.fakePosition.y <= OpponentE.fakePosition.y + OpponentE.height))
+        (OpponentE.fakePosition.x + OpponentE.width + 6 >= MeE.fakePosition.x - MeE.velocity.x) && ((pDerecha == "izq") && (MeE.fakePosition.y + MeE.height >= OpponentE.fakePosition.y && MeE.fakePosition.y <= OpponentE.fakePosition.y + OpponentE.height))
     )
 }
 

@@ -132,8 +132,6 @@ function animate(){
             player.agachado = false
         }
         if (!player.unable){
-            if(!(player.velocity.y != 0 || player.jumpMaxPoint == true)){
-            }
             //acciones cuando hay alguna tecla pulsada
             if (keys.f.pressed){
                 if(player.velocity.y != 0 || player.jumpMaxPoint){
@@ -145,15 +143,15 @@ function animate(){
                 }
                 //para no quedarte dentro del ENEMIGO, pero poder saltarr sin que pasen cosas raras
             }else if (player.velocity.y != 0 || player.jumpMaxPoint){
-                if (player.velocity.y >0){
+                if (player.velocity.y > 0){
                     if(minusxPlayerCollision({ Me: player, Opponent: enemy})){
                         player.fakePosition.x = enemy.fakePosition.x + player.width + 10.1
                     }else if(xPlayerCollision({ me: player, opponent: enemy})){
-                        player.fakePosition.x = enemy.fakePosition.x - enemy.width - 10
+                        player.fakePosition.x = enemy.fakePosition.x - enemy.width - 10.1
                     }
                 }
                 //los saltos no son controlables en el aire
-            }else if (keys.d.pressed && keys.a.pressed && !player.agachado){
+            }else if (keys.d.pressed && keys.a.pressed){
                 player.velocity.x = 0
             }else if (keys.d.pressed && !player.agachado){
                 if(!xPlayerCollision({ me: player, opponent: enemy}) /*|| (enemy.velocity.y != 0 || enemy.jumpMaxPoint == true)*/){
@@ -161,7 +159,6 @@ function animate(){
                 }else {
                     player.velocity.x = 0
                 }
-
             } else if (keys.a.pressed && !player.agachado){
                 if(!minusxPlayerCollision({ Me: player, Opponent: enemy})/* || (enemy.velocity.y != 0 || enemy.jumpMaxPoint == true)*/){
                     player.velocity.x = -speed
@@ -209,17 +206,21 @@ function animate(){
 
             //los saltos no son controlables en el aire
             }else if (enemy.velocity.y != 0 || enemy.jumpMaxPoint){
-                if((player.velocity.y != 0 || player.jumpMaxPoint) && (xEnemyCollision({meE: enemy, opponentE: player}) || minusxEnemyCollision({ MeE: enemy, OpponentE: player}))){
-                    enemy.velocity.x = 0
+                if(enemy.velocity.y > 0){
+                    if(minusxEnemyCollision({ MeE: enemy, OpponentE: player})){
+                        enemy.fakePosition.x = player.fakePosition.x + enemy.width + 10.1
+                    }else if(xEnemyCollision({ meE: player, opponentE: enemy})){
+                        //enemy.fakePosition.x = player.fakePosition.x - player.width - 10
+                    }
                 }
-            }else if (keys.AL.pressed && keys.AR.pressed && !enemy.agachado){
+            }else if (keys.AL.pressed && keys.AR.pressed){
                 enemy.velocity.x = 0
             } else if (keys.AR.pressed && !enemy.agachado){
-                if(!xEnemyCollision({ meE: enemy, opponentE: player}) || (player.velocity.y != 0 || player.jumpMaxPoint)){
+                if(!xEnemyCollision({ meE: enemy, opponentE: player}) /*|| (player.velocity.y != 0 || player.jumpMaxPoint)*/){
                     enemy.velocity.x = speed
                 }else enemy.velocity.x = 0
             } else if (keys.AL.pressed && !enemy.agachado){
-                if(!minusxEnemyCollision({ MeE: enemy, OpponentE: player}) || (player.velocity.y != 0 || player.jumpMaxPoint)){
+                if(!minusxEnemyCollision({ MeE: enemy, OpponentE: player}) /*|| (player.velocity.y != 0 || player.jumpMaxPoint)*/){
                     enemy.velocity.x = -speed
                 }else enemy.velocity.x = 0
             } else {
@@ -369,7 +370,7 @@ function animate(){
     if(enemy.unable) {
         enemy.color = "yellow"
     }else enemy.color = "red"
-    console.log(player.velocity.x)
+    console.log(enemy.fakePosition.x + enemy.width + enemy.velocity.x + 6 >= player.fakePosition.x) && ((pDerecha == "der") && (enemy.fakePosition.y + enemy.height >= player.fakePosition.y && enemy.fakePosition.y <= player.fakePosition.y + player.height))
 }
 
 animate()
