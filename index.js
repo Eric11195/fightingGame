@@ -167,16 +167,14 @@ function animate(){
             }else if (keys.d.pressed && keys.a.pressed){
                 player.velocity.x = 0
             }else if (keys.d.pressed && !player.agachado){
-                if(!xPlayerCollision({ me: player, opponent: enemy}) /*|| (enemy.velocity.y != 0 || enemy.jumpMaxPoint == true)*/){
+                if(!xPlayerCollision({ me: player, opponent: enemy})){
                     player.velocity.x = speed
-                }else {
-                    player.velocity.x = 0
                 }
             } else if (keys.a.pressed && !player.agachado){
-                if(!minusxPlayerCollision({ Me: player, Opponent: enemy})/* || (enemy.velocity.y != 0 || enemy.jumpMaxPoint == true)*/){
+                if(!minusxPlayerCollision({ Me: player, Opponent: enemy})){
                     player.velocity.x = -speed
-                }else player.velocity.x = 0
-            } else {
+                }
+            } else if (!keys.d.pressed && !keys.a.pressed && !xPlayerCollision({ me: player, opponent: enemy}) && !minusxPlayerCollision({ Me: player, Opponent: enemy})) {
                 player.velocity.x = 0
             }
         }
@@ -243,12 +241,12 @@ function animate(){
             } else if (keys.AR.pressed && !enemy.agachado){
                 if(!xEnemyCollision({ meE: enemy, opponentE: player})){
                     enemy.velocity.x = speed
-                }else enemy.velocity.x = 0
+                }
             } else if (keys.AL.pressed && !enemy.agachado){
                 if(!minusxEnemyCollision({ MeE: enemy, OpponentE: player})){
                     enemy.velocity.x = -speed
-                }else enemy.velocity.x = 0
-            } else {
+                }
+            } else if(!keys.AL.pressed && !keys.AR.pressed && !xEnemyCollision({ meE: enemy, opponentE: player})&& !minusxEnemyCollision({ MeE: enemy, OpponentE: player})) {
                 enemy.velocity.x = 0
             }
         }
@@ -443,6 +441,7 @@ function animate(){
                         }else player.fakePosition.x -= crAtwo.pushhit
                     }
                 }
+
                 document.querySelector('#playerHealth').style.width = player.health + '%'
                 //solo detecta una vez la colisión por cada vez que pulsemos la tecla
                 enemy.isAttacking = false
@@ -476,8 +475,54 @@ function animate(){
         requestAnimationFrame(animate)
     },1000/FPS)
 
-    console.log(n)
+    //console.log(player.velocity.x > 0 && xPlayerCollision({ me: player, opponent: enemy}))
+
+
+
+
+
+    if((xEnemyCollision({ meE: enemy, opponentE: player})&& minusxPlayerCollision({ Me: player, Opponent: enemy}))|| (xPlayerCollision({ me: player, opponent: enemy})&& minusxEnemyCollision({ MeE: enemy, OpponentE: player}) && !(keys.a.pressed || keys.AR.pressed || keys.d.pressed || player.velocity.y != 0 || player.jumpMaxPoint|| keys.AL.pressed || enemy.velocity.y != 0 || enemy.jumpMaxPoint))){
+        player.velocity.x = 0
+        enemy.velocity.x = 0
+        if(pDerecha =="der"){
+            player.fakePosition.x += 1
+        }else{enemy.fakePosition.x += 1}
+    }else if(xPlayerCollision({ me: player, opponent: enemy})|| minusxEnemyCollision({ MeE: enemy, OpponentE: player})){
+        if(keys.d.pressed || player.velocity.y > 0 || player.jumpMaxPoint || keys.AL.pressed || enemy.velocity.y > 0 || enemy.jumpMaxPoint){
+            if(enemy.velocity.x < 0 && player.velocity.x >0){
+                enemy.velocity.x = 0
+                player.velocity.x = 0
+            }else if ((enemy.velocity.x == 0 || enemy.velocity.x == 2) && player.velocity.x >0){
+                console.log("miau")
+                enemy.velocity.x = speed/2
+                player.velocity.x = speed/2
+            }else if(enemy.velocity.x < 0 && (player.velocity.x == 0|| player.velocity.x ==-2)){
+                enemy.velocity.x = -speed/2
+                player.velocity.x = -speed/2
+            }
+
+        }
+    }else if(xEnemyCollision({ meE: enemy, opponentE: player})|| minusxPlayerCollision({ Me: player, Opponent: enemy})){
+        if(keys.a.pressed || player.velocity.y > 0 || player.jumpMaxPoint || keys.AR.pressed || enemy.velocity.y > 0 || enemy.jumpMaxPoint ){
+            if(enemy.velocity.x > 0 && player.velocity.x < 0){
+                enemy.velocity.x = 0
+                player.velocity.x = 0
+            }else if ((enemy.velocity.x == 0 || enemy.velocity.x ==-2) && player.velocity.x < 0){
+                enemy.velocity.x = -speed/2
+                player.velocity.x = -speed/2
+            }else if(enemy.velocity.x > 0 && (player.velocity.x == 0 || player.velocity.x == 2)){
+                enemy.velocity.x = speed/2
+                player.velocity.x = speed/2
+            }
+            
+        }
+
+    }
+
+    console.log("p " + player.velocity.x)
+    console.log("e " + enemy.velocity.x)
 }
+
 
 function unableP(){
     player.unable = false
