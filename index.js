@@ -136,17 +136,6 @@ function animate(){
             }
         }
 
-        if (player.velocity.y != 0 || player.jumpMaxPoint){
-            if (player.velocity.y > 0){
-                if(minusxPlayerCollision({ Me: player, Opponent: enemy})){
-                    player.fakePosition.x = enemy.fakePosition.x + player.width + 10.1
-                }
-                if(xPlayerCollision({ me: player, opponent: enemy})){
-                    player.fakePosition.x = enemy.fakePosition.x - enemy.width - 10.1
-                }
-            }
-        }
-
         if (!player.unable){
             //acciones cuando hay alguna tecla pulsada
             if (keys.f.pressed){
@@ -205,17 +194,6 @@ function animate(){
                 enemy.agachado = true
             }else{
                 enemy.agachado = false
-            }
-        }
-
-        if(enemy.velocity.y != 0 || enemy.jumpMaxPoint){
-            if(enemy.velocity.y > 0){
-                if(minusxEnemyCollision({ MeE: enemy, OpponentE: player})){
-                    enemy.fakePosition.x = player.fakePosition.x + enemy.width + 10.1
-                }
-                if(xEnemyCollision({ meE: enemy, opponentE: player})){
-                    enemy.fakePosition.x = player.fakePosition.x - player.width - 10
-                }
             }
         }
     
@@ -479,48 +457,49 @@ function animate(){
 
 
 
+    if((player.velocity.y == 0 && enemy.velocity.y == 0) || (player.velocity.y != 0 && enemy.velocity.y != 0) || (player.velocity.y > 0 && enemy.velocity.y == 0) || (player.velocity.y == 0 && enemy.velocity.y > 0)){
 
+        if((xEnemyCollision({ meE: enemy, opponentE: player})&& minusxPlayerCollision({ Me: player, Opponent: enemy}))|| (xPlayerCollision({ me: player, opponent: enemy})&& minusxEnemyCollision({ MeE: enemy, OpponentE: player}) && !(keys.a.pressed || keys.AR.pressed || keys.d.pressed || player.velocity.y != 0 || player.jumpMaxPoint|| keys.AL.pressed || enemy.velocity.y != 0 || enemy.jumpMaxPoint))){
+            player.velocity.x = 0
+            enemy.velocity.x = 0
+            if(pDerecha =="der"){
+                player.fakePosition.x += 6
+                enemy.fakePosition.x -= 6
+            }else{
+                enemy.fakePosition.x += 6
+                player.fakePosition.x -= 6
+            }
+        }else if(xPlayerCollision({ me: player, opponent: enemy})|| minusxEnemyCollision({ MeE: enemy, OpponentE: player})){
+            if(keys.d.pressed || player.velocity.y != 0 || player.jumpMaxPoint || keys.AL.pressed || enemy.velocity.y != 0 || enemy.jumpMaxPoint){
+                if(enemy.velocity.x < 0 && player.velocity.x >0){
+                    enemy.velocity.x = 0
+                    player.velocity.x = 0
+                }else if ((enemy.velocity.x == 0 || enemy.velocity.x == 2) && player.velocity.x >0){
+                    enemy.velocity.x = speed/2
+                    player.velocity.x = speed/2
+                }else if(enemy.velocity.x < 0 && (player.velocity.x == 0|| player.velocity.x ==-2)){
+                    enemy.velocity.x = -speed/2
+                    player.velocity.x = -speed/2
+                }
 
-    if((xEnemyCollision({ meE: enemy, opponentE: player})&& minusxPlayerCollision({ Me: player, Opponent: enemy}))|| (xPlayerCollision({ me: player, opponent: enemy})&& minusxEnemyCollision({ MeE: enemy, OpponentE: player}) && !(keys.a.pressed || keys.AR.pressed || keys.d.pressed || player.velocity.y != 0 || player.jumpMaxPoint|| keys.AL.pressed || enemy.velocity.y != 0 || enemy.jumpMaxPoint))){
-        player.velocity.x = 0
-        enemy.velocity.x = 0
-        if(pDerecha =="der"){
-            player.fakePosition.x += 1
-        }else{enemy.fakePosition.x += 1}
-    }else if(xPlayerCollision({ me: player, opponent: enemy})|| minusxEnemyCollision({ MeE: enemy, OpponentE: player})){
-        if(keys.d.pressed || player.velocity.y > 0 || player.jumpMaxPoint || keys.AL.pressed || enemy.velocity.y > 0 || enemy.jumpMaxPoint){
-            if(enemy.velocity.x < 0 && player.velocity.x >0){
-                enemy.velocity.x = 0
-                player.velocity.x = 0
-            }else if ((enemy.velocity.x == 0 || enemy.velocity.x == 2) && player.velocity.x >0){
-                console.log("miau")
-                enemy.velocity.x = speed/2
-                player.velocity.x = speed/2
-            }else if(enemy.velocity.x < 0 && (player.velocity.x == 0|| player.velocity.x ==-2)){
-                enemy.velocity.x = -speed/2
-                player.velocity.x = -speed/2
+            }
+        }else if(xEnemyCollision({ meE: enemy, opponentE: player})|| minusxPlayerCollision({ Me: player, Opponent: enemy})){
+            if(keys.a.pressed || keys.AR.pressed || player.velocity.y != 0 || player.jumpMaxPoint || enemy.velocity.y != 0 || enemy.jumpMaxPoint ){
+                if(enemy.velocity.x > 0 && player.velocity.x < 0){
+                    enemy.velocity.x = 0
+                    player.velocity.x = 0
+                }else if ((enemy.velocity.x == 0 || enemy.velocity.x ==-2) && player.velocity.x < 0){
+                    enemy.velocity.x = -speed/2
+                    player.velocity.x = -speed/2
+                }else if(enemy.velocity.x > 0 && (player.velocity.x == 0 || player.velocity.x == 2)){
+                    enemy.velocity.x = speed/2
+                    player.velocity.x = speed/2
+                }
+                
             }
 
         }
-    }else if(xEnemyCollision({ meE: enemy, opponentE: player})|| minusxPlayerCollision({ Me: player, Opponent: enemy})){
-        if(keys.a.pressed || player.velocity.y > 0 || player.jumpMaxPoint || keys.AR.pressed || enemy.velocity.y > 0 || enemy.jumpMaxPoint ){
-            if(enemy.velocity.x > 0 && player.velocity.x < 0){
-                enemy.velocity.x = 0
-                player.velocity.x = 0
-            }else if ((enemy.velocity.x == 0 || enemy.velocity.x ==-2) && player.velocity.x < 0){
-                enemy.velocity.x = -speed/2
-                player.velocity.x = -speed/2
-            }else if(enemy.velocity.x > 0 && (player.velocity.x == 0 || player.velocity.x == 2)){
-                enemy.velocity.x = speed/2
-                player.velocity.x = speed/2
-            }
-            
-        }
-
     }
-
-    console.log("p " + player.velocity.x)
-    console.log("e " + enemy.velocity.x)
 }
 
 
