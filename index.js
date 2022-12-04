@@ -518,7 +518,7 @@ function animate(){
 
         }
     }
-    console.log(p1InputBuffer)
+    //console.log(p1InputBuffer)
     //Crea un bucle infinito para que el juego funcione a un numero de fps concreto
     setTimeout(() => {
         requestAnimationFrame(animate)

@@ -15,7 +15,9 @@ var playerTwoA = false
 var playerTwoInput
 
 export const p1InputBuffer = new Array()
+var depuredBuffer1 = new Array()
 export const p2InputBuffer = new Array()
+var depuredBuffer2 = new Array()
 
 //crear un objeto para saber que teclas se estan tocando
 export const keys = {
@@ -231,21 +233,34 @@ function checkInputBufferLength(){
 }
 
 export function checkSpecialInputs(){
-    if(p1InputBuffer.lastIndexOf("A") != -1 && p1InputBuffer.lastIndexOf(2) != -1 && p1InputBuffer.lastIndexOf(6) !=-1 && ((p1InputBuffer.lastIndexOf(6) > p1InputBuffer.lastIndexOf(2)) && (p1InputBuffer.lastIndexOf("A")> p1InputBuffer.lastIndexOf(6)))){
+    //depuredBuffer1 = checkSpecialInputs.slice()
+    depuredBuffer1 = p1InputBuffer.filter(filterBlankSpace)
+    //console.log(depuredBuffer2)
+    depuredBuffer2 = p2InputBuffer.filter(filterBlankSpace)
+
+    if(depuredBuffer1.lastIndexOf("A") != -1 && depuredBuffer1.lastIndexOf(2) != -1 && depuredBuffer1.lastIndexOf(6) !=-1 && ((depuredBuffer1.lastIndexOf(6) == 1 + depuredBuffer1.lastIndexOf(2)) && (depuredBuffer1.lastIndexOf("A") == 1 + depuredBuffer1.lastIndexOf(6)))){
         console.log("236P")
         p1InputBuffer.splice(0)
     }
-    if(p1InputBuffer.lastIndexOf("A") != -1 && p1InputBuffer.lastIndexOf(2) != -1 && p1InputBuffer.lastIndexOf(4) !=-1 && ((p1InputBuffer.lastIndexOf(4) > p1InputBuffer.lastIndexOf(2)) && (p1InputBuffer.lastIndexOf("A")> p1InputBuffer.lastIndexOf(4)))){
+    if(depuredBuffer1.lastIndexOf("A") != -1 && depuredBuffer1.lastIndexOf(2) != -1 && depuredBuffer1.lastIndexOf(4) !=-1 && ((depuredBuffer1.lastIndexOf(4) == 1 + p1InputBuffer.lastIndexOf(2)) && (depuredBuffer1.lastIndexOf("A") == 1 + depuredBuffer1.lastIndexOf(4)))){
         console.log("214P")
         p1InputBuffer.splice(0)
     }
 
-    if(p2InputBuffer.lastIndexOf("A") != -1 && p2InputBuffer.lastIndexOf(2) != -1 && p2InputBuffer.lastIndexOf(6) !=-1 && ((p2InputBuffer.lastIndexOf(6) > p2InputBuffer.lastIndexOf(2)) && (p2InputBuffer.lastIndexOf("A")> p2InputBuffer.lastIndexOf(6)))){
+    if(depuredBuffer2.lastIndexOf("A") != -1 && depuredBuffer2.lastIndexOf(2) != -1 && depuredBuffer2.lastIndexOf(6) !=-1 && ((depuredBuffer2.lastIndexOf(6) == 1 + depuredBuffer2.lastIndexOf(2)) && (depuredBuffer2.lastIndexOf("A") == 1 + depuredBuffer2.lastIndexOf(6)))){
         console.log("236E")
         p2InputBuffer.splice(0)
     }
-    if(p2InputBuffer.lastIndexOf("A") != -1 && p2InputBuffer.lastIndexOf(2) != -1 && p2InputBuffer.lastIndexOf(4) !=-1 && ((p2InputBuffer.lastIndexOf(4) > p2InputBuffer.lastIndexOf(2)) && (p2InputBuffer.lastIndexOf("A")> p2InputBuffer.lastIndexOf(4)))){
+    if(depuredBuffer2.lastIndexOf("A") != -1 && depuredBuffer2.lastIndexOf(2) != -1 && depuredBuffer2.lastIndexOf(4) !=-1 && ((depuredBuffer2.lastIndexOf(4) == 1 + depuredBuffer2.lastIndexOf(2)) && (depuredBuffer2.lastIndexOf("A") == 1 + depuredBuffer2.lastIndexOf(4)))){
         console.log("214E")
         p2InputBuffer.splice(0)
     }
+}
+
+function filterBlankSpace(input){
+    if(input !== ""){
+        return true
+    }
+    return false
+
 }
