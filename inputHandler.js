@@ -5,8 +5,15 @@ export var jumpingE = false
 var playerOne6 = false
 var playerOne4 = false
 var playerOne2 = false
+var playerOneA = false
+
+var playerTwo6 = false
+var playerTwo4 = false
+var playerTwo2 = false
+var playerTwoA = false
 
 export const p1InputBuffer = new Array()
+export const p2InputBuffer = new Array()
 
 //crear un objeto para saber que teclas se estan tocando
 export const keys = {
@@ -70,6 +77,12 @@ export const KEYDOWN = window.addEventListener('keydown', (event) => {
             break
         case 'f':
             keys.f.pressed = true
+            if(!playerOneA){
+                //doble salto direccional
+                checkInputBufferLength()
+                p1InputBuffer.push("A")
+            }
+            playerOne2 = true
             break
         case 's':
             keys.s.pressed = true
@@ -95,15 +108,39 @@ export const KEYDOWN = window.addEventListener('keydown', (event) => {
             //si la d esta presionada el objeto keys dice que d= true
             //o sea que estamos pulsando esta tecla vamos
             keys.AR.pressed = true
+            if(!playerTwo6){
+                //doble salto direccional
+                checkInputBufferLength()
+                p2InputBuffer.push(6)
+            }
+            playerTwo6 = true
             break
         case 'ArrowLeft':
             keys.AL.pressed = true
+            if(!playerTwo4){
+                //doble salto direccional
+                checkInputBufferLength()
+                p2InputBuffer.push(4)
+            }
+            playerTwo4 = true
             break
         case 'ArrowDown':
             keys.AD.pressed = true
+            if(!playerTwo2){
+                //doble salto direccional
+                checkInputBufferLength()
+                p2InputBuffer.push(2)
+            }
+            playerTwo2 = true
             break   
         case '.':
             keys.dot.pressed = true
+            if(!playerTwoA){
+                //doble salto direccional
+                checkInputBufferLength()
+                p2InputBuffer.push("A")
+            }
+            playerTwoA = true
             break
         case 'ArrowUp':             
             if(!jumpingE){
@@ -143,15 +180,19 @@ export const KEYUP = window.addEventListener('keyup', (event) => {
 
         case 'ArrowRight':
             keys.AR.pressed = false
+            playerTwo6 = false
             break
         case 'ArrowLeft':
             keys.AL.pressed = false
+            playerTwo4 = false
             break
         case 'ArrowDown':
             keys.AD.pressed = false
+            playerTwo2 = false
             break
         case '.':
             keys.dot.pressed = false
+            playerTwoA = false
             break
         case 'ArrowUp':
             keys.AU.pressed = false
@@ -162,7 +203,14 @@ export const KEYUP = window.addEventListener('keyup', (event) => {
 })
 
 function checkInputBufferLength(){
-    if(p1InputBuffer.length > 15){
+    if(p1InputBuffer.length > 19){
         p1InputBuffer.shift()
     }
+    if(p2InputBuffer.length > 19){
+        p2InputBuffer.shift()
+    }
+}
+
+function checkSpecialInputs(){
+    
 }

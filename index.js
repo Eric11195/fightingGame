@@ -1,5 +1,5 @@
 import {FPS, player, enemy, speed, jumpForce, pDerecha, playerSide, xEnemyCollision, xPlayerCollision, minusxEnemyCollision, minusxPlayerCollision, hitboxCollision, attack, update, stAone, stAtwo, aAone ,aAtwo, crAone, crAtwo , timer, timerId, playing, checkWinner, decreaseTimer,} from './charactersData.js'
-import {keys, p1InputBuffer} from './inputHandler.js'
+import {keys, p1InputBuffer, p2InputBuffer} from './inputHandler.js'
 import {canvas, c, CROUCHING, STANDING} from './System.js'
 
 var A5 = "5A"
@@ -168,11 +168,14 @@ function animate(){
             }
         }
 
-        if(!(keys.a.pressed && keys.s.pressed && keys.d.pressed && keys.f.pressed)){
-            p1InputBuffer.push("")
-        }
-        if(p1InputBuffer.length > 15){
+        p1InputBuffer.push("")
+        p2InputBuffer.push("")
+        
+        if(p1InputBuffer.length > 19){
             p1InputBuffer.shift()
+        }
+        if(p2InputBuffer.length > 19){
+            p2InputBuffer.shift()
         }
 
 //enemy---------------------------------------------------------------------------------------------------------
@@ -502,7 +505,7 @@ function animate(){
 
         }
     }
-    console.log(p1InputBuffer)
+    console.log(p2InputBuffer)
     //Crea un bucle infinito para que el juego funcione a un numero de fps concreto
     setTimeout(() => {
         requestAnimationFrame(animate)
