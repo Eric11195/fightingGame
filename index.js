@@ -1,10 +1,12 @@
-import {FPS, player, enemy, speed, jumpForce, pDerecha, playerSide, xEnemyCollision, xPlayerCollision, minusxEnemyCollision, minusxPlayerCollision, hitboxCollision, attack, update, stAone, stAtwo, aAone ,aAtwo, crAone, crAtwo , timer, timerId, playing, checkWinner, decreaseTimer} from './charactersData.js'
-import {keys, p1InputBuffer, p2InputBuffer, checkSpecialInputs, getPlayerOneInput, getPlayerTwoInput} from './inputHandler.js'
+import {FPS, player, enemy, speed, jumpForce, pDerecha, playerSide, xEnemyCollision, xPlayerCollision, minusxEnemyCollision, minusxPlayerCollision, hitboxCollision, attack, update, stAone, stAtwo, aAone ,aAtwo, crAone, crAtwo, qcfAone , timer, timerId, playing, checkWinner, decreaseTimer} from './charactersData.js'
+import {keys, p1InputBuffer, p2InputBuffer, checkSpecialInputs, getPlayerOneInput, getPlayerTwoInput, SpecialInput1} from './inputHandler.js'
 import {canvas, c, CROUCHING, STANDING} from './System.js'
 
 var A5 = "5A"
 var aA = "a.A"
 var A2 = "2A"
+var qcfA = "236A"
+
 var myAttack1 = A5
 var myAttack2 = A5 
 var n = 0
@@ -31,8 +33,7 @@ function animate(){
         p2InputBuffer.push("")
     }else localPlayerTwoInput = false
 
-    p2InputBuffer.push("")
-    checkSpecialInputs();
+    //p2InputBuffer.push("")
     
     if(p1InputBuffer.length > 14){
         p1InputBuffer.shift()
@@ -108,6 +109,8 @@ function animate(){
     //updateeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
     if (myAttack1 == aA){
         update(player, aAone)//objeto player de la clase Sprite usando metodo update del
+    }else if(myAttack1 == qcfA){
+        update(player, qcfAone)
     }else if(myAttack1 == A5){
         update(player, stAone)
     }else if(myAttack1 == A2){
@@ -127,7 +130,10 @@ function animate(){
 
 
     if(playing) {
-        //console.log(n)
+        console.log(hitboxCollision({hitbox: qcfAone, Enemy: enemy}))
+
+        //qcf qcb, etc
+        checkSpecialInputs();
 
 //player--------------------------------------------------------------------------------------------------------
         if(keys.space.pressed && ((!player.unable || (player.velocity.y != 0 || player.jumpMaxPoint)))){
@@ -136,9 +142,8 @@ function animate(){
                 if (pDerecha == "izq"){
                     player.side = "left"
                 }else{
-                    player.side = "right"               
-                }
-                if (!keys.a.pressed && !keys.d.pressed || keys.a.pressed && keys.d.pressed){
+                    player.side = "right"              
+                }if (!keys.a.pressed && !keys.d.pressed || keys.a.pressed && keys.d.pressed){
                     player.velocity.x = 0
                 }else if (keys.a.pressed == true){
                     player.velocity.x = -speed
@@ -152,6 +157,7 @@ function animate(){
         if(!player.unable){
             if(keys.s.pressed && player.velocity.y == 0 && !player.jumpMaxPoint){
                 player.agachado = true
+                player.velocity.x = 0
             }else{
                 player.agachado = false
             }
@@ -160,15 +166,21 @@ function animate(){
         if (!player.unable){
             //acciones cuando hay alguna tecla pulsada
             if (keys.f.pressed){
-                n=0
                 if(player.velocity.y != 0 || player.jumpMaxPoint){
                     myAttack1 = aA
                     attack(player,aAone)
+                }else if((pDerecha == "izq" && SpecialInput1 == "236P" )|| (pDerecha == "der" && SpecialInput1 == "214P")){
+                    myAttack1 = qcfA
+                    player.agachado = false
+                    player.velocity.x = 0
+                    
+                    attack(player, qcfAone)
                 }else if(player.agachado == true){
                     myAttack1 = A2
                     attack(player,crAone)
                 }else{                    
                     attack(player,stAone)
+                    player.velocity.x = 0
                     myAttack1 = A5
                 }
                 //para no quedarte dentro del ENEMIGO, pero poder saltarr sin que pasen cosas raras
@@ -447,11 +459,41 @@ function animate(){
                 //solo detecta una vez la colisión por cada vez que pulsemos la tecla
                 enemy.isAttacking = false
             }
+        }
 
-            if(enemy.health <= 0 || player.health <= 0 || timer <=0){
-                checkWinner({player, enemy, timerId})
+        if(myAttack1 == qcfA){
+            if (hitboxCollision({hitbox: qcfAone, Enemy: enemy})) {
+                if(player.isAttacking){
+                    enemy.unable = true
+                    if (enemy.blockState && enemy.blockType == CROUCHING){
+                        enemy.health -= qcfAone.damage/20
+
+                        setTimeout(unableE, (qcfAone.active + qcfAone.recovery + qcfAone.onBlock)*1000/FPS)
+
+                        if(pDerecha == "izq"){
+                            enemy.fakePosition.x += qcfAone.pushblock
+                        }else enemy.fakePosition.x -= qcfAone.pushblock
+                    }else {
+                        enemy.health -= qcfAone.damage
+
+                        setTimeout(unableE, (qcfAone.active + qcfAone.recovery + qcfAone.onHit)*1000/FPS)
+
+                        if(pDerecha == "izq"){
+                            enemy.fakePosition.x += crAone.pushhit
+                        }else enemy.fakePosition.x -= crAone.pushhit
+                    }
+
+                    document.querySelector('#enemyHealth').style.width = enemy.health + '%'
+                    //solo detecta una vez la colisión por cada vez que pulsemos la tecla
+                    player.isAttacking = false
+                }
             }
         }
+
+        if(enemy.health <= 0 || player.health <= 0 || timer <=0){
+            checkWinner({player, enemy, timerId})
+        }
+
 
 
 

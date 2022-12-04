@@ -232,6 +232,30 @@ export const crAtwo = new Attack({
     pushblock:30,
     pushhit:20, 
 })
+export const qcfAone = new Attack({
+    attackClass: "MID",
+
+    startup: 12,
+    active: 5,
+    recovery: 20,
+
+    onHit: 20,
+    onBlock: -7,
+
+    position: {
+        x:0,
+        y:0
+    },
+    width:150,
+    height:120,
+    offset: {
+        x: 50,
+        y: 0,
+    },
+    damage:15,
+    pushblock:80,
+    pushhit:25, 
+})
 
 
 //crear un objeto de la clase Sprite-->({})
@@ -248,10 +272,6 @@ export const player = new Sprite({
     jumps: {
         n:0
     },
-    /*offset: {
-        x:0,
-        y:0
-    },*/
     unable: false,
     color: "blue",
     jumpMaxPoint: false,
@@ -285,10 +305,6 @@ export const enemy = new Sprite({
     jumps: {
         n:0
     },
-    /*offset: {
-        x:0,
-        y:0
-    },*/
     unable: false,
     color: "red",
     jumpMaxPoint: false,
@@ -363,20 +379,20 @@ export function attack(who,move) {
 }
 
 function STARTUP(who){
-    console.log("S")
+    //console.log("S")
     who.isAttacking = true
     who.initAttack = false
 }
 
 function ACTIVE(who){
-    console.log("A")
+    //console.log("A")
     who.isAttacking = false
 }
 
 function RECOVERY(who){
-    if (who == player){
+    /*if (who == player){
         console.log("recuperao1")
-    }else console.log("recuperao2")
+    }else console.log("recuperao2")*/
     who.unable = false
     who.myAttack = "none"
 }
