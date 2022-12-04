@@ -6,11 +6,13 @@ var playerOne6 = false
 var playerOne4 = false
 var playerOne2 = false
 var playerOneA = false
+var playerOneInput
 
 var playerTwo6 = false
 var playerTwo4 = false
 var playerTwo2 = false
 var playerTwoA = false
+var playerTwoInput
 
 export const p1InputBuffer = new Array()
 export const p2InputBuffer = new Array()
@@ -50,6 +52,13 @@ export const keys = {
     }
 };
 
+export function getPlayerOneInput() {
+    return playerOneInput;
+}
+export function getPlayerTwoInput() {
+    return playerTwoInput;
+}
+
 //espera a que pase algo (''), y devuelve lo siguiente ,()
 //se activa cada vez que se presiona una tecla
 export const KEYDOWN = window.addEventListener('keydown', (event) => {
@@ -63,8 +72,10 @@ export const KEYDOWN = window.addEventListener('keydown', (event) => {
                 //doble salto direccional
                 checkInputBufferLength()
                 p1InputBuffer.push(6)
+                playerOneInput = true
             }
             playerOne6 = true
+
             break
         case 'a':
             keys.a.pressed = true
@@ -72,6 +83,7 @@ export const KEYDOWN = window.addEventListener('keydown', (event) => {
                 //doble salto direccional
                 checkInputBufferLength()
                 p1InputBuffer.push(4)
+                playerOneInput = true
             }
             playerOne4 = true
             break
@@ -81,8 +93,9 @@ export const KEYDOWN = window.addEventListener('keydown', (event) => {
                 //doble salto direccional
                 checkInputBufferLength()
                 p1InputBuffer.push("A")
+                playerOneInput = true
             }
-            playerOne2 = true
+            playerOneA = true
             break
         case 's':
             keys.s.pressed = true
@@ -90,6 +103,7 @@ export const KEYDOWN = window.addEventListener('keydown', (event) => {
                 //doble salto direccional
                 checkInputBufferLength()
                 p1InputBuffer.push(2)
+                playerOneInput = true
             }
             playerOne2 = true
             break
@@ -112,6 +126,7 @@ export const KEYDOWN = window.addEventListener('keydown', (event) => {
                 //doble salto direccional
                 checkInputBufferLength()
                 p2InputBuffer.push(6)
+                playerTwoInput = true
             }
             playerTwo6 = true
             break
@@ -121,6 +136,7 @@ export const KEYDOWN = window.addEventListener('keydown', (event) => {
                 //doble salto direccional
                 checkInputBufferLength()
                 p2InputBuffer.push(4)
+                playerTwoInput = true
             }
             playerTwo4 = true
             break
@@ -130,6 +146,7 @@ export const KEYDOWN = window.addEventListener('keydown', (event) => {
                 //doble salto direccional
                 checkInputBufferLength()
                 p2InputBuffer.push(2)
+                playerTwoInput = true
             }
             playerTwo2 = true
             break   
@@ -139,6 +156,7 @@ export const KEYDOWN = window.addEventListener('keydown', (event) => {
                 //doble salto direccional
                 checkInputBufferLength()
                 p2InputBuffer.push("A")
+                playerTwoInput = true
             }
             playerTwoA = true
             break
@@ -172,6 +190,7 @@ export const KEYUP = window.addEventListener('keyup', (event) => {
             break
         case 'f':
             keys.f.pressed = false
+            playerOneA = false
             break
         case 's':
             keys.s.pressed = false
@@ -203,14 +222,30 @@ export const KEYUP = window.addEventListener('keyup', (event) => {
 })
 
 function checkInputBufferLength(){
-    if(p1InputBuffer.length > 19){
+    if(p1InputBuffer.length > 14){
         p1InputBuffer.shift()
     }
-    if(p2InputBuffer.length > 19){
+    if(p2InputBuffer.length > 14){
         p2InputBuffer.shift()
     }
 }
 
-function checkSpecialInputs(){
-    
+export function checkSpecialInputs(){
+    if(p1InputBuffer.lastIndexOf("A") != -1 && p1InputBuffer.lastIndexOf(2) != -1 && p1InputBuffer.lastIndexOf(6) !=-1 && ((p1InputBuffer.lastIndexOf(6) > p1InputBuffer.lastIndexOf(2)) && (p1InputBuffer.lastIndexOf("A")> p1InputBuffer.lastIndexOf(6)))){
+        console.log("236P")
+        p1InputBuffer.splice(0)
+    }
+    if(p1InputBuffer.lastIndexOf("A") != -1 && p1InputBuffer.lastIndexOf(2) != -1 && p1InputBuffer.lastIndexOf(4) !=-1 && ((p1InputBuffer.lastIndexOf(4) > p1InputBuffer.lastIndexOf(2)) && (p1InputBuffer.lastIndexOf("A")> p1InputBuffer.lastIndexOf(4)))){
+        console.log("214P")
+        p1InputBuffer.splice(0)
+    }
+
+    if(p2InputBuffer.lastIndexOf("A") != -1 && p2InputBuffer.lastIndexOf(2) != -1 && p2InputBuffer.lastIndexOf(6) !=-1 && ((p2InputBuffer.lastIndexOf(6) > p2InputBuffer.lastIndexOf(2)) && (p2InputBuffer.lastIndexOf("A")> p2InputBuffer.lastIndexOf(6)))){
+        console.log("236E")
+        p2InputBuffer.splice(0)
+    }
+    if(p2InputBuffer.lastIndexOf("A") != -1 && p2InputBuffer.lastIndexOf(2) != -1 && p2InputBuffer.lastIndexOf(4) !=-1 && ((p2InputBuffer.lastIndexOf(4) > p2InputBuffer.lastIndexOf(2)) && (p2InputBuffer.lastIndexOf("A")> p2InputBuffer.lastIndexOf(4)))){
+        console.log("214E")
+        p2InputBuffer.splice(0)
+    }
 }

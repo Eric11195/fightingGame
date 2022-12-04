@@ -1,5 +1,5 @@
-import {FPS, player, enemy, speed, jumpForce, pDerecha, playerSide, xEnemyCollision, xPlayerCollision, minusxEnemyCollision, minusxPlayerCollision, hitboxCollision, attack, update, stAone, stAtwo, aAone ,aAtwo, crAone, crAtwo , timer, timerId, playing, checkWinner, decreaseTimer,} from './charactersData.js'
-import {keys, p1InputBuffer, p2InputBuffer} from './inputHandler.js'
+import {FPS, player, enemy, speed, jumpForce, pDerecha, playerSide, xEnemyCollision, xPlayerCollision, minusxEnemyCollision, minusxPlayerCollision, hitboxCollision, attack, update, stAone, stAtwo, aAone ,aAtwo, crAone, crAtwo , timer, timerId, playing, checkWinner, decreaseTimer} from './charactersData.js'
+import {keys, p1InputBuffer, p2InputBuffer, checkSpecialInputs, getPlayerOneInput, getPlayerTwoInput} from './inputHandler.js'
 import {canvas, c, CROUCHING, STANDING} from './System.js'
 
 var A5 = "5A"
@@ -8,6 +8,9 @@ var A2 = "2A"
 var myAttack1 = A5
 var myAttack2 = A5 
 var n = 0
+
+var localPlayerOneInput = getPlayerOneInput()
+var localPlayerTwoInput = getPlayerTwoInput()
 
 
 //fondo
@@ -19,6 +22,24 @@ c.fillRect(0,0,canvas.width,canvas.height)
 //barras de vida, movimiento, ataques...
 function animate(){ 
     n++
+
+    if(!localPlayerOneInput){
+        p1InputBuffer.push("")
+    }else localPlayerOneInput = false
+
+    if(!localPlayerTwoInput){
+        p2InputBuffer.push("")
+    }else localPlayerTwoInput = false
+
+    p2InputBuffer.push("")
+    checkSpecialInputs();
+    
+    if(p1InputBuffer.length > 14){
+        p1InputBuffer.shift()
+    }
+    if(p2InputBuffer.length > 14){
+        p2InputBuffer.shift()
+    }
     
     //checkea para donde se mira y cambia la hitbox en consecuencia, mira a ver si toca bloquar
     playerSide()
@@ -168,15 +189,7 @@ function animate(){
             }
         }
 
-        p1InputBuffer.push("")
-        p2InputBuffer.push("")
-        
-        if(p1InputBuffer.length > 19){
-            p1InputBuffer.shift()
-        }
-        if(p2InputBuffer.length > 19){
-            p2InputBuffer.shift()
-        }
+
 
 //enemy---------------------------------------------------------------------------------------------------------
         if(keys.AU.pressed && ((!enemy.unable || (enemy.velocity.y != 0 || enemy.jumpMaxPoint)))){
@@ -505,7 +518,7 @@ function animate(){
 
         }
     }
-    console.log(p2InputBuffer)
+    console.log(p1InputBuffer)
     //Crea un bucle infinito para que el juego funcione a un numero de fps concreto
     setTimeout(() => {
         requestAnimationFrame(animate)
