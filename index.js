@@ -1,5 +1,5 @@
 import {FPS, player, enemy, speed, jumpForce, pDerecha, playerSide, xEnemyCollision, xPlayerCollision, minusxEnemyCollision, minusxPlayerCollision, hitboxCollision, attack, update, stAone, stAtwo, aAone ,aAtwo, crAone, crAtwo , timer, timerId, playing, checkWinner, decreaseTimer,} from './charactersData.js'
-import {keys} from './inputHandler.js'
+import {keys, p1InputBuffer} from './inputHandler.js'
 import {canvas, c, CROUCHING, STANDING} from './System.js'
 
 var A5 = "5A"
@@ -166,6 +166,13 @@ function animate(){
             } else if (!keys.d.pressed && !keys.a.pressed && !xPlayerCollision({ me: player, opponent: enemy}) && !minusxPlayerCollision({ Me: player, Opponent: enemy})) {
                 player.velocity.x = 0
             }
+        }
+
+        if(!(keys.a.pressed && keys.s.pressed && keys.d.pressed && keys.f.pressed)){
+            p1InputBuffer.push("")
+        }
+        if(p1InputBuffer.length > 15){
+            p1InputBuffer.shift()
         }
 
 //enemy---------------------------------------------------------------------------------------------------------
@@ -448,11 +455,6 @@ function animate(){
     }else enemy.color = "red"
 
 
-    //Crea un bucle infinito para que el juego funcione a un numero de fps concreto
-    setTimeout(() => {
-        requestAnimationFrame(animate)
-    },1000/FPS)
-
     //console.log(player.velocity.x > 0 && xPlayerCollision({ me: player, opponent: enemy}))
 
 
@@ -500,6 +502,11 @@ function animate(){
 
         }
     }
+    console.log(p1InputBuffer)
+    //Crea un bucle infinito para que el juego funcione a un numero de fps concreto
+    setTimeout(() => {
+        requestAnimationFrame(animate)
+    },1000/FPS)
 }
 
 

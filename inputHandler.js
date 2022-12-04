@@ -2,6 +2,12 @@
 export var jumpingP = false
 export var jumpingE = false
 
+var playerOne6 = false
+var playerOne4 = false
+var playerOne2 = false
+
+export const p1InputBuffer = new Array()
+
 //crear un objeto para saber que teclas se estan tocando
 export const keys = {
     a: {
@@ -46,15 +52,33 @@ export const KEYDOWN = window.addEventListener('keydown', (event) => {
             //si la d esta presionada el objeto keys dice que d= true
             //o sea que estamos pulsando esta tecla vamos
             keys.d.pressed = true
+            if(!playerOne6){
+                //doble salto direccional
+                checkInputBufferLength()
+                p1InputBuffer.push(6)
+            }
+            playerOne6 = true
             break
         case 'a':
             keys.a.pressed = true
+            if(!playerOne4){
+                //doble salto direccional
+                checkInputBufferLength()
+                p1InputBuffer.push(4)
+            }
+            playerOne4 = true
             break
         case 'f':
             keys.f.pressed = true
             break
         case 's':
             keys.s.pressed = true
+            if(!playerOne2){
+                //doble salto direccional
+                checkInputBufferLength()
+                p1InputBuffer.push(2)
+            }
+            playerOne2 = true
             break
         case ' ':
             //condición para que en caso de que se pulse la tecla durante más de un frame no haga los dos saltos instantaneamente
@@ -99,9 +123,11 @@ export const KEYUP = window.addEventListener('keyup', (event) => {
     switch (event.key) {
         case 'd':
             keys.d.pressed = false
+            playerOne6 = false
             break
         case 'a':
             keys.a.pressed = false
+            playerOne4 = false
             break
         case ' ':
             keys.space.pressed = false
@@ -112,6 +138,7 @@ export const KEYUP = window.addEventListener('keyup', (event) => {
             break
         case 's':
             keys.s.pressed = false
+            playerOne2 = false
             break
 
         case 'ArrowRight':
@@ -133,3 +160,9 @@ export const KEYUP = window.addEventListener('keyup', (event) => {
 
     }
 })
+
+function checkInputBufferLength(){
+    if(p1InputBuffer.length > 15){
+        p1InputBuffer.shift()
+    }
+}
