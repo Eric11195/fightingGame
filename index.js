@@ -426,11 +426,13 @@ function attackFunction(goodGuy, badGuy, theAttack){
         if (badGuy.blockState &&(theAttack.attackClass =="MID" ||(badGuy.blockType == CROUCHING && theAttack.attackClass =="LOW") || (badGuy.blockType == STANDING && theAttack.attackClass =="OVERHEAD"))){ 
             badGuy.health -= theAttack.damage/20
             if(goodGuy == player){
+                document.querySelector('#enemyHealth').style.width = badGuy.health + '%'
                 setTimeout(unableE, (theAttack.active + theAttack.recovery + theAttack.onBlock)*1000/FPS)
                 if(pDerecha == "izq"){
                     badGuy.fakePosition.x += theAttack.pushblock
                 }else badGuy.fakePosition.x -= theAttack.pushblock
             }else{
+                document.querySelector('#playerHealth').style.width = badGuy.health + '%'
                 setTimeout(unableP, (theAttack.active + theAttack.recovery + theAttack.onBlock)*1000/FPS)
                 if(pDerecha == "der"){
                     badGuy.fakePosition.x += theAttack.pushblock
