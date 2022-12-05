@@ -1,6 +1,7 @@
-const GRAVITY = 0.6;
+const GRAVITY = 0.6
 export const speed = 4
 export const jumpForce = -16
+export const runSpeed = 7.2
 
 const canvas = document.querySelector("canvas")
 const c = canvas.getContext("2d")

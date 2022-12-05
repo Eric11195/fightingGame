@@ -1,5 +1,5 @@
-import {FPS, player, enemy, speed, jumpForce, pDerecha, playerSide, xEnemyCollision, xPlayerCollision, minusxEnemyCollision, minusxPlayerCollision, hitboxCollision, attack, update, stAone, stAtwo, aAone ,aAtwo, crAone, crAtwo, qcfAone, qcfAtwo , timer, timerId, playing, checkWinner, decreaseTimer} from './charactersData.js'
-import {keys, p1InputBuffer, p2InputBuffer, checkSpecialInputs, getPlayerOneInput, getPlayerTwoInput, SpecialInput1, SpecialInput2} from './inputHandler.js'
+import {FPS, player, enemy, speed, jumpForce, pDerecha, playerSide, xEnemyCollision, xPlayerCollision, minusxEnemyCollision, minusxPlayerCollision, hitboxCollision, attack, update, stAone, stAtwo, aAone ,aAtwo, crAone, crAtwo, qcfAone, qcfAtwo , timer, timerId, playing, checkWinner, decreaseTimer, runSpeed} from './charactersData.js'
+import {keys, p1InputBuffer, p2InputBuffer, checkSpecialInputs, getPlayerOneInput, getPlayerTwoInput, SpecialInput1, SpecialInput2, playerOneRunning, playerTwoRunning} from './inputHandler.js'
 import {canvas, c, CROUCHING, STANDING} from './System.js'
 
 var A5 = "5A"
@@ -176,11 +176,15 @@ function animate(){
                 player.velocity.x = 0
             }else if (keys.d.pressed && !player.agachado){
                 if(!xPlayerCollision({ me: player, opponent: enemy})){
-                    player.velocity.x = speed
+                    if(playerOneRunning){
+                        player.velocity.x = runSpeed
+                    }else player.velocity.x = speed
                 }
             } else if (keys.a.pressed && !player.agachado){
                 if(!minusxPlayerCollision({ Me: player, Opponent: enemy})){
-                    player.velocity.x = -speed
+                    if(playerOneRunning){
+                        player.velocity.x = -runSpeed
+                    }else player.velocity.x = -speed
                 }
             } else if (!keys.d.pressed && !keys.a.pressed && !xPlayerCollision({ me: player, opponent: enemy}) && !minusxPlayerCollision({ Me: player, Opponent: enemy})) {
                 player.velocity.x = 0
@@ -381,7 +385,7 @@ function animate(){
 
         }
     }
-    console.log(localPlayerOneInput)
+    //console.log(depuredBuffer1[depuredBuffer1.lastIndexOf(4)-1])
     //Crea un bucle infinito para que el juego funcione a un numero de fps concreto
     setTimeout(() => {
         requestAnimationFrame(animate)

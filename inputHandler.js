@@ -7,12 +7,14 @@ var playerOne4 = false
 var playerOne2 = false
 var playerOneA = false
 var playerOneInput
+export var playerOneRunning = false
 
 var playerTwo6 = false
 var playerTwo4 = false
 var playerTwo2 = false
 var playerTwoA = false
 var playerTwoInput
+export var playerTwoRunning = false
 
 export var SpecialInput1 = "none" 
 export var SpecialInput2 = "none" 
@@ -185,10 +187,16 @@ export const KEYUP = window.addEventListener('keyup', (event) => {
         case 'd':
             keys.d.pressed = false
             playerOne6 = false
+            if(playerOneRunning){
+                playerOneRunning = false
+            }
             break
         case 'a':
             keys.a.pressed = false
             playerOne4 = false
+            if(playerOneRunning){
+                playerOneRunning = false
+            }
             break
         case ' ':
             keys.space.pressed = false
@@ -206,10 +214,16 @@ export const KEYUP = window.addEventListener('keyup', (event) => {
         case 'ArrowRight':
             keys.AR.pressed = false
             playerTwo6 = false
+            if(playerTwoRunning){
+                playerTwoRunning = false
+            }
             break
         case 'ArrowLeft':
             keys.AL.pressed = false
             playerTwo4 = false
+            if(playerTwoRunning){
+                playerTwoRunning = false
+            }
             break
         case 'ArrowDown':
             keys.AD.pressed = false
@@ -244,6 +258,8 @@ export function checkSpecialInputs(){
     console.log(depuredBuffer1)
     depuredBuffer2 = p2InputBuffer.filter(filterBlankSpace)
 
+    //console.log(depuredBuffer1.lastIndexOf(6) != -1 && (6 == depuredBuffer1[depuredBuffer1.lastIndexOf(6)-1]))
+
 
     if(depuredBuffer1.lastIndexOf("A") != -1 && depuredBuffer1.lastIndexOf(2) != -1 && depuredBuffer1.lastIndexOf(4) !=-1 && ((depuredBuffer1.lastIndexOf(4) == 1 + depuredBuffer1.lastIndexOf(2)) && (depuredBuffer1.lastIndexOf("A") == 1 + depuredBuffer1.lastIndexOf(4)))){
         //console.log("214P")
@@ -253,6 +269,18 @@ export function checkSpecialInputs(){
     if(depuredBuffer1.lastIndexOf("A") != -1 && depuredBuffer1.lastIndexOf(2) != -1 && depuredBuffer1.lastIndexOf(6) !=-1 && ((depuredBuffer1.lastIndexOf(6) == 1 + depuredBuffer1.lastIndexOf(2)) && (depuredBuffer1.lastIndexOf("A") == 1 + depuredBuffer1.lastIndexOf(6)))){
         //console.log("236P")
         SpecialInput1 = "236P"
+        p1InputBuffer.splice(0)
+    }
+    if(depuredBuffer1.lastIndexOf(6) != -1 && (6 == depuredBuffer1[depuredBuffer1.lastIndexOf(6)-1] )){
+        //console.log("66")
+        SpecialInput1 = "66"
+        playerOneRunning = true
+        p1InputBuffer.splice(0)
+    }
+    if(depuredBuffer1.lastIndexOf(4) != -1 && (4 == depuredBuffer1[depuredBuffer1.lastIndexOf(4)-1] )){
+        //console.log("44")
+        SpecialInput1 = "44"
+        playerOneRunning = true
         p1InputBuffer.splice(0)
     }
     
@@ -265,6 +293,18 @@ export function checkSpecialInputs(){
     if(depuredBuffer2.lastIndexOf("A") != -1 && depuredBuffer2.lastIndexOf(2) != -1 && depuredBuffer2.lastIndexOf(4) !=-1 && ((depuredBuffer2.lastIndexOf(4) == 1 + depuredBuffer2.lastIndexOf(2)) && (depuredBuffer2.lastIndexOf("A") == 1 + depuredBuffer2.lastIndexOf(4)))){
         //console.log("214E")
         SpecialInput2 = "214P"
+        p2InputBuffer.splice(0)
+    }
+    if(depuredBuffer2.lastIndexOf(6) != -1 && (6 == depuredBuffer2[depuredBuffer2.lastIndexOf(6)-1] )){
+        console.log("66")
+        SpecialInput2 = "66"
+        playerTwoRunning = true
+        p2InputBuffer.splice(0)
+    }
+    if(depuredBuffer2.lastIndexOf(4) != -1 && (4 == depuredBuffer2[depuredBuffer2.lastIndexOf(4)-1] )){
+        console.log("44")
+        SpecialInput2 = "44"
+        playerTwoRunning = true
         p2InputBuffer.splice(0)
     }
 }
