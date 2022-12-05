@@ -257,6 +257,31 @@ export const qcfAone = new Attack({
     pushhit:25, 
 })
 
+export const qcfAtwo = new Attack({
+    attackClass: "MID",
+
+    startup: 12,
+    active: 5,
+    recovery: 20,
+
+    onHit: 20,
+    onBlock: -7,
+
+    position: {
+        x:0,
+        y:0
+    },
+    width:150,
+    height:120,
+    offset: {
+        x: 50,
+        y: 0,
+    },
+    damage:15,
+    pushblock:80,
+    pushhit:25, 
+})
+
 
 //crear un objeto de la clase Sprite-->({})
 export const player = new Sprite({

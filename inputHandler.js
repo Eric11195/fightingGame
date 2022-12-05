@@ -15,6 +15,7 @@ var playerTwoA = false
 var playerTwoInput
 
 export var SpecialInput1 = "none" 
+export var SpecialInput2 = "none" 
 
 export const p1InputBuffer = new Array()
 var depuredBuffer1 = new Array()
@@ -237,6 +238,7 @@ function checkInputBufferLength(){
 
 export function checkSpecialInputs(){
     SpecialInput1 = "none"
+    SpecialInput2 = "none"
     //depuredBuffer1 = checkSpecialInputs.slice()
     depuredBuffer1 = p1InputBuffer.filter(filterBlankSpace)
     console.log(depuredBuffer1)
@@ -249,7 +251,7 @@ export function checkSpecialInputs(){
         p1InputBuffer.splice(0)
     }
     if(depuredBuffer1.lastIndexOf("A") != -1 && depuredBuffer1.lastIndexOf(2) != -1 && depuredBuffer1.lastIndexOf(6) !=-1 && ((depuredBuffer1.lastIndexOf(6) == 1 + depuredBuffer1.lastIndexOf(2)) && (depuredBuffer1.lastIndexOf("A") == 1 + depuredBuffer1.lastIndexOf(6)))){
-        console.log("236P")
+        //console.log("236P")
         SpecialInput1 = "236P"
         p1InputBuffer.splice(0)
     }
@@ -257,10 +259,12 @@ export function checkSpecialInputs(){
 
     if(depuredBuffer2.lastIndexOf("A") != -1 && depuredBuffer2.lastIndexOf(2) != -1 && depuredBuffer2.lastIndexOf(6) !=-1 && ((depuredBuffer2.lastIndexOf(6) == 1 + depuredBuffer2.lastIndexOf(2)) && (depuredBuffer2.lastIndexOf("A") == 1 + depuredBuffer2.lastIndexOf(6)))){
         //console.log("236E")
+        SpecialInput2 = "236P"
         p2InputBuffer.splice(0)
     }
     if(depuredBuffer2.lastIndexOf("A") != -1 && depuredBuffer2.lastIndexOf(2) != -1 && depuredBuffer2.lastIndexOf(4) !=-1 && ((depuredBuffer2.lastIndexOf(4) == 1 + depuredBuffer2.lastIndexOf(2)) && (depuredBuffer2.lastIndexOf("A") == 1 + depuredBuffer2.lastIndexOf(4)))){
         //console.log("214E")
+        SpecialInput2 = "214P"
         p2InputBuffer.splice(0)
     }
 }
