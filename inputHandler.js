@@ -272,7 +272,7 @@ export function checkSpecialInputs(){
         p1InputBuffer.splice(0)
     }
     if(depuredBuffer1.lastIndexOf(6) != -1 && (6 == depuredBuffer1[depuredBuffer1.lastIndexOf(6)-1] )){
-        //console.log("66")
+        console.log("66")
         SpecialInput1 = "66"
         playerOneRunning = true
         p1InputBuffer.splice(0)

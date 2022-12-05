@@ -1,4 +1,4 @@
-import {FPS, player, enemy, speed, jumpForce, pDerecha, playerSide, xEnemyCollision, xPlayerCollision, minusxEnemyCollision, minusxPlayerCollision, hitboxCollision, attack, update, stAone, stAtwo, aAone ,aAtwo, crAone, crAtwo, qcfAone, qcfAtwo , timer, timerId, playing, checkWinner, decreaseTimer, runSpeed} from './charactersData.js'
+import {FPS, player, enemy, speed, jumpForce, pDerecha, playerSide, xEnemyCollision, xPlayerCollision, minusxEnemyCollision, minusxPlayerCollision, hitboxCollision, attack, update, airDash, stAone, stAtwo, aAone ,aAtwo, crAone, crAtwo, qcfAone, qcfAtwo , timer, timerId, playing, checkWinner, decreaseTimer, runSpeed} from './charactersData.js'
 import {keys, p1InputBuffer, p2InputBuffer, checkSpecialInputs, getPlayerOneInput, getPlayerTwoInput, SpecialInput1, SpecialInput2, playerOneRunning, playerTwoRunning} from './inputHandler.js'
 import {canvas, c, CROUCHING, STANDING} from './System.js'
 
@@ -82,35 +82,34 @@ function animate(){
         
     }
 
-
-    //pintar fondo por encima como si fuese processing
-    c.fillStyle = "black"
-    c.fillRect(0, 0, canvas.width, canvas.height)
-    //dibuja a los jugadores en la posición actualizada
-
-    //updateeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-    if (myAttack1 == aA){
-        update(player, aAone)//objeto player de la clase Sprite usando metodo update del
-    }else if(myAttack1 == qcfA){
-        update(player, qcfAone)
-    }else if(myAttack1 == A5){
-        update(player, stAone)
-    }else if(myAttack1 == A2){
-        update(player, crAone)
-    }
-
-    if (myAttack2 == aA){
-        update(enemy, aAtwo)//objeto player de la clase Sprite usando metodo update del
-    }else if(myAttack2 == qcfA){
-        update(enemy, qcfAone)
-    }else if(myAttack2 == A5){
-        update(enemy, stAtwo)
-    }else if(myAttack2 == A2){
-        //console.log(crAtwo.position.y)
-        update(enemy, crAtwo)
-    }
-
-
+        //pintar fondo por encima como si fuese processing
+        c.fillStyle = "black"
+        c.fillRect(0, 0, canvas.width, canvas.height)
+        //dibuja a los jugadores en la posición actualizada
+    
+        //updateeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
+        if (myAttack1 == aA){
+            update(player, aAone)//objeto player de la clase Sprite usando metodo update del
+        }else if(myAttack1 == qcfA){
+            update(player, qcfAone)
+        }else if(myAttack1 == A5){
+            update(player, stAone)
+        }else if(myAttack1 == A2){
+            update(player, crAone)
+        }
+    
+        if (myAttack2 == aA){
+            update(enemy, aAtwo)//objeto player de la clase Sprite usando metodo update del
+        }else if(myAttack2 == qcfA){
+            update(enemy, qcfAone)
+        }else if(myAttack2 == A5){
+            update(enemy, stAtwo)
+        }else if(myAttack2 == A2){
+            //console.log(crAtwo.position.y)
+            update(enemy, crAtwo)
+        }
+    
+    
 
 
     if(playing) {
@@ -151,6 +150,17 @@ function animate(){
                 player.velocity.x = 0
             }else{
                 player.agachado = false
+            }
+
+            //airdashes
+            if (player.velocity.y != 0 || player.jumpMaxPoint){
+                if(SpecialInput1 == "66"){
+                    player.velocity.x = 23
+                    airDash(player,1)
+                }else if(SpecialInput1 == "44"){
+                    player.velocity.x = -23
+                    airDash(player,-1)
+                }
             }
         }
 
@@ -229,7 +239,20 @@ function animate(){
             }else{
                 enemy.agachado = false
             }
+
+            if (enemy.velocity.y != 0 || enemy.jumpMaxPoint){
+                if(SpecialInput2 == "66"){
+                    enemy.velocity.x = 23
+                    airDash(enemy,1)
+                }else if(SpecialInput2 == "44"){
+                    enemy.velocity.x = -23
+                    airDash(enemy,-1)
+                }
+    
+            }
         }
+
+        
     
         if (!enemy.unable){
             //acciones cuando hay alguna tecla pulsada

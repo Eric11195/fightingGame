@@ -7,6 +7,7 @@ const canvas = document.querySelector("canvas")
 const c = canvas.getContext("2d")
 
 export var pDerecha = "izq"
+var airDashRemains = false
 
 
 export let timer = 60;
@@ -434,8 +435,6 @@ function RECOVERY(who){
     who.myAttack = "none"
 }
 export function update(who, move) {
-    //console.log(enemy.position.y)aaa.
-    //console.log(who.width - move.offset)
     if(who.agachado){
         who.height = 100
         who.position.y = who.fakePosition.y
@@ -483,7 +482,9 @@ export function update(who, move) {
         }
     } else {
         //this.offset.y = 110
-        who.velocity.y += GRAVITY//aceleración en caida
+        if(!airDashRemains){
+            who.velocity.y += GRAVITY//aceleración en caida
+        }
     }
     who.checkJumpMaxHeight()
 }
@@ -526,4 +527,17 @@ export function checkWinner({player, enemy, timerId}){
     }else if (player.health < enemy.health){
         document.querySelector('#displayResults').innerHTML = 'Player 2 WINS'
     }
+}
+
+export function airDash(character, direction){
+    character.velocity.y = 0
+    airDashRemains = true
+    setTimeout(airDashFinished, (15)*1000/FPS)
+    player.velocity.x -= 2*direction
+}
+
+
+function airDashFinished(){
+    airDashRemains = false
+    console.log('miau')
 }
