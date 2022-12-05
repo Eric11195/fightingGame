@@ -133,9 +133,13 @@ function animate(){
                 }if (!keys.a.pressed && !keys.d.pressed || keys.a.pressed && keys.d.pressed){
                     player.velocity.x = 0
                 }else if (keys.a.pressed == true){
-                    player.velocity.x = -speed
+                    if(playerOneRunning){
+                        player.velocity.x = -runSpeed
+                    }else player.velocity.x = -speed
                 }else if (keys.d.pressed == true){
-                    player.velocity.x = speed
+                    if(playerOneRunning){
+                        player.velocity.x = runSpeed
+                    }else player.velocity.x = speed
                 }
             player.velocity.y= jumpForce
             player.jumps.n--
@@ -205,9 +209,13 @@ function animate(){
                 if (!keys.AL.pressed && !keys.AR.pressed || keys.AL.pressed && keys.AR.pressed){
                     enemy.velocity.x = 0
                 }else if (keys.AL.pressed){
-                    enemy.velocity.x = -speed
+                    if(playerTwoRunning){
+                        enemy.velocity.x = -runSpeed
+                    }else enemy.velocity.x = -speed
                 }else if (keys.AR.pressed){
-                    enemy.velocity.x = speed
+                    if(playerTwoRunning){
+                        enemy.velocity.x = runSpeed
+                    }else enemy.velocity.x = speed
                 }
                 enemy.velocity.y = jumpForce
                 enemy.jumps.n--
@@ -251,11 +259,15 @@ function animate(){
                 enemy.velocity.x = 0
             } else if (keys.AR.pressed && !enemy.agachado){
                 if(!xEnemyCollision({ meE: enemy, opponentE: player})){
-                    enemy.velocity.x = speed
+                    if(playerTwoRunning){
+                        enemy.velocity.x = runSpeed
+                    }else enemy.velocity.x = speed
                 }
             } else if (keys.AL.pressed && !enemy.agachado){
                 if(!minusxEnemyCollision({ MeE: enemy, OpponentE: player})){
-                    enemy.velocity.x = -speed
+                    if(playerTwoRunning){
+                        enemy.velocity.x = -runSpeed
+                    }else enemy.velocity.x = -speed
                 }
             } else if(!keys.AL.pressed && !keys.AR.pressed && !xEnemyCollision({ meE: enemy, opponentE: player})&& !minusxEnemyCollision({ MeE: enemy, OpponentE: player})) {
                 enemy.velocity.x = 0
