@@ -54,6 +54,17 @@ export class Sprite {
         }else this.jumpMaxPoint = false
     }
 
+    wallCollision(){
+        if(!this.unable){
+            if(this.fakePosition.x < speed){
+                this.fakePosition.x = speed
+            }
+            if(this.fakePosition.x > (1024 - this.width - speed)){
+                this.fakePosition.x = 1024 - speed - this.width
+            }
+        }
+    }
+
     //para dibujar las cosas en la posición actualizada
     
 
@@ -437,6 +448,8 @@ export function update(who, move) {
     who.fakePosition.x += who.velocity.x
     //posición en y se le suma la velocidad que tenga en ese momento
     who.fakePosition.y += who.velocity.y 
+
+    who.wallCollision()
     //posición hitbox
     if(who.side == "left"){
         move.position.x = who.fakePosition.x + move.offset.x

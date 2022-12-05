@@ -24,7 +24,7 @@ c.fillRect(0,0,canvas.width,canvas.height)
 //barras de vida, movimiento, ataques...
 function animate(){ 
     n++    
-    //checkea para donde se mira y cambia la hitbox en consecuencia, mira a ver si toca bloquar
+    //ea para donde se mira y cambia la hitbox en consecuencia, mira a ver si toca bloquar
     playerSide()
     if(pDerecha == "izq"){
         if (keys.a.pressed){
@@ -71,7 +71,7 @@ function animate(){
     }
 
 
-    //checkea bloqueos perfectos--------------------------
+    //ea bloqueos perfectos--------------------------
     if (player.framesBlocking <= 3 && player.framesBlocking != 0){
     }else  {
 
@@ -371,12 +371,23 @@ function animate(){
                 if(enemy.velocity.x < 0 && player.velocity.x >0){
                     enemy.velocity.x = 0
                     player.velocity.x = 0
-                }else if ((enemy.velocity.x == 0 || enemy.velocity.x == 2) && player.velocity.x >0){
-                    enemy.velocity.x = speed/2
-                    player.velocity.x = speed/2
-                }else if(enemy.velocity.x < 0 && (player.velocity.x == 0|| player.velocity.x ==-2)){
-                    enemy.velocity.x = -speed/2
-                    player.velocity.x = -speed/2
+                }else if ((enemy.velocity.x == 0 || enemy.velocity.x == speed/2 || enemy.velocity.x == runSpeed/2) && player.velocity.x >0){
+                    if(playerOneRunning){
+                        enemy.velocity.x = runSpeed/2
+                        player.velocity.x = runSpeed/2
+                    }else{
+                        enemy.velocity.x = speed/2
+                        player.velocity.x = speed/2
+                    }
+                }else if(enemy.velocity.x < 0 && (player.velocity.x == 0|| player.velocity.x ==-speed/2 || player.velocity.x ==-runSpeed/2)){
+                    if(playerTwoRunning){
+                        enemy.velocity.x = -runSpeed/2
+                        player.velocity.x = -runSpeed/2
+
+                    }else{
+                        enemy.velocity.x = -speed/2
+                        player.velocity.x = -speed/2
+                    }
                 }
 
             }
@@ -385,12 +396,24 @@ function animate(){
                 if(enemy.velocity.x > 0 && player.velocity.x < 0){
                     enemy.velocity.x = 0
                     player.velocity.x = 0
-                }else if ((enemy.velocity.x == 0 || enemy.velocity.x ==-2) && player.velocity.x < 0){
-                    enemy.velocity.x = -speed/2
-                    player.velocity.x = -speed/2
-                }else if(enemy.velocity.x > 0 && (player.velocity.x == 0 || player.velocity.x == 2)){
-                    enemy.velocity.x = speed/2
-                    player.velocity.x = speed/2
+                }else if ((enemy.velocity.x == 0 || enemy.velocity.x == -speed/2 ||  enemy.velocity.x == -runSpeed/2) && player.velocity.x < 0){
+                    if(playerOneRunning){
+                        enemy.velocity.x = -runSpeed/2
+                        player.velocity.x = -runSpeed/2
+
+                    }else{
+                        enemy.velocity.x = -speed/2
+                        player.velocity.x = -speed/2
+                    }
+                }else if(enemy.velocity.x > 0 && (player.velocity.x == 0 || player.velocity.x == speed/2 || player.velocity.x == runSpeed/2)){
+                    if(playerTwoRunning){
+                        enemy.velocity.x = runSpeed/2
+                        player.velocity.x = runSpeed/2
+                    }else{
+                        enemy.velocity.x = speed/2
+                        player.velocity.x = speed/2
+                    }
+                    
                 }
                 
             }
