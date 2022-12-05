@@ -227,10 +227,10 @@ export const KEYUP = window.addEventListener('keyup', (event) => {
 })
 
 function checkInputBufferLength(){
-    if(p1InputBuffer.length > 14){
+    if(p1InputBuffer.length > 20){
         p1InputBuffer.shift()
     }
-    if(p2InputBuffer.length > 14){
+    if(p2InputBuffer.length > 20){
         p2InputBuffer.shift()
     }
 }
@@ -239,19 +239,21 @@ export function checkSpecialInputs(){
     SpecialInput1 = "none"
     //depuredBuffer1 = checkSpecialInputs.slice()
     depuredBuffer1 = p1InputBuffer.filter(filterBlankSpace)
-    //console.log(depuredBuffer2)
+    console.log(depuredBuffer1)
     depuredBuffer2 = p2InputBuffer.filter(filterBlankSpace)
 
-    if(depuredBuffer1.lastIndexOf("A") != -1 && depuredBuffer1.lastIndexOf(2) != -1 && depuredBuffer1.lastIndexOf(6) !=-1 && ((depuredBuffer1.lastIndexOf(6) == 1 + depuredBuffer1.lastIndexOf(2)) && (depuredBuffer1.lastIndexOf("A") == 1 + depuredBuffer1.lastIndexOf(6)))){
-        //console.log("236P")
-        SpecialInput1 = "236P"
-        p1InputBuffer.splice(0)
-    }
-    if(depuredBuffer1.lastIndexOf("A") != -1 && depuredBuffer1.lastIndexOf(2) != -1 && depuredBuffer1.lastIndexOf(4) !=-1 && ((depuredBuffer1.lastIndexOf(4) == 1 + p1InputBuffer.lastIndexOf(2)) && (depuredBuffer1.lastIndexOf("A") == 1 + depuredBuffer1.lastIndexOf(4)))){
+
+    if(depuredBuffer1.lastIndexOf("A") != -1 && depuredBuffer1.lastIndexOf(2) != -1 && depuredBuffer1.lastIndexOf(4) !=-1 && ((depuredBuffer1.lastIndexOf(4) == 1 + depuredBuffer1.lastIndexOf(2)) && (depuredBuffer1.lastIndexOf("A") == 1 + depuredBuffer1.lastIndexOf(4)))){
         //console.log("214P")
         SpecialInput1 = "214P"
         p1InputBuffer.splice(0)
     }
+    if(depuredBuffer1.lastIndexOf("A") != -1 && depuredBuffer1.lastIndexOf(2) != -1 && depuredBuffer1.lastIndexOf(6) !=-1 && ((depuredBuffer1.lastIndexOf(6) == 1 + depuredBuffer1.lastIndexOf(2)) && (depuredBuffer1.lastIndexOf("A") == 1 + depuredBuffer1.lastIndexOf(6)))){
+        console.log("236P")
+        SpecialInput1 = "236P"
+        p1InputBuffer.splice(0)
+    }
+    
 
     if(depuredBuffer2.lastIndexOf("A") != -1 && depuredBuffer2.lastIndexOf(2) != -1 && depuredBuffer2.lastIndexOf(6) !=-1 && ((depuredBuffer2.lastIndexOf(6) == 1 + depuredBuffer2.lastIndexOf(2)) && (depuredBuffer2.lastIndexOf("A") == 1 + depuredBuffer2.lastIndexOf(6)))){
         //console.log("236E")

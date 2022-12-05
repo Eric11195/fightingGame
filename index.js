@@ -130,10 +130,13 @@ function animate(){
 
 
     if(playing) {
-        console.log(hitboxCollision({hitbox: qcfAone, Enemy: enemy}))
 
         //qcf qcb, etc
         checkSpecialInputs();
+
+
+        //console.log(SpecialInput1)
+        //console.log(player.side == "right" && SpecialInput1 == "214P" )
 
 //player--------------------------------------------------------------------------------------------------------
         if(keys.space.pressed && ((!player.unable || (player.velocity.y != 0 || player.jumpMaxPoint)))){
@@ -169,11 +172,10 @@ function animate(){
                 if(player.velocity.y != 0 || player.jumpMaxPoint){
                     myAttack1 = aA
                     attack(player,aAone)
-                }else if((pDerecha == "izq" && SpecialInput1 == "236P" )|| (pDerecha == "der" && SpecialInput1 == "214P")){
+                }else if((player.side == "right" && SpecialInput1 == "214P") || (player.side == "left" && SpecialInput1 == "236P" )){
                     myAttack1 = qcfA
                     player.agachado = false
                     player.velocity.x = 0
-                    
                     attack(player, qcfAone)
                 }else if(player.agachado == true){
                     myAttack1 = A2
@@ -579,3 +581,8 @@ function unableE(){
 
 animate()
 decreaseTimer()
+
+
+/*function attack(){
+
+}*/
