@@ -4,14 +4,16 @@ export const jumpForce = -15
 export const longJumpForce = -10
 export const highJumpForce = -20
 export const secondJumpForce = -12
-export const runSpeed = 7.2
+export const runSpeed = 16
+export const airRunSpeed = 20
+
 
 const canvas = document.querySelector("canvas")
 const c = canvas.getContext("2d")
 
 export var pDerecha = "izq"
-var airDashRemains = false
-
+export var airDashRemains = false
+export var DashRemains = false
 
 export let timer = 60;
 export let timerId
@@ -602,12 +604,27 @@ export function checkWinner({player, enemy, timerId}){
 export function airDash(character, direction){
     character.velocity.y = 0
     airDashRemains = true
-    setTimeout(airDashFinished, (15)*1000/FPS)
-    player.velocity.x -= 2*direction
+    setTimeout(airDashFinished, (20)*1000/FPS, character)
+    character.velocity.x -= 6*direction
 }
 
 
-function airDashFinished(){
+function airDashFinished(character){
     airDashRemains = false
+    character.velocity.x = 0
+    console.log('miau')
+}
+
+export function Dash(characterG, directionG){
+    characterG.unable = true
+    characterG.agachado = true
+    DashRemains = true
+    setTimeout(DashFinished, (15)*1000/FPS, characterG)
+    characterG.velocity.x -= 2*directionG
+}
+function DashFinished(characterG){
+    characterG.unable = false
+    characterG.agachado = false
+    DashRemains = false
     console.log('miau')
 }

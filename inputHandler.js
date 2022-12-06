@@ -220,14 +220,14 @@ export const KEYUP = window.addEventListener('keyup', (event) => {
             keys.d.pressed = false
             playerOne6 = false
             if(playerOneRunning){
-                playerOneRunning = false
+                //playerOneRunning = false
             }
             break
         case 'a':
             keys.a.pressed = false
             playerOne4 = false
             if(playerOneRunning){
-                playerOneRunning = false
+                //playerOneRunning = false
             }
             break
         case ' ':
@@ -241,25 +241,31 @@ export const KEYUP = window.addEventListener('keyup', (event) => {
         case 's':
             keys.s.pressed = false
             playerOne2 = false
+            if(playerOneRunning){
+                //playerOneRunning = false
+            }
             break
 
         case 'ArrowRight':
             keys.AR.pressed = false
             playerTwo6 = false
             if(playerTwoRunning){
-                playerTwoRunning = false
+                //playerTwoRunning = false
             }
             break
         case 'ArrowLeft':
             keys.AL.pressed = false
             playerTwo4 = false
             if(playerTwoRunning){
-                playerTwoRunning = false
+                //playerTwoRunning = false
             }
             break
         case 'ArrowDown':
             keys.AD.pressed = false
             playerTwo2 = false
+            if(playerTwoRunning){
+                //playerTwoRunning = false
+            }
             break
         case '.':
             keys.dot.pressed = false
@@ -285,6 +291,8 @@ function checkInputBufferLength(){
 export function checkSpecialInputs(){
     SpecialInput1 = "none"
     SpecialInput2 = "none"
+    playerOneRunning = false
+    playerTwoRunning = false
     //depuredBuffer1 = checkSpecialInputs.slice()
     depuredBuffer1 = p1InputBuffer.filter(filterBlankSpace)
     console.log(depuredBuffer1)

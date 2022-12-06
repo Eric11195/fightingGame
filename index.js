@@ -1,4 +1,4 @@
-import {FPS, player, enemy, speed, jumpForce, pDerecha, playerSide, xEnemyCollision, xPlayerCollision, minusxEnemyCollision, minusxPlayerCollision, hitboxCollision, attack, update, secondJumpForce, airDash, stAone, stAtwo, aAone ,aAtwo, crAone, crAtwo, qcfAone, qcfAtwo, ddAone , timer, timerId, playing, checkWinner, decreaseTimer, runSpeed, longJumpForce, highJumpForce, ddAtwo} from './charactersData.js'
+import {FPS, player, enemy, speed, jumpForce, pDerecha, playerSide, xEnemyCollision, xPlayerCollision, minusxEnemyCollision, minusxPlayerCollision, hitboxCollision, attack, update, secondJumpForce, airDash, stAone, stAtwo, aAone ,aAtwo, crAone, crAtwo, qcfAone, qcfAtwo, ddAone , timer, timerId, playing, checkWinner, decreaseTimer, runSpeed, longJumpForce, highJumpForce, ddAtwo, airRunSpeed, Dash, DashRemains} from './charactersData.js'
 import {keys, p1InputBuffer, p2InputBuffer, checkSpecialInputs, getPlayerOneInput, getPlayerTwoInput, SpecialInput1, SpecialInput2, playerOneRunning, playerTwoRunning} from './inputHandler.js'
 import {canvas, c, CROUCHING, STANDING} from './System.js'
 
@@ -208,11 +208,11 @@ function animate(){
             if(player.jumps.n>0){
                 if (player.velocity.y != 0 || player.jumpMaxPoint){
                     if(SpecialInput1 == "66"){
-                        player.velocity.x = 23
+                        player.velocity.x = airRunSpeed
                         airDash(player,1)
                         player.jumps.n--
                     }else if(SpecialInput1 == "44"){
-                        player.velocity.x = -23
+                        player.velocity.x = -airRunSpeed
                         airDash(player,-1)
                         player.jumps.n--
                     }
@@ -251,16 +251,20 @@ function animate(){
                 if(!xPlayerCollision({ me: player, opponent: enemy})){
                     if(playerOneRunning){
                         player.velocity.x = runSpeed
+                        Dash(player,1)
                     }else player.velocity.x = speed
                 }
             } else if (keys.a.pressed && !player.agachado){
                 if(!minusxPlayerCollision({ Me: player, Opponent: enemy})){
                     if(playerOneRunning){
-                        player.velocity.x = -runSpeed
+                            player.velocity.x = -runSpeed
+                            Dash(player, -1)
                     }else player.velocity.x = -speed
                 }
             } else if (!keys.d.pressed && !keys.a.pressed && !xPlayerCollision({ me: player, opponent: enemy}) && !minusxPlayerCollision({ Me: player, Opponent: enemy})) {
-                player.velocity.x = 0
+                if(DashRemains == false){
+                    player.velocity.x = 0
+                }
             }
         }
 
@@ -394,16 +398,20 @@ function animate(){
                 if(!xEnemyCollision({ meE: enemy, opponentE: player})){
                     if(playerTwoRunning){
                         enemy.velocity.x = runSpeed
+                        Dash(enemy, 1)
                     }else enemy.velocity.x = speed
                 }
             } else if (keys.AL.pressed && !enemy.agachado){
                 if(!minusxEnemyCollision({ MeE: enemy, OpponentE: player})){
                     if(playerTwoRunning){
                         enemy.velocity.x = -runSpeed
+                        Dash(enemy, -1)
                     }else enemy.velocity.x = -speed
                 }
             } else if(!keys.AL.pressed && !keys.AR.pressed && !xEnemyCollision({ meE: enemy, opponentE: player})&& !minusxEnemyCollision({ MeE: enemy, OpponentE: player})) {
-                enemy.velocity.x = 0
+                if(!DashRemains){
+                    enemy.velocity.x = 0
+                }
             }
         }
 
@@ -648,3 +656,17 @@ function attackFunction(goodGuy, badGuy, theAttack){
         }
     }
 }
+
+/*function runForward(who, direction){
+    console.log(player.velocity.x)
+    if(direction == 1){
+        if(who.velocity.x >= 0){
+            who.velocity.x -= 0.1 * direction.x
+        }else who.velocity.x = 0
+    }else if(direction == -1){
+        if(who.velocity.x <= 0){
+            who.velocity.x -= 0.1 * direction.x
+        }else who.velocity.x = 0
+    }
+
+}*/
