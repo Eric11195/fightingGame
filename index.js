@@ -1,4 +1,4 @@
-import {FPS, player, enemy, speed, jumpForce, pDerecha, playerSide, xEnemyCollision, xPlayerCollision, minusxEnemyCollision, minusxPlayerCollision, hitboxCollision, attack, update, airDash, stAone, stAtwo, aAone ,aAtwo, crAone, crAtwo, qcfAone, qcfAtwo , timer, timerId, playing, checkWinner, decreaseTimer, runSpeed, longJumpForce, highJumpForce} from './charactersData.js'
+import {FPS, player, enemy, speed, jumpForce, pDerecha, playerSide, xEnemyCollision, xPlayerCollision, minusxEnemyCollision, minusxPlayerCollision, hitboxCollision, attack, update, secondJumpForce, airDash, stAone, stAtwo, aAone ,aAtwo, crAone, crAtwo, qcfAone, qcfAtwo, ddAone , timer, timerId, playing, checkWinner, decreaseTimer, runSpeed, longJumpForce, highJumpForce, ddAtwo} from './charactersData.js'
 import {keys, p1InputBuffer, p2InputBuffer, checkSpecialInputs, getPlayerOneInput, getPlayerTwoInput, SpecialInput1, SpecialInput2, playerOneRunning, playerTwoRunning} from './inputHandler.js'
 import {canvas, c, CROUCHING, STANDING} from './System.js'
 
@@ -6,6 +6,7 @@ var A5 = "5A"
 var aA = "a.A"
 var A2 = "2A"
 var qcfA = "236A"
+var ddA = "22A"
 
 var myAttack1 = A5
 var myAttack2 = A5 
@@ -73,12 +74,15 @@ function animate(){
 
     //ea bloqueos perfectos--------------------------
     if (player.framesBlocking <= 3 && player.framesBlocking != 0){
+        player.perfectBlock = true
     }else  {
-
+        player.perfectBlock = false
     }
 
     if (enemy.framesBlocking <= 3 && enemy.framesBlocking != 0){
+        enemy.perfectBlock = true
     }else {
+        enemy.perfectBlock = false
         
     }
 
@@ -90,6 +94,8 @@ function animate(){
         //updateeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
         if (myAttack1 == aA){
             update(player, aAone)//objeto player de la clase Sprite usando metodo update del
+        }if (myAttack1 == ddA){
+            update(player, ddAone)//objeto player de la clase Sprite usando metodo update del
         }else if(myAttack1 == qcfA){
             update(player, qcfAone)
         }else if(myAttack1 == A5){
@@ -100,8 +106,10 @@ function animate(){
     
         if (myAttack2 == aA){
             update(enemy, aAtwo)//objeto player de la clase Sprite usando metodo update del
+        }if (myAttack2 == ddA){
+            update(enemy, ddAtwo)//objeto player de la clase Sprite usando metodo update del
         }else if(myAttack2 == qcfA){
-            update(enemy, qcfAone)
+            update(enemy, qcfAtwo)
         }else if(myAttack2 == A5){
             update(enemy, stAtwo)
         }else if(myAttack2 == A2){
@@ -131,11 +139,13 @@ function animate(){
                     player.side = "right"              
                 }if (!keys.a.pressed && !keys.d.pressed || keys.a.pressed && keys.d.pressed){
                     player.velocity.x = 0
-                    if(SpecialInput1 == "28"){
-                        player.velocity.y= highJumpForce
-                    } else {
-                        player.velocity.y= jumpForce
-                    }
+                    if(player.jumps.n == 2){
+                        if(SpecialInput1 == "28"){
+                            player.velocity.y= highJumpForce
+                        } else {
+                            player.velocity.y= jumpForce
+                        }
+                    }else player.velocity.y= secondJumpForce
                 }else if (keys.a.pressed == true){
                     if(player.jumps.n == 2){
                         if(SpecialInput1 == "28"){
@@ -157,7 +167,7 @@ function animate(){
                         }
                     }else {
                         player.velocity.x = -speed
-                        player.velocity.y= jumpForce
+                        player.velocity.y= secondJumpForce
                     }
                 }else if (keys.d.pressed == true){
                     if(player.jumps.n == 2){
@@ -180,7 +190,7 @@ function animate(){
                         }
                     }else {
                         player.velocity.x = speed
-                        player.velocity.y= jumpForce
+                        player.velocity.y= secondJumpForce
                     }
                 }
             player.jumps.n--
@@ -195,13 +205,17 @@ function animate(){
             }
 
             //airdashes
-            if (player.velocity.y != 0 || player.jumpMaxPoint){
-                if(SpecialInput1 == "66"){
-                    player.velocity.x = 23
-                    airDash(player,1)
-                }else if(SpecialInput1 == "44"){
-                    player.velocity.x = -23
-                    airDash(player,-1)
+            if(player.jumps.n>0){
+                if (player.velocity.y != 0 || player.jumpMaxPoint){
+                    if(SpecialInput1 == "66"){
+                        player.velocity.x = 23
+                        airDash(player,1)
+                        player.jumps.n--
+                    }else if(SpecialInput1 == "44"){
+                        player.velocity.x = -23
+                        airDash(player,-1)
+                        player.jumps.n--
+                    }
                 }
             }
         }
@@ -212,6 +226,9 @@ function animate(){
                 if(player.velocity.y != 0 || player.jumpMaxPoint){
                     myAttack1 = aA
                     attack(player,aAone)
+                }else if(SpecialInput1 == "22A"){
+                    myAttack1 = ddA
+                    attack(player,ddAone)
                 }else if((player.side == "right" && SpecialInput1 == "214P") || (player.side == "left" && SpecialInput1 == "236P")){
                     myAttack1 = qcfA
                     player.agachado = false
@@ -260,16 +277,60 @@ function animate(){
                 }
                 if (!keys.AL.pressed && !keys.AR.pressed || keys.AL.pressed && keys.AR.pressed){
                     enemy.velocity.x = 0
+                    if(enemy.jumps.n == 2){
+                        if(SpecialInput2 == "28"){
+                            enemy.velocity.y= highJumpForce
+                        } else {
+                            enemy.velocity.y= jumpForce
+                        }
+                    }else enemy.velocity.y= secondJumpForce
                 }else if (keys.AL.pressed){
-                    if(playerTwoRunning){
-                        enemy.velocity.x = -runSpeed
-                    }else enemy.velocity.x = -speed
+                    if(enemy.jumps.n == 2){
+                        if(SpecialInput2 == "28"){
+                            if(playerTwoRunning){
+                                enemy.velocity.x = -runSpeed
+                                enemy.velocity.y = highJumpForce
+                            }else {
+                                enemy.velocity.x = -speed
+                                enemy.velocity.y= highJumpForce
+                            }
+                        }else {
+                            if(playerTwoRunning){
+                                enemy.velocity.x = -runSpeed
+                                enemy.velocity.y = longJumpForce
+                            }else {
+                                enemy.velocity.x = -speed
+                                enemy.velocity.y= jumpForce
+                            }
+                        }
+                    }else {
+                        enemy.velocity.x = -speed
+                        enemy.velocity.y= secondJumpForce
+                    }
                 }else if (keys.AR.pressed){
-                    if(playerTwoRunning){
-                        enemy.velocity.x = runSpeed
-                    }else enemy.velocity.x = speed
+                    if(enemy.jumps.n == 2){
+                        if(SpecialInput2 == "28"){
+                            if(playerTwoRunning){
+                                enemy.velocity.x = runSpeed
+                                enemy.velocity.y = highJumpForce
+                            }else {
+                                enemy.velocity.x = speed
+                                enemy.velocity.y= highJumpForce
+                            }
+                        } else {
+                            if(playerTwoRunning){
+                                enemy.velocity.x = runSpeed
+                                enemy.velocity.y = longJumpForce
+                            }else {
+                                enemy.velocity.x = speed
+                                enemy.velocity.y= jumpForce
+                            }
+                        }
+                    }else {
+                        enemy.velocity.x = speed
+                        enemy.velocity.y= secondJumpForce
+                    }
                 }
-                enemy.velocity.y = jumpForce
                 enemy.jumps.n--
             }
         }
@@ -282,15 +343,19 @@ function animate(){
                 enemy.agachado = false
             }
 
-            if (enemy.velocity.y != 0 || enemy.jumpMaxPoint){
-                if(SpecialInput2 == "66"){
-                    enemy.velocity.x = 23
-                    airDash(enemy,1)
-                }else if(SpecialInput2 == "44"){
-                    enemy.velocity.x = -23
-                    airDash(enemy,-1)
+            if(enemy.jumps.n>0){
+                if (enemy.velocity.y != 0 || enemy.jumpMaxPoint){
+                    if(SpecialInput2 == "66"){
+                        enemy.velocity.x = 23
+                        airDash(enemy,1)
+                        enemy.jumps.n--
+                    }else if(SpecialInput2 == "44"){
+                        enemy.velocity.x = -23
+                        airDash(enemy,-1)
+                        enemy.jumps.n--
+                    }
+        
                 }
-    
             }
         }
 
@@ -303,6 +368,9 @@ function animate(){
                 if(enemy.velocity.y != 0 || enemy.jumpMaxPoint){
                     myAttack2 = aA
                     attack(enemy,aAtwo)
+                }else if(SpecialInput2 == "22A"){
+                    myAttack2 = ddA
+                    attack(enemy,ddAtwo)
                 }else if((enemy.side == "right" && SpecialInput2 == "214P") || (enemy.side == "left" && SpecialInput2 == "236P")){
                     myAttack2 = qcfA
                     enemy.agachado = false
@@ -373,6 +441,11 @@ function animate(){
                 attackFunction(player, enemy, qcfAone)
             }
         }
+        if(myAttack1 == ddA){
+            if (hitboxCollision({hitbox: ddAone, Enemy: enemy})) {
+                attackFunction(player, enemy, ddAone)
+            }
+        }
 
 
 
@@ -393,6 +466,11 @@ function animate(){
         if(myAttack2 == qcfA){
             if (hitboxCollision({hitbox: qcfAtwo, Enemy: player})){
                 attackFunction(enemy,player,qcfAtwo)
+            }
+        }
+        if(myAttack2 == ddA){
+            if (hitboxCollision({hitbox: ddAtwo, Enemy: player})){
+                attackFunction(enemy,player,ddAtwo)
             }
         }
 
@@ -528,7 +606,11 @@ function attackFunction(goodGuy, badGuy, theAttack){
         badGuy.velocity.x = 0
         badGuy.unable = true
         if (badGuy.blockState &&(theAttack.attackClass =="MID" ||(badGuy.blockType == CROUCHING && theAttack.attackClass =="LOW") || (badGuy.blockType == STANDING && theAttack.attackClass =="OVERHEAD"))){ 
-            badGuy.health -= theAttack.damage/20
+            if(badGuy.perfectBlock){
+                badGuy.health += 3
+            }else{
+                badGuy.health -= theAttack.damage/20
+            }
             if(goodGuy == player){
                 document.querySelector('#enemyHealth').style.width = badGuy.health + '%'
                 setTimeout(unableE, (theAttack.active + theAttack.recovery + theAttack.onBlock)*1000/FPS)

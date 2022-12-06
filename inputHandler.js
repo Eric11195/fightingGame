@@ -6,6 +6,7 @@ var playerOne6 = false
 var playerOne4 = false
 var playerOne2 = false
 var playerOneA = false
+var playerOneB = false
 var playerOneInput
 export var playerOneRunning = false
 
@@ -13,6 +14,7 @@ var playerTwo6 = false
 var playerTwo4 = false
 var playerTwo2 = false
 var playerTwoA = false
+var playerTwoB = false
 var playerTwoInput
 export var playerTwoRunning = false
 
@@ -42,6 +44,9 @@ export const keys = {
     s: {
         pressed: false
     },
+    g: {
+        pressed: false
+    },
 
     AL: {
         pressed: false
@@ -56,6 +61,9 @@ export const keys = {
         pressed: false
     },
     dot: {
+        pressed: false
+    },
+    barra: {
         pressed: false
     }
 };
@@ -104,6 +112,16 @@ export const KEYDOWN = window.addEventListener('keydown', (event) => {
                 playerOneInput = true
             }
             playerOneA = true
+            break
+        case 'g':
+            keys.g.pressed = true
+            if(!playerOneB){
+                //doble salto direccional
+                checkInputBufferLength()
+                p1InputBuffer.push("B")
+                playerOneInput = true
+            }
+            playerOneB = true
             break
         case 's':
             keys.s.pressed = true
@@ -170,12 +188,22 @@ export const KEYDOWN = window.addEventListener('keydown', (event) => {
             }
             playerTwoA = true
             break
+        case '-':
+            keys.barra.pressed = true
+            if(!playerTwoA){
+                //doble salto direccional
+                checkInputBufferLength()
+                p2InputBuffer.push("B")
+                playerTwoInput = true
+            }
+            playerTwoA = true
+            break
         case 'ArrowUp':             
             if(!jumpingE){
                 //doble salto direccional
                 keys.AU.pressed = true 
                 checkInputBufferLength()
-                p1InputBuffer.push(8)
+                p2InputBuffer.push(8)
             }
             jumpingE = true
             break
@@ -292,6 +320,11 @@ export function checkSpecialInputs(){
         SpecialInput1 = "28"
         p1InputBuffer.splice(0)
     }
+    if(depuredBuffer1.lastIndexOf("A") != -1 && depuredBuffer1.lastIndexOf(2) != -1 && (2 == depuredBuffer1[depuredBuffer1.lastIndexOf(2)-1])&& ("A" == depuredBuffer1[depuredBuffer1.lastIndexOf(2)+1] )){
+        console.log("22A")
+        SpecialInput1 = "22A"
+        p1InputBuffer.splice(0)
+    }
     
 
     if(depuredBuffer2.lastIndexOf("A") != -1 && depuredBuffer2.lastIndexOf(2) != -1 && depuredBuffer2.lastIndexOf(6) !=-1 && ((depuredBuffer2.lastIndexOf(6) == 1 + depuredBuffer2.lastIndexOf(2)) && (depuredBuffer2.lastIndexOf("A") == 1 + depuredBuffer2.lastIndexOf(6)))){
@@ -320,6 +353,11 @@ export function checkSpecialInputs(){
         //console.log("28")
         SpecialInput2 = "28"
         p2InputBuffer.splice(0)
+    }
+    if(depuredBuffer2.lastIndexOf("A") != -1 && depuredBuffer2.lastIndexOf(2) != -1 && (2 == depuredBuffer2[depuredBuffer2.lastIndexOf(2)-1])&& ("A" == depuredBuffer2[depuredBuffer2.lastIndexOf(2)+1] )){
+        console.log("22A")
+        SpecialInput2 = "22A"
+        p1InputBuffer.splice(0)
     }
 }
 

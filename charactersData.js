@@ -3,6 +3,7 @@ export const speed = 4
 export const jumpForce = -15
 export const longJumpForce = -10
 export const highJumpForce = -20
+export const secondJumpForce = -12
 export const runSpeed = 7.2
 
 const canvas = document.querySelector("canvas")
@@ -21,7 +22,7 @@ export const FPS = 60;
 export class Sprite {
     //parametros iniciales de cualquier objeto que creemos de esta clase.
     //({}) --> el orden ya no importa pq son propiedades de un objeto y no son obligatorias
-    constructor({ position, velocity, jumps, color, side, jumpMaxPoint, canvasContext, canvasRef, unable, blockType, blockState, framesBlocking, height, agachado, fakePosition, initAttack, blockStun}){
+    constructor({ position, velocity, jumps, color, side, perfectBlock, jumpMaxPoint, canvasContext, canvasRef, unable, blockType, blockState, framesBlocking, height, agachado, fakePosition, initAttack, blockStun}){
         //creación de atributos del objeto
         this.canvasContext = canvasContext
         this.canvasRef = canvasRef
@@ -48,6 +49,7 @@ export class Sprite {
         this.initAttack = initAttack
         this.blockStun = blockStun
         this.side = side
+        this.perfectBlock = perfectBlock
     }
 
     //comprueba si se ha llegado a la posición de salto máx
@@ -75,7 +77,7 @@ export class Sprite {
 
 
 export class Attack{
-    constructor({attackClass, startup, active, recovery, position, width, height, offset, damage, pushblock, pushhit, onHit, onBlock}){
+    constructor({attackClass, startup, active, recovery, position, width, height, offset, damage, pushblock, pushhit, onHit, onBlock, lowProfile}){
             this.attackClass = attackClass
             this.damage = damage
 
@@ -93,6 +95,7 @@ export class Attack{
             this.pushhit = pushhit
             this.onBlock = onBlock
             this.onHit = onHit
+            this.lowProfile = lowProfile
             }
 
 }
@@ -100,6 +103,7 @@ export class Attack{
 
 export const stAone = new Attack({
     attackClass: "MID",
+    lowProfile: false,
 
     startup: 4,
     active: 2,
@@ -125,6 +129,7 @@ export const stAone = new Attack({
 })
 export const stAtwo = new Attack({
     attackClass: "MID",
+    lowProfile: false,
 
     startup: 4,
     active: 2,
@@ -150,6 +155,7 @@ export const stAtwo = new Attack({
 })
 export const aAone = new Attack({
     attackClass: "OVERHEAD",
+    lowProfile: false,
 
     startup: 5,
     active: 5,
@@ -175,6 +181,7 @@ export const aAone = new Attack({
 })
 export const aAtwo = new Attack({
     attackClass: "OVERHEAD",
+    lowProfile: false,
 
     startup: 5,
     active: 5,
@@ -201,6 +208,7 @@ export const aAtwo = new Attack({
 
 export const crAone = new Attack({
     attackClass: "LOW",
+    lowProfile: true,
 
     startup: 7,
     active: 2,
@@ -225,6 +233,7 @@ export const crAone = new Attack({
 })
 export const crAtwo = new Attack({
     attackClass: "LOW",
+    lowProfile: true,
 
     startup: 7,
     active: 2,
@@ -249,6 +258,7 @@ export const crAtwo = new Attack({
 })
 export const qcfAone = new Attack({
     attackClass: "MID",
+    lowProfile: false,
 
     startup: 12,
     active: 5,
@@ -274,6 +284,7 @@ export const qcfAone = new Attack({
 
 export const qcfAtwo = new Attack({
     attackClass: "MID",
+    lowProfile: false,
 
     startup: 12,
     active: 5,
@@ -295,6 +306,57 @@ export const qcfAtwo = new Attack({
     damage:15,
     pushblock:80,
     pushhit:25, 
+})
+
+export const ddAone = new Attack({
+    attackClass: "MID",
+    lowProfile: false,
+
+    startup: 12,
+    active: 4,
+    recovery: 18,
+
+    onHit: 40,
+    onBlock: -12,
+
+    position: {
+        x:0,
+        y:0
+    },
+    width:80,
+    height:80,
+    offset: {
+        x: 70,
+        y: 70,
+    },
+    damage:6,
+    pushblock:30,
+    pushhit:10, 
+})
+export const ddAtwo = new Attack({
+    attackClass: "MID",
+    lowProfile: false,
+
+    startup: 12,
+    active: 4,
+    recovery: 18,
+
+    onHit: 40,
+    onBlock: -12,
+
+    position: {
+        x:0,
+        y:0
+    },
+    width:80,
+    height:80,
+    offset: {
+        x: 70,
+        y: 70,
+    },
+    damage:6,
+    pushblock:30,
+    pushhit:10, 
 })
 
 
@@ -329,7 +391,8 @@ export const player = new Sprite({
     initAttack: false,
     blockStun: false,
     side: "left",
-    isAttacking: false
+    isAttacking: false,
+    perfectBlock: false
 })
 
 export const enemy = new Sprite({
@@ -362,7 +425,8 @@ export const enemy = new Sprite({
     initAttack: false,
     blockStun: false,
     side: "right",
-    isAttacking: false
+    isAttacking: false,
+    perfectBlock: false
 })
 
 //-----------------------------------------------------------------------------
@@ -412,6 +476,9 @@ export function minusxEnemyCollision({MeE, OpponentE}){
 export function attack(who,move) {
     who.unable = true
     who.initAttack = true
+    if(move.lowProfile){
+        who.agachado = true
+    }else who.agachado = false
 
     setTimeout(STARTUP, move.startup*1000/FPS, who)
     setTimeout(ACTIVE, (move.startup+move.active)*1000/FPS, who)
@@ -435,6 +502,7 @@ function RECOVERY(who){
     }else console.log("recuperao2")*/
     who.unable = false
     who.myAttack = "none"
+    who.agachado = false
 }
 export function update(who, move) {
     if(who.agachado){
