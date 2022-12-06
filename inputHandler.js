@@ -119,6 +119,8 @@ export const KEYDOWN = window.addEventListener('keydown', (event) => {
             //condición para que en caso de que se pulse la tecla durante más de un frame no haga los dos saltos instantaneamente
             //registra solo 1 vez cada vez que se pulse la tecla
             if(!jumpingP){
+                checkInputBufferLength()
+                p1InputBuffer.push(8)
                 //doble salto direccional
                 keys.space.pressed = true
             }
@@ -172,6 +174,8 @@ export const KEYDOWN = window.addEventListener('keydown', (event) => {
             if(!jumpingE){
                 //doble salto direccional
                 keys.AU.pressed = true 
+                checkInputBufferLength()
+                p1InputBuffer.push(8)
             }
             jumpingE = true
             break
@@ -283,6 +287,11 @@ export function checkSpecialInputs(){
         playerOneRunning = true
         p1InputBuffer.splice(0)
     }
+    if(depuredBuffer1.lastIndexOf(8) != -1 && (2 == depuredBuffer1[depuredBuffer1.lastIndexOf(8)-1] )){
+        //console.log("28")
+        SpecialInput1 = "28"
+        p1InputBuffer.splice(0)
+    }
     
 
     if(depuredBuffer2.lastIndexOf("A") != -1 && depuredBuffer2.lastIndexOf(2) != -1 && depuredBuffer2.lastIndexOf(6) !=-1 && ((depuredBuffer2.lastIndexOf(6) == 1 + depuredBuffer2.lastIndexOf(2)) && (depuredBuffer2.lastIndexOf("A") == 1 + depuredBuffer2.lastIndexOf(6)))){
@@ -305,6 +314,11 @@ export function checkSpecialInputs(){
         console.log("44")
         SpecialInput2 = "44"
         playerTwoRunning = true
+        p2InputBuffer.splice(0)
+    }
+    if(depuredBuffer2.lastIndexOf(8) != -1 && (2 == depuredBuffer2[depuredBuffer2.lastIndexOf(8)-1] )){
+        //console.log("28")
+        SpecialInput2 = "28"
         p2InputBuffer.splice(0)
     }
 }

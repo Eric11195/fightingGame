@@ -1,6 +1,8 @@
 const GRAVITY = 0.6
 export const speed = 4
-export const jumpForce = -16
+export const jumpForce = -15
+export const longJumpForce = -10
+export const highJumpForce = -20
 export const runSpeed = 7.2
 
 const canvas = document.querySelector("canvas")

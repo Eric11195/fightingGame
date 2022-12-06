@@ -1,4 +1,4 @@
-import {FPS, player, enemy, speed, jumpForce, pDerecha, playerSide, xEnemyCollision, xPlayerCollision, minusxEnemyCollision, minusxPlayerCollision, hitboxCollision, attack, update, airDash, stAone, stAtwo, aAone ,aAtwo, crAone, crAtwo, qcfAone, qcfAtwo , timer, timerId, playing, checkWinner, decreaseTimer, runSpeed} from './charactersData.js'
+import {FPS, player, enemy, speed, jumpForce, pDerecha, playerSide, xEnemyCollision, xPlayerCollision, minusxEnemyCollision, minusxPlayerCollision, hitboxCollision, attack, update, airDash, stAone, stAtwo, aAone ,aAtwo, crAone, crAtwo, qcfAone, qcfAtwo , timer, timerId, playing, checkWinner, decreaseTimer, runSpeed, longJumpForce, highJumpForce} from './charactersData.js'
 import {keys, p1InputBuffer, p2InputBuffer, checkSpecialInputs, getPlayerOneInput, getPlayerTwoInput, SpecialInput1, SpecialInput2, playerOneRunning, playerTwoRunning} from './inputHandler.js'
 import {canvas, c, CROUCHING, STANDING} from './System.js'
 
@@ -131,16 +131,58 @@ function animate(){
                     player.side = "right"              
                 }if (!keys.a.pressed && !keys.d.pressed || keys.a.pressed && keys.d.pressed){
                     player.velocity.x = 0
+                    if(SpecialInput1 == "28"){
+                        player.velocity.y= highJumpForce
+                    } else {
+                        player.velocity.y= jumpForce
+                    }
                 }else if (keys.a.pressed == true){
-                    if(playerOneRunning){
-                        player.velocity.x = -runSpeed
-                    }else player.velocity.x = -speed
+                    if(player.jumps.n == 2){
+                        if(SpecialInput1 == "28"){
+                            if(playerOneRunning){
+                                player.velocity.x = -runSpeed
+                                player.velocity.y = highJumpForce
+                            }else {
+                                player.velocity.x = -speed
+                                player.velocity.y= highJumpForce
+                            }
+                        }else {
+                            if(playerOneRunning){
+                                player.velocity.x = -runSpeed
+                                player.velocity.y = longJumpForce
+                            }else {
+                                player.velocity.x = -speed
+                                player.velocity.y= jumpForce
+                            }
+                        }
+                    }else {
+                        player.velocity.x = -speed
+                        player.velocity.y= jumpForce
+                    }
                 }else if (keys.d.pressed == true){
-                    if(playerOneRunning){
-                        player.velocity.x = runSpeed
-                    }else player.velocity.x = speed
+                    if(player.jumps.n == 2){
+                        if(SpecialInput1 == "28"){
+                            if(playerOneRunning){
+                                player.velocity.x = runSpeed
+                                player.velocity.y = highJumpForce
+                            }else {
+                                player.velocity.x = speed
+                                player.velocity.y= highJumpForce
+                            }
+                        } else {
+                            if(playerOneRunning){
+                                player.velocity.x = runSpeed
+                                player.velocity.y = longJumpForce
+                            }else {
+                                player.velocity.x = speed
+                                player.velocity.y= jumpForce
+                            }
+                        }
+                    }else {
+                        player.velocity.x = speed
+                        player.velocity.y= jumpForce
+                    }
                 }
-            player.velocity.y= jumpForce
             player.jumps.n--
             }
         }
