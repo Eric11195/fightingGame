@@ -416,7 +416,7 @@ export const crBone = new Attack({
     lowProfile: true,
 
     startup: 16,
-    active: 5,
+    active: 7,
     recovery: 36,
 
     onHit: 40,
@@ -427,10 +427,10 @@ export const crBone = new Attack({
         y:0
     },
 
-    width:150,
+    width:370,
     height:40,
     offset: {
-        x: 40,
+        x: -150,
         y: 60,
     },
 
@@ -443,7 +443,7 @@ export const crBtwo = new Attack({
     lowProfile: true,
 
     startup: 16,
-    active: 5,
+    active: 7,
     recovery: 36,
 
     onHit: 40,
@@ -454,16 +454,70 @@ export const crBtwo = new Attack({
         y:0
     },
 
-    width:150,
+    width:370,
     height:40,
     offset: {
-        x: 40,
+        x: -150,
         y: 60,
     },
     
     damage:8,
     pushblock:15,
     pushhit:8, 
+})
+export const aBone = new Attack({
+    attackClass: "OVERHEAD",
+    lowProfile: false,
+
+    startup: 16,
+    active: 5,
+    recovery: 20,
+
+    onHit: 12,
+    onBlock: 5,
+
+    position: {
+        x:0,
+        y:0
+    },
+
+    width:175,
+    height:150,
+    offset: {
+        x: 25,
+        y:  90,
+    },
+
+    damage:4,
+    pushblock:30,
+    pushhit:20, 
+})
+export const aBtwo = new Attack({
+    attackClass: "OVERHEAD",
+    lowProfile: false,
+
+    startup: 16,
+    active: 5,
+    recovery: 20,
+
+    onHit: 12,
+    onBlock: 5,
+
+    position: {
+        x:0,
+        y:0
+    },
+
+    width:175,
+    height:150,
+    offset: {
+        x: 25,
+        y:  90,
+    },
+
+    damage:4,
+    pushblock:30,
+    pushhit:20, 
 })
 
 

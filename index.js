@@ -1,4 +1,4 @@
-import {FPS, player, enemy, speed, jumpForce, pDerecha, playerSide, xEnemyCollision, xPlayerCollision, minusxEnemyCollision, minusxPlayerCollision, hitboxCollision, attack, update, secondJumpForce, airDash, stAone, stAtwo, aAone ,aAtwo, crAone, crAtwo, qcfAone, qcfAtwo, ddAone, ddAtwo, stBone, stBtwo, crBone, crBtwo , timer, timerId, playing, checkWinner, decreaseTimer, runSpeed, longJumpForce, highJumpForce, airRunSpeed, Dash, DashRemains} from './charactersData.js'
+import {FPS, player, enemy, speed, jumpForce, pDerecha, playerSide, xEnemyCollision, xPlayerCollision, minusxEnemyCollision, minusxPlayerCollision, hitboxCollision, attack, update, secondJumpForce, airDash, stAone, stAtwo, aAone ,aAtwo, crAone, crAtwo, qcfAone, qcfAtwo, ddAone, ddAtwo, stBone, stBtwo, crBone, crBtwo, aBone, aBtwo , timer, timerId, playing, checkWinner, decreaseTimer, runSpeed, longJumpForce, highJumpForce, airRunSpeed, Dash, DashRemains} from './charactersData.js'
 import {keys, p1InputBuffer, p2InputBuffer, checkSpecialInputs, getPlayerOneInput, getPlayerTwoInput, SpecialInput1, SpecialInput2, playerOneRunning, playerTwoRunning} from './inputHandler.js'
 import {canvas, c, CROUCHING, STANDING} from './System.js'
 
@@ -9,6 +9,7 @@ var qcfA = "236A"
 var ddA = "22A"
 var B5 = "5B"
 var B2 = "2B"
+var aB = "a.B"
 
 var myAttack1 = A5
 var myAttack2 = A5 
@@ -108,6 +109,8 @@ function animate(){
             update(player, stBone)
         }else if(myAttack1 == B2){
             update(player, crBone)
+        }else if(myAttack1 == aB){
+            update(player, aBone)
         }
     
         if (myAttack2 == aA){
@@ -125,6 +128,8 @@ function animate(){
             update(enemy, stBtwo)
         }else if(myAttack2 == B2){
             update(enemy, crBtwo)
+        }else if(myAttack2 == aB){
+            update(enemy, aBtwo)
         }
     
     
@@ -134,10 +139,6 @@ function animate(){
 
         //qcf qcb, etc
         checkSpecialInputs();
-
-
-        //console.log(SpecialInput1)
-        //console.log(player.side == "right" && SpecialInput1 == "214P" )
 
 //player--------------------------------------------------------------------------------------------------------
         if(keys.space.pressed && ((!player.unable || (player.velocity.y != 0 || player.jumpMaxPoint)))){
@@ -254,7 +255,10 @@ function animate(){
                 }
 
             }else if(keys.g.pressed){
-                if(player.agachado == true){
+                if(player.velocity.y != 0 || player.jumpMaxPoint){
+                    myAttack1 = aB
+                    attack(player,aBone)
+                }else if(player.agachado == true){
                     myAttack1 = B2
                     attack(player,crBone)
                 }else {
@@ -413,7 +417,10 @@ function animate(){
 
             //los saltos no son controlables en el aire
             }else if(keys.barra.pressed){
-                if(enemy.agachado == true){
+                if(enemy.velocity.y != 0 || enemy.jumpMaxPoint){
+                    myAttack2 = aB
+                    attack(enemy,aBtwo)
+                }else if(enemy.agachado == true){
                     enemy.velocity.x = 0
                     myAttack2 = B2
                     attack(enemy,crBtwo)
@@ -487,6 +494,11 @@ function animate(){
                 attackFunction(player, enemy, crBone)
             }
         }
+        if(myAttack1 == aB){
+            if (hitboxCollision({hitbox: aBone, Enemy: enemy})) {
+                attackFunction(player, enemy, aBone)
+            }
+        }
         if(myAttack1 == qcfA){
             if (hitboxCollision({hitbox: qcfAone, Enemy: enemy})) {
                 attackFunction(player, enemy, qcfAone)
@@ -522,6 +534,11 @@ function animate(){
         if(myAttack2 == B2){
             if (hitboxCollision({hitbox: crBtwo, Enemy: player})){
                 attackFunction(enemy,player,crBtwo)
+            }
+        }
+        if(myAttack2 == aB){
+            if (hitboxCollision({hitbox: aBtwo, Enemy: player})){
+                attackFunction(enemy,player,aBtwo)
             }
         }
         if(myAttack2 == qcfA){
