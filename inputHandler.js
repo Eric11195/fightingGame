@@ -238,6 +238,10 @@ export const KEYUP = window.addEventListener('keyup', (event) => {
             keys.f.pressed = false
             playerOneA = false
             break
+        case 'g':
+            keys.g.pressed = false
+            playerOneB = false
+            break
         case 's':
             keys.s.pressed = false
             playerOne2 = false
@@ -270,6 +274,10 @@ export const KEYUP = window.addEventListener('keyup', (event) => {
         case '.':
             keys.dot.pressed = false
             playerTwoA = false
+            break
+        case '-':
+            keys.barra.pressed = false
+            playerTwoB = false
             break
         case 'ArrowUp':
             keys.AU.pressed = false

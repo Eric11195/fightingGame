@@ -1,11 +1,11 @@
-const GRAVITY = 0.6
+const GRAVITY = 0.65
 export const speed = 4
 export const jumpForce = -15
 export const longJumpForce = -10
 export const highJumpForce = -20
 export const secondJumpForce = -12
 export const runSpeed = 16
-export const airRunSpeed = 20
+export const airRunSpeed = 10
 
 
 const canvas = document.querySelector("canvas")
@@ -104,7 +104,7 @@ export class Attack{
 
 
 export const stAone = new Attack({
-    attackClass: "MID",
+    attackClass: "HIGH",
     lowProfile: false,
 
     startup: 4,
@@ -130,7 +130,7 @@ export const stAone = new Attack({
 
 })
 export const stAtwo = new Attack({
-    attackClass: "MID",
+    attackClass: "HIGH",
     lowProfile: false,
 
     startup: 4,
@@ -359,6 +359,57 @@ export const ddAtwo = new Attack({
     damage:6,
     pushblock:30,
     pushhit:10, 
+})
+
+export const stBone = new Attack({
+    attackClass: "MID",
+    lowProfile: false,
+
+    startup: 9,
+    active: 5,
+    recovery: 15,
+
+    onHit: 5,
+    onBlock: 2,
+
+    position: {
+        x:0,
+        y:0
+    },
+    width:100,
+    height:100,
+    offset: {
+        x: 50,
+        y: 25,
+    },
+    damage:5,
+    pushblock:15,
+    pushhit:8, 
+})
+export const stBtwo = new Attack({
+    attackClass: "MID",
+    lowProfile: false,
+
+    startup: 9,
+    active: 5,
+    recovery: 15,
+
+    onHit: 5,
+    onBlock: 2,
+
+    position: {
+        x:0,
+        y:0
+    },
+    width:100,
+    height:100,
+    offset: {
+        x: 50,
+        y: 25,
+    },
+    damage:5,
+    pushblock:15,
+    pushhit:8, 
 })
 
 
@@ -602,16 +653,15 @@ export function checkWinner({player, enemy, timerId}){
 }
 
 export function airDash(character, direction){
-    character.velocity.y = 0
-    airDashRemains = true
-    setTimeout(airDashFinished, (20)*1000/FPS, character)
-    character.velocity.x -= 6*direction
+    character.velocity.y = -8
+    //airDashRemains = true
+    setTimeout(airDashFinished, (10)*1000/FPS, character)
+    character.velocity.x -= 3*direction
 }
 
 
-function airDashFinished(character){
+function airDashFinished(){
     airDashRemains = false
-    character.velocity.x = 0
     console.log('miau')
 }
 
