@@ -1,15 +1,17 @@
-import {FPS, player, enemy, speed, jumpForce, pDerecha, playerSide, xEnemyCollision, xPlayerCollision, minusxEnemyCollision, minusxPlayerCollision, hitboxCollision, attack, update, secondJumpForce, airDash, stAone, stAtwo, aAone ,aAtwo, crAone, crAtwo, qcfAone, qcfAtwo, ddAone, ddAtwo, stBone, stBtwo, crBone, crBtwo, aBone, aBtwo , timer, timerId, playing, checkWinner, decreaseTimer, runSpeed, longJumpForce, highJumpForce, airRunSpeed, Dash, DashRemains} from './charactersData.js'
+import {FPS, player, enemy, speed, jumpForce, pDerecha, playerSide, xEnemyCollision, xPlayerCollision, minusxEnemyCollision, minusxPlayerCollision, hitboxCollision, attack, update, secondJumpForce, airDash, stAone, stAtwo, aAone ,aAtwo, crAone, crAtwo, qcfAone, qcfAtwo, ddAone, ddAtwo, stBone, stBtwo, crBone, crBtwo, aBone, aBtwo, crstAone, crstAtwo, fBone, fBtwo , timer, timerId, playing, checkWinner, decreaseTimer, runSpeed, longJumpForce, highJumpForce, airRunSpeed, Dash, longJumpSpeed} from './charactersData.js'
 import {keys, p1InputBuffer, p2InputBuffer, checkSpecialInputs, getPlayerOneInput, getPlayerTwoInput, SpecialInput1, SpecialInput2, playerOneRunning, playerTwoRunning} from './inputHandler.js'
 import {canvas, c, CROUCHING, STANDING} from './System.js'
 
-var A5 = "5A"
-var aA = "a.A"
-var A2 = "2A"
-var qcfA = "236A"
-var ddA = "22A"
-var B5 = "5B"
-var B2 = "2B"
-var aB = "a.B"
+const A5 = "5A"
+const aA = "a.A"
+const A2 = "2A"
+const A3 = "3A"
+const qcfA = "236A"
+const ddA = "22A"
+const B5 = "5B"
+const B2 = "2B"
+const B6 = "6B"
+const aB = "a.B"
 
 var myAttack1 = A5
 var myAttack2 = A5 
@@ -105,12 +107,16 @@ function animate(){
             update(player, stAone)
         }else if(myAttack1 == A2){
             update(player, crAone)
+        }else if(myAttack1 == A3){
+            update(player, crstAone)
         }else if(myAttack1 == B5){
             update(player, stBone)
         }else if(myAttack1 == B2){
             update(player, crBone)
         }else if(myAttack1 == aB){
             update(player, aBone)
+        }else if(myAttack1 == B6){
+            update(player, fBone)
         }
     
         if (myAttack2 == aA){
@@ -122,26 +128,29 @@ function animate(){
         }else if(myAttack2 == A5){
             update(enemy, stAtwo)
         }else if(myAttack2 == A2){
-            //console.log(crAtwo.position.y)
             update(enemy, crAtwo)
+        }else if(myAttack2 == A3){
+            update(enemy, crstAtwo)
         }else if(myAttack2 == B5){
             update(enemy, stBtwo)
         }else if(myAttack2 == B2){
             update(enemy, crBtwo)
         }else if(myAttack2 == aB){
             update(enemy, aBtwo)
+        }else if(myAttack2 == B6){
+            update(enemy, fBtwo)
         }
     
     
 
 
     if(playing) {
-
+        console.log(player.agachado && ((keys.a.pressed && pDerecha == "der")|| (keys.d.pressed && pDerecha == "izq")))
         //qcf qcb, etc
         checkSpecialInputs();
 
 //player--------------------------------------------------------------------------------------------------------
-        if(keys.space.pressed && ((!player.unable || (player.velocity.y != 0 || player.jumpMaxPoint)))){
+        if(keys.space.pressed && ((!player.unable || player.DashRemains || (player.velocity.y != 0 || player.jumpMaxPoint)))){
             keys.space.pressed = false
             if (player.jumps.n > 0 ){
                 if (pDerecha == "izq"){
@@ -160,16 +169,16 @@ function animate(){
                 }else if (keys.a.pressed == true){
                     if(player.jumps.n == 2){
                         if(SpecialInput1 == "28"){
-                            if(playerOneRunning){
-                                player.velocity.x = -runSpeed
+                            if(player.DashRemains){
+                                player.velocity.x = -longJumpSpeed
                                 player.velocity.y = highJumpForce
                             }else {
                                 player.velocity.x = -speed
                                 player.velocity.y= highJumpForce
                             }
                         }else {
-                            if(playerOneRunning){
-                                player.velocity.x = -runSpeed
+                            if(player.DashRemains){
+                                player.velocity.x = -longJumpSpeed
                                 player.velocity.y = longJumpForce
                             }else {
                                 player.velocity.x = -speed
@@ -183,16 +192,16 @@ function animate(){
                 }else if (keys.d.pressed == true){
                     if(player.jumps.n == 2){
                         if(SpecialInput1 == "28"){
-                            if(playerOneRunning){
-                                player.velocity.x = runSpeed
+                            if(player.DashRemains){
+                                player.velocity.x = longJumpSpeed
                                 player.velocity.y = highJumpForce
                             }else {
                                 player.velocity.x = speed
                                 player.velocity.y= highJumpForce
                             }
                         } else {
-                            if(playerOneRunning){
-                                player.velocity.x = runSpeed
+                            if(player.DashRemains){
+                                player.velocity.x = longJumpSpeed
                                 player.velocity.y = longJumpForce
                             }else {
                                 player.velocity.x = speed
@@ -237,15 +246,18 @@ function animate(){
                 if(player.velocity.y != 0 || player.jumpMaxPoint){
                     myAttack1 = aA
                     attack(player,aAone)
+                }else if(player.agachado && ((keys.a.pressed && pDerecha == "der")|| (keys.d.pressed && pDerecha == "izq"))){
+                    myAttack1 = A3
+                    attack(player,crstAone)
                 }else if(SpecialInput1 == "22A"){
                     myAttack1 = ddA
                     attack(player,ddAone)
-                }else if((player.side == "right" && SpecialInput1 == "214P") || (player.side == "left" && SpecialInput1 == "236P")){
+                }else if((player.side == "right" && SpecialInput1 == "214A") || (player.side == "left" && SpecialInput1 == "236A")){
                     myAttack1 = qcfA
                     player.agachado = false
                     player.velocity.x = 0
                     attack(player, qcfAone)
-                }else if(player.agachado == true){
+                }else if(player.agachado){
                     myAttack1 = A2
                     attack(player,crAone)
                 }else{                    
@@ -258,11 +270,14 @@ function animate(){
                 if(player.velocity.y != 0 || player.jumpMaxPoint){
                     myAttack1 = aB
                     attack(player,aBone)
-                }else if(player.agachado == true){
+                }else if(player.agachado){
                     myAttack1 = B2
                     attack(player,crBone)
+                }else if((keys.d.pressed && pDerecha == "izq")|| (keys.a.pressed && pDerecha == "der")){
+                    player.velocity.x = 0
+                    myAttack1 = B6
+                    attack(player,fBone)
                 }else {
-                    console.log("miau")
                     attack(player,stBone)
                     player.velocity.x = 0
                     myAttack1 = B5
@@ -287,7 +302,7 @@ function animate(){
                     }else player.velocity.x = -speed
                 }
             } else if (!keys.d.pressed && !keys.a.pressed && !xPlayerCollision({ me: player, opponent: enemy}) && !minusxPlayerCollision({ Me: player, Opponent: enemy})) {
-                if(DashRemains == false){
+                if(!player.DashRemains){
                     player.velocity.x = 0
                 }
             }
@@ -296,7 +311,7 @@ function animate(){
 
 
 //enemy---------------------------------------------------------------------------------------------------------
-        if(keys.AU.pressed && ((!enemy.unable || (enemy.velocity.y != 0 || enemy.jumpMaxPoint)))){
+        if(keys.AU.pressed && ((!enemy.unable || enemy.DashRemains || (enemy.velocity.y != 0 || enemy.jumpMaxPoint)))){
             keys.AU.pressed = false
             if (enemy.jumps.n > 0 ){
                 if (pDerecha == "der"){
@@ -316,16 +331,16 @@ function animate(){
                 }else if (keys.AL.pressed){
                     if(enemy.jumps.n == 2){
                         if(SpecialInput2 == "28"){
-                            if(playerTwoRunning){
-                                enemy.velocity.x = -runSpeed
+                            if(enemy.DashRemains){
+                                enemy.velocity.x = -longJumpSpeed
                                 enemy.velocity.y = highJumpForce
                             }else {
                                 enemy.velocity.x = -speed
                                 enemy.velocity.y= highJumpForce
                             }
                         }else {
-                            if(playerTwoRunning){
-                                enemy.velocity.x = -runSpeed
+                            if(enemy.DashRemains){
+                                enemy.velocity.x = -longJumpSpeed
                                 enemy.velocity.y = longJumpForce
                             }else {
                                 enemy.velocity.x = -speed
@@ -339,16 +354,16 @@ function animate(){
                 }else if (keys.AR.pressed){
                     if(enemy.jumps.n == 2){
                         if(SpecialInput2 == "28"){
-                            if(playerTwoRunning){
-                                enemy.velocity.x = runSpeed
+                            if(enemy.DashRemains){
+                                enemy.velocity.x = longJumpSpeed
                                 enemy.velocity.y = highJumpForce
                             }else {
                                 enemy.velocity.x = speed
                                 enemy.velocity.y= highJumpForce
                             }
                         } else {
-                            if(playerTwoRunning){
-                                enemy.velocity.x = runSpeed
+                            if(enemy.DashRemains){
+                                enemy.velocity.x = longJumpSpeed
                                 enemy.velocity.y = longJumpForce
                             }else {
                                 enemy.velocity.x = speed
@@ -397,10 +412,13 @@ function animate(){
                 if(enemy.velocity.y != 0 || enemy.jumpMaxPoint){
                     myAttack2 = aA
                     attack(enemy,aAtwo)
+                }else if(enemy.agachado && ((keys.AR.pressed && pDerecha == "der")|| (keys.AL.pressed && pDerecha == "izq"))){
+                    myAttack2 = A3
+                    attack(enemy,crstAtwo)
                 }else if(SpecialInput2 == "22A"){
                     myAttack2 = ddA
                     attack(enemy,ddAtwo)
-                }else if((enemy.side == "right" && SpecialInput2 == "214P") || (enemy.side == "left" && SpecialInput2 == "236P")){
+                }else if((enemy.side == "right" && SpecialInput2 == "214A") || (enemy.side == "left" && SpecialInput2 == "236A")){
                     myAttack2 = qcfA
                     enemy.agachado = false
                     enemy.velocity.x = 0
@@ -424,6 +442,10 @@ function animate(){
                     enemy.velocity.x = 0
                     myAttack2 = B2
                     attack(enemy,crBtwo)
+                }else if((keys.AL.pressed && pDerecha == "izq")|| (keys.AR.pressed && pDerecha == "der")){
+                    enemy.velocity.x = 0
+                    myAttack2 = B6
+                    attack(enemy,fBone)
                 }else{
                     console.log("miau")
                     attack(enemy,stBtwo)
@@ -449,7 +471,7 @@ function animate(){
                     }else enemy.velocity.x = -speed
                 }
             } else if(!keys.AL.pressed && !keys.AR.pressed && !xEnemyCollision({ meE: enemy, opponentE: player})&& !minusxEnemyCollision({ MeE: enemy, OpponentE: player})) {
-                if(!DashRemains){
+                if(!enemy.DashRemains){
                     enemy.velocity.x = 0
                 }
             }
@@ -484,6 +506,11 @@ function animate(){
                 attackFunction(player, enemy, crAone)
             }
         }
+        if(myAttack1 == A3){
+            if (hitboxCollision({hitbox: crstAone ,Enemy: enemy})) {
+                attackFunction(player, enemy, crstAone)
+            }
+        }
         if(myAttack1 == B5){
             if (hitboxCollision({hitbox: stBone, Enemy: enemy})) {
                 attackFunction(player, enemy, stBone)
@@ -497,6 +524,11 @@ function animate(){
         if(myAttack1 == aB){
             if (hitboxCollision({hitbox: aBone, Enemy: enemy})) {
                 attackFunction(player, enemy, aBone)
+            }
+        }
+        if(myAttack1 == B6){
+            if (hitboxCollision({hitbox: fBone, Enemy: enemy})) {
+                attackFunction(player, enemy, fBone)
             }
         }
         if(myAttack1 == qcfA){
@@ -526,6 +558,11 @@ function animate(){
                 attackFunction(enemy,player,crAtwo)
             }
         }
+        if(myAttack2 == A3){
+            if (hitboxCollision({hitbox: crstAtwo, Enemy: player})){
+                attackFunction(enemy,player,crstAtwo)
+            }
+        }
         if(myAttack2 == B5){
             if (hitboxCollision({hitbox: stBtwo, Enemy: player})){
                 attackFunction(enemy,player,stBtwo)
@@ -539,6 +576,11 @@ function animate(){
         if(myAttack2 == aB){
             if (hitboxCollision({hitbox: aBtwo, Enemy: player})){
                 attackFunction(enemy,player,aBtwo)
+            }
+        }
+        if(myAttack2 == B6){
+            if (hitboxCollision({hitbox: fBtwo, Enemy: player})){
+                attackFunction(enemy,player,fBtwo)
             }
         }
         if(myAttack2 == qcfA){
@@ -575,7 +617,7 @@ function animate(){
 
 
 
-    if((player.velocity.y == 0 && enemy.velocity.y == 0) || (player.velocity.y != 0 && enemy.velocity.y != 0) || (player.velocity.y > 0 && enemy.velocity.y == 0) || (player.velocity.y == 0 && enemy.velocity.y > 0)){
+    if(!(player.DashRemains || enemy.DashRemains) &&((player.velocity.y == 0 && enemy.velocity.y == 0) || (player.velocity.y != 0 && enemy.velocity.y != 0) || (player.velocity.y > 0 && enemy.velocity.y == 0) || (player.velocity.y == 0 && enemy.velocity.y > 0))){
 
         if((xEnemyCollision({ meE: enemy, opponentE: player})&& minusxPlayerCollision({ Me: player, Opponent: enemy}))|| (xPlayerCollision({ me: player, opponent: enemy})&& minusxEnemyCollision({ MeE: enemy, OpponentE: player}) && !(keys.a.pressed || keys.AR.pressed || keys.d.pressed || player.velocity.y != 0 || player.jumpMaxPoint|| keys.AL.pressed || enemy.velocity.y != 0 || enemy.jumpMaxPoint))){
             player.velocity.x = 0

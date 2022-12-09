@@ -310,13 +310,18 @@ export function checkSpecialInputs(){
 
 
     if(depuredBuffer1.lastIndexOf("A") != -1 && depuredBuffer1.lastIndexOf(2) != -1 && depuredBuffer1.lastIndexOf(4) !=-1 && ((depuredBuffer1.lastIndexOf(4) == 1 + depuredBuffer1.lastIndexOf(2)) && (depuredBuffer1.lastIndexOf("A") == 1 + depuredBuffer1.lastIndexOf(4)))){
-        //console.log("214P")
-        SpecialInput1 = "214P"
+        //console.log("214A")
+        SpecialInput1 = "214A"
         p1InputBuffer.splice(0)
     }
     if(depuredBuffer1.lastIndexOf("A") != -1 && depuredBuffer1.lastIndexOf(2) != -1 && depuredBuffer1.lastIndexOf(6) !=-1 && ((depuredBuffer1.lastIndexOf(6) == 1 + depuredBuffer1.lastIndexOf(2)) && (depuredBuffer1.lastIndexOf("A") == 1 + depuredBuffer1.lastIndexOf(6)))){
-        //console.log("236P")
-        SpecialInput1 = "236P"
+        //console.log("236A")
+        SpecialInput1 = "236A"
+        p1InputBuffer.splice(0)
+    }
+    if(depuredBuffer1.lastIndexOf("B") != -1 && depuredBuffer1.lastIndexOf(2) != -1 && depuredBuffer1.lastIndexOf(6) !=-1 && ((depuredBuffer1.lastIndexOf(6) == 1 + depuredBuffer1.lastIndexOf(2)) && (depuredBuffer1.lastIndexOf("B") == 1 + depuredBuffer1.lastIndexOf(6)))){
+        //console.log("236B")
+        SpecialInput1 = "236B"
         p1InputBuffer.splice(0)
     }
     if(depuredBuffer1.lastIndexOf(6) != -1 && (6 == depuredBuffer1[depuredBuffer1.lastIndexOf(6)-1] )){
@@ -345,12 +350,22 @@ export function checkSpecialInputs(){
 
     if(depuredBuffer2.lastIndexOf("A") != -1 && depuredBuffer2.lastIndexOf(2) != -1 && depuredBuffer2.lastIndexOf(6) !=-1 && ((depuredBuffer2.lastIndexOf(6) == 1 + depuredBuffer2.lastIndexOf(2)) && (depuredBuffer2.lastIndexOf("A") == 1 + depuredBuffer2.lastIndexOf(6)))){
         //console.log("236E")
-        SpecialInput2 = "236P"
+        SpecialInput2 = "236A"
         p2InputBuffer.splice(0)
     }
     if(depuredBuffer2.lastIndexOf("A") != -1 && depuredBuffer2.lastIndexOf(2) != -1 && depuredBuffer2.lastIndexOf(4) !=-1 && ((depuredBuffer2.lastIndexOf(4) == 1 + depuredBuffer2.lastIndexOf(2)) && (depuredBuffer2.lastIndexOf("A") == 1 + depuredBuffer2.lastIndexOf(4)))){
         //console.log("214E")
-        SpecialInput2 = "214P"
+        SpecialInput2 = "214A"
+        p2InputBuffer.splice(0)
+    }
+    if(depuredBuffer2.lastIndexOf("B") != -1 && depuredBuffer2.lastIndexOf(2) != -1 && depuredBuffer2.lastIndexOf(4) !=-1 && ((depuredBuffer2.lastIndexOf(4) == 1 + depuredBuffer2.lastIndexOf(2)) && (depuredBuffer2.lastIndexOf("B") == 1 + depuredBuffer2.lastIndexOf(4)))){
+        //console.log("214E")
+        SpecialInput2 = "214B"
+        p2InputBuffer.splice(0)
+    }
+    if(depuredBuffer2.lastIndexOf("B") != -1 && depuredBuffer2.lastIndexOf(2) != -1 && depuredBuffer2.lastIndexOf(6) !=-1 && ((depuredBuffer2.lastIndexOf(6) == 1 + depuredBuffer2.lastIndexOf(2)) && (depuredBuffer2.lastIndexOf("B") == 1 + depuredBuffer2.lastIndexOf(6)))){
+        //console.log("214E")
+        SpecialInput2 = "236B"
         p2InputBuffer.splice(0)
     }
     if(depuredBuffer2.lastIndexOf(6) != -1 && (6 == depuredBuffer2[depuredBuffer2.lastIndexOf(6)-1] )){

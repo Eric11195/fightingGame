@@ -4,6 +4,7 @@ export const jumpForce = -15
 export const longJumpForce = -10
 export const highJumpForce = -20
 export const secondJumpForce = -12
+export const longJumpSpeed = 10
 export const runSpeed = 16
 export const airRunSpeed = 10
 
@@ -12,8 +13,6 @@ const canvas = document.querySelector("canvas")
 const c = canvas.getContext("2d")
 
 export var pDerecha = "izq"
-export var airDashRemains = false
-export var DashRemains = false
 
 export let timer = 60;
 export let timerId
@@ -24,7 +23,7 @@ export const FPS = 60;
 export class Sprite {
     //parametros iniciales de cualquier objeto que creemos de esta clase.
     //({}) --> el orden ya no importa pq son propiedades de un objeto y no son obligatorias
-    constructor({ position, velocity, jumps, color, side, perfectBlock, jumpMaxPoint, canvasContext, canvasRef, unable, blockType, blockState, framesBlocking, height, agachado, fakePosition, initAttack, blockStun}){
+    constructor({DashRemains, position, velocity, jumps, color, side, perfectBlock, jumpMaxPoint, canvasContext, canvasRef, unable, blockType, blockState, framesBlocking, height, agachado, fakePosition, initAttack, blockStun}){
         //creación de atributos del objeto
         this.canvasContext = canvasContext
         this.canvasRef = canvasRef
@@ -52,6 +51,7 @@ export class Sprite {
         this.blockStun = blockStun
         this.side = side
         this.perfectBlock = perfectBlock
+        this.DashRemains = DashRemains
     }
 
     //comprueba si se ha llegado a la posición de salto máx
@@ -253,6 +253,56 @@ export const crAtwo = new Attack({
     offset: {
         x: 30,
         y: 70,
+    },
+    damage:4,
+    pushblock:30,
+    pushhit:20, 
+})
+export const crstAone = new Attack({
+    attackClass: "OVERHEAD",
+    lowProfile: false,
+
+    startup: 23,
+    active: 2,
+    recovery: 12,
+
+    onHit: 1,
+    onBlock: -8,
+
+    position: {
+        x:0,
+        y:0
+    },
+    width:50,
+    height:50,
+    offset: {
+        x: 70,
+        y: 40,
+    },
+    damage:4,
+    pushblock:30,
+    pushhit:20, 
+})
+export const crstAtwo = new Attack({
+    attackClass: "OVERHEAD",
+    lowProfile: false,
+
+    startup: 23,
+    active: 2,
+    recovery: 17,
+
+    onHit: 1,
+    onBlock: -8,
+
+    position: {
+        x:0,
+        y:0
+    },
+    width:50,
+    height:50,
+    offset: {
+        x: 70,
+        y: 40,
     },
     damage:4,
     pushblock:30,
@@ -519,6 +569,60 @@ export const aBtwo = new Attack({
     pushblock:30,
     pushhit:20, 
 })
+export const fBone = new Attack({
+    attackClass: "HIGH",
+    lowProfile: false,
+
+    startup: 18,
+    active: 4,
+    recovery: 18,
+
+    onHit: 5,
+    onBlock: -7,
+
+    position: {
+        x:0,
+        y:0
+    },
+
+    width:230,
+    height:40,
+    offset: {
+        x: 50,
+        y:  20,
+    },
+
+    damage:4,
+    pushblock:40,
+    pushhit:30, 
+})
+export const fBtwo = new Attack({
+    attackClass: "HIGH",
+    lowProfile: false,
+
+    startup: 18,
+    active: 4,
+    recovery: 18,
+
+    onHit: 5,
+    onBlock: -7,
+
+    position: {
+        x:0,
+        y:0
+    },
+
+    width:230,
+    height:40,
+    offset: {
+        x: 50,
+        y:  20,
+    },
+
+    damage:4,
+    pushblock:40,
+    pushhit:30, 
+})
 
 
 //crear un objeto de la clase Sprite-->({})
@@ -713,7 +817,7 @@ export function update(who, move) {
         }
     } else {
         //this.offset.y = 110
-        if(!airDashRemains){
+        if(!who.airDashRemains){
             who.velocity.y += GRAVITY//aceleración en caida
         }
     }
@@ -762,27 +866,25 @@ export function checkWinner({player, enemy, timerId}){
 
 export function airDash(character, direction){
     character.velocity.y = -8
-    //airDashRemains = true
     setTimeout(airDashFinished, (10)*1000/FPS, character)
     character.velocity.x -= 3*direction
 }
 
 
-function airDashFinished(){
-    airDashRemains = false
+function airDashFinished(character){
     console.log('miau')
 }
 
 export function Dash(characterG, directionG){
     characterG.unable = true
     characterG.agachado = true
-    DashRemains = true
+    characterG.DashRemains = true
     setTimeout(DashFinished, (15)*1000/FPS, characterG)
     characterG.velocity.x -= 2*directionG
 }
 function DashFinished(characterG){
     characterG.unable = false
     characterG.agachado = false
-    DashRemains = false
+    characterG.DashRemains = false
     console.log('miau')
 }
