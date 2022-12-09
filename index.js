@@ -1,4 +1,4 @@
-import {FPS, player, enemy, speed, jumpForce, pDerecha, playerSide, xEnemyCollision, xPlayerCollision, minusxEnemyCollision, minusxPlayerCollision, hitboxCollision, attack, update, secondJumpForce, airDash, stAone, stAtwo, aAone ,aAtwo, crAone, crAtwo, qcfAone, qcfAtwo, ddAone, ddAtwo, stBone, stBtwo , timer, timerId, playing, checkWinner, decreaseTimer, runSpeed, longJumpForce, highJumpForce, airRunSpeed, Dash, DashRemains} from './charactersData.js'
+import {FPS, player, enemy, speed, jumpForce, pDerecha, playerSide, xEnemyCollision, xPlayerCollision, minusxEnemyCollision, minusxPlayerCollision, hitboxCollision, attack, update, secondJumpForce, airDash, stAone, stAtwo, aAone ,aAtwo, crAone, crAtwo, qcfAone, qcfAtwo, ddAone, ddAtwo, stBone, stBtwo, crBone, crBtwo , timer, timerId, playing, checkWinner, decreaseTimer, runSpeed, longJumpForce, highJumpForce, airRunSpeed, Dash, DashRemains} from './charactersData.js'
 import {keys, p1InputBuffer, p2InputBuffer, checkSpecialInputs, getPlayerOneInput, getPlayerTwoInput, SpecialInput1, SpecialInput2, playerOneRunning, playerTwoRunning} from './inputHandler.js'
 import {canvas, c, CROUCHING, STANDING} from './System.js'
 
@@ -8,6 +8,7 @@ var A2 = "2A"
 var qcfA = "236A"
 var ddA = "22A"
 var B5 = "5B"
+var B2 = "2B"
 
 var myAttack1 = A5
 var myAttack2 = A5 
@@ -105,6 +106,8 @@ function animate(){
             update(player, crAone)
         }else if(myAttack1 == B5){
             update(player, stBone)
+        }else if(myAttack1 == B2){
+            update(player, crBone)
         }
     
         if (myAttack2 == aA){
@@ -120,6 +123,8 @@ function animate(){
             update(enemy, crAtwo)
         }else if(myAttack2 == B5){
             update(enemy, stBtwo)
+        }else if(myAttack2 == B2){
+            update(enemy, crBtwo)
         }
     
     
@@ -249,10 +254,15 @@ function animate(){
                 }
 
             }else if(keys.g.pressed){
-                console.log("miau")
-                attack(player,stBone)
-                player.velocity.x = 0
-                myAttack1 = B5
+                if(player.agachado == true){
+                    myAttack1 = B2
+                    attack(player,crBone)
+                }else {
+                    console.log("miau")
+                    attack(player,stBone)
+                    player.velocity.x = 0
+                    myAttack1 = B5
+                }
                 //para no quedarte dentro del ENEMIGO, pero poder saltarr sin que pasen cosas raras
             }else if (player.velocity.y != 0 || player.jumpMaxPoint){
                 //los saltos no son controlables en el aire
@@ -403,10 +413,16 @@ function animate(){
 
             //los saltos no son controlables en el aire
             }else if(keys.barra.pressed){
-                console.log("miau")
-                attack(enemy,stBtwo)
-                enemy.velocity.x = 0
-                myAttack2 = B5
+                if(enemy.agachado == true){
+                    enemy.velocity.x = 0
+                    myAttack2 = B2
+                    attack(enemy,crBtwo)
+                }else{
+                    console.log("miau")
+                    attack(enemy,stBtwo)
+                    enemy.velocity.x = 0
+                    myAttack2 = B5
+                }
                 //para no quedarte dentro del ENEMIGO, pero poder saltarr sin que pasen cosas raras
             }else if (enemy.velocity.y != 0 || enemy.jumpMaxPoint){
             }else if (keys.AL.pressed && keys.AR.pressed){
@@ -466,6 +482,11 @@ function animate(){
                 attackFunction(player, enemy, stBone)
             }
         }
+        if(myAttack1 == B2){
+            if (hitboxCollision({hitbox: crBone, Enemy: enemy})) {
+                attackFunction(player, enemy, crBone)
+            }
+        }
         if(myAttack1 == qcfA){
             if (hitboxCollision({hitbox: qcfAone, Enemy: enemy})) {
                 attackFunction(player, enemy, qcfAone)
@@ -496,6 +517,11 @@ function animate(){
         if(myAttack2 == B5){
             if (hitboxCollision({hitbox: stBtwo, Enemy: player})){
                 attackFunction(enemy,player,stBtwo)
+            }
+        }
+        if(myAttack2 == B2){
+            if (hitboxCollision({hitbox: crBtwo, Enemy: player})){
+                attackFunction(enemy,player,crBtwo)
             }
         }
         if(myAttack2 == qcfA){

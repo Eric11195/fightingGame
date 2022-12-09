@@ -411,6 +411,60 @@ export const stBtwo = new Attack({
     pushblock:15,
     pushhit:8, 
 })
+export const crBone = new Attack({
+    attackClass: "LOW",
+    lowProfile: true,
+
+    startup: 16,
+    active: 5,
+    recovery: 36,
+
+    onHit: 40,
+    onBlock: -14,
+
+    position: {
+        x:0,
+        y:0
+    },
+
+    width:150,
+    height:40,
+    offset: {
+        x: 40,
+        y: 60,
+    },
+
+    damage:8,
+    pushblock:15,
+    pushhit:8, 
+})
+export const crBtwo = new Attack({
+    attackClass: "LOW",
+    lowProfile: true,
+
+    startup: 16,
+    active: 5,
+    recovery: 36,
+
+    onHit: 40,
+    onBlock: -14,
+
+    position: {
+        x:0,
+        y:0
+    },
+
+    width:150,
+    height:40,
+    offset: {
+        x: 40,
+        y: 60,
+    },
+    
+    damage:8,
+    pushblock:15,
+    pushhit:8, 
+})
 
 
 //crear un objeto de la clase Sprite-->({})
