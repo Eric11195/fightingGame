@@ -9,6 +9,7 @@ var playerOneA = false
 var playerOneB = false
 var playerOneInput
 export var playerOneRunning = false
+export var p1FramesCharging = false
 
 var playerTwo6 = false
 var playerTwo4 = false
@@ -17,6 +18,7 @@ var playerTwoA = false
 var playerTwoB = false
 var playerTwoInput
 export var playerTwoRunning = false
+export var p2FramesCharging = false
 
 export var SpecialInput1 = "none" 
 export var SpecialInput2 = "none" 
@@ -106,21 +108,25 @@ export const KEYDOWN = window.addEventListener('keydown', (event) => {
         case 'f':
             keys.f.pressed = true
             if(!playerOneA){
+                p1FramesCharging = true
                 //doble salto direccional
                 checkInputBufferLength()
                 p1InputBuffer.push("A")
                 playerOneInput = true
             }
+            //p1FramesCharging ++
             playerOneA = true
             break
         case 'g':
             keys.g.pressed = true
             if(!playerOneB){
+                p1FramesCharging = true
                 //doble salto direccional
                 checkInputBufferLength()
                 p1InputBuffer.push("B")
                 playerOneInput = true
             }
+            //p1FramesCharging ++
             playerOneB = true
             break
         case 's':
@@ -151,7 +157,6 @@ export const KEYDOWN = window.addEventListener('keydown', (event) => {
             //o sea que estamos pulsando esta tecla vamos
             keys.AR.pressed = true
             if(!playerTwo6){
-                //doble salto direccional
                 checkInputBufferLength()
                 p2InputBuffer.push(6)
                 playerTwoInput = true
@@ -161,7 +166,6 @@ export const KEYDOWN = window.addEventListener('keydown', (event) => {
         case 'ArrowLeft':
             keys.AL.pressed = true
             if(!playerTwo4){
-                //doble salto direccional
                 checkInputBufferLength()
                 p2InputBuffer.push(4)
                 playerTwoInput = true
@@ -171,7 +175,6 @@ export const KEYDOWN = window.addEventListener('keydown', (event) => {
         case 'ArrowDown':
             keys.AD.pressed = true
             if(!playerTwo2){
-                //doble salto direccional
                 checkInputBufferLength()
                 p2InputBuffer.push(2)
                 playerTwoInput = true
@@ -181,7 +184,7 @@ export const KEYDOWN = window.addEventListener('keydown', (event) => {
         case '.':
             keys.dot.pressed = true
             if(!playerTwoA){
-                //doble salto direccional
+                p2FramesCharging = true
                 checkInputBufferLength()
                 p2InputBuffer.push("A")
                 playerTwoInput = true
@@ -191,7 +194,7 @@ export const KEYDOWN = window.addEventListener('keydown', (event) => {
         case '-':
             keys.barra.pressed = true
             if(!playerTwoA){
-                //doble salto direccional
+                p2FramesCharging = true
                 checkInputBufferLength()
                 p2InputBuffer.push("B")
                 playerTwoInput = true
@@ -200,7 +203,6 @@ export const KEYDOWN = window.addEventListener('keydown', (event) => {
             break
         case 'ArrowUp':             
             if(!jumpingE){
-                //doble salto direccional
                 keys.AU.pressed = true 
                 checkInputBufferLength()
                 p2InputBuffer.push(8)
@@ -237,47 +239,42 @@ export const KEYUP = window.addEventListener('keyup', (event) => {
         case 'f':
             keys.f.pressed = false
             playerOneA = false
+            p1FramesCharging = false
             break
         case 'g':
             keys.g.pressed = false
             playerOneB = false
+            p1FramesCharging = false
             break
         case 's':
             keys.s.pressed = false
             playerOne2 = false
-            if(playerOneRunning){
+            /*if(playerOneRunning){
                 //playerOneRunning = false
-            }
+            }*/
             break
 
         case 'ArrowRight':
             keys.AR.pressed = false
             playerTwo6 = false
-            if(playerTwoRunning){
-                //playerTwoRunning = false
-            }
             break
         case 'ArrowLeft':
             keys.AL.pressed = false
             playerTwo4 = false
-            if(playerTwoRunning){
-                //playerTwoRunning = false
-            }
             break
         case 'ArrowDown':
             keys.AD.pressed = false
             playerTwo2 = false
-            if(playerTwoRunning){
-                //playerTwoRunning = false
-            }
             break
         case '.':
             keys.dot.pressed = false
             playerTwoA = false
+            p2FramesCharging = false
             break
         case '-':
             keys.barra.pressed = false
             playerTwoB = false
+            p2FramesCharging = false
             break
         case 'ArrowUp':
             keys.AU.pressed = false

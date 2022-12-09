@@ -23,7 +23,7 @@ export const FPS = 60;
 export class Sprite {
     //parametros iniciales de cualquier objeto que creemos de esta clase.
     //({}) --> el orden ya no importa pq son propiedades de un objeto y no son obligatorias
-    constructor({DashRemains, position, velocity, jumps, color, side, perfectBlock, jumpMaxPoint, canvasContext, canvasRef, unable, blockType, blockState, framesBlocking, height, agachado, fakePosition, initAttack, blockStun}){
+    constructor({DashRemains, FramesCharging, position, velocity, jumps, color, side, perfectBlock, jumpMaxPoint, canvasContext, canvasRef, unable, blockType, blockState, framesBlocking, height, agachado, fakePosition, initAttack, blockStun}){
         //creación de atributos del objeto
         this.canvasContext = canvasContext
         this.canvasRef = canvasRef
@@ -52,6 +52,7 @@ export class Sprite {
         this.side = side
         this.perfectBlock = perfectBlock
         this.DashRemains = DashRemains
+        this.FramesCharging = FramesCharging
     }
 
     //comprueba si se ha llegado a la posición de salto máx
@@ -308,16 +309,16 @@ export const crstAtwo = new Attack({
     pushblock:30,
     pushhit:20, 
 })
-export const qcfAone = new Attack({
+export const Alvl1one = new Attack({
     attackClass: "MID",
     lowProfile: false,
 
-    startup: 12,
+    startup: 5,
     active: 5,
     recovery: 20,
 
     onHit: 20,
-    onBlock: -7,
+    onBlock: -4,
 
     position: {
         x:0,
@@ -329,21 +330,21 @@ export const qcfAone = new Attack({
         x: 50,
         y: 0,
     },
-    damage:15,
+    damage:6,
     pushblock:80,
     pushhit:25, 
 })
 
-export const qcfAtwo = new Attack({
+export const Alvl1two = new Attack({
     attackClass: "MID",
     lowProfile: false,
 
-    startup: 12,
+    startup: 5,
     active: 5,
     recovery: 20,
 
     onHit: 20,
-    onBlock: -7,
+    onBlock: -4,
 
     position: {
         x:0,
@@ -355,9 +356,109 @@ export const qcfAtwo = new Attack({
         x: 50,
         y: 0,
     },
-    damage:15,
+    damage:6,
     pushblock:80,
     pushhit:25, 
+})
+export const Alvl2one = new Attack({
+    attackClass: "MID",
+    lowProfile: false,
+
+    startup: 2,
+    active: 5,
+    recovery: 20,
+
+    onHit: 40,
+    onBlock: 3,
+
+    position: {
+        x:0,
+        y:0
+    },
+    width:150,
+    height:120,
+    offset: {
+        x: 50,
+        y: 0,
+    },
+    damage:10,
+    pushblock:80,
+    pushhit:100, 
+})
+export const Alvl2two = new Attack({
+    attackClass: "MID",
+    lowProfile: false,
+
+    startup: 2,
+    active: 5,
+    recovery: 20,
+
+    onHit: 40,
+    onBlock: 3,
+
+    position: {
+        x:0,
+        y:0
+    },
+    width:150,
+    height:120,
+    offset: {
+        x: 50,
+        y: 0,
+    },
+    damage:10,
+    pushblock:80,
+    pushhit:100, 
+})
+export const Alvl3one = new Attack({
+    attackClass: "MID",
+    lowProfile: false,
+
+    startup: 1,
+    active: 5,
+    recovery: 30,
+
+    onHit: 40,
+    onBlock: 40,
+
+    position: {
+        x:0,
+        y:0
+    },
+    width:150,
+    height:120,
+    offset: {
+        x: 50,
+        y: 0,
+    },
+    damage:20,
+    pushblock:80,
+    pushhit:100, 
+})
+export const Alvl3two = new Attack({
+    attackClass: "MID",
+    lowProfile: false,
+
+    startup: 1,
+    active: 5,
+    recovery: 30,
+
+    onHit: 40,
+    onBlock: 40,
+
+    position: {
+        x:0,
+        y:0
+    },
+    width:150,
+    height:120,
+    offset: {
+        x: 50,
+        y: 0,
+    },
+    damage:20,
+    pushblock:80,
+    pushhit:100, 
 })
 
 export const ddAone = new Attack({
@@ -657,7 +758,8 @@ export const player = new Sprite({
     blockStun: false,
     side: "left",
     isAttacking: false,
-    perfectBlock: false
+    perfectBlock: false,
+    FramesCharging: 0
 })
 
 export const enemy = new Sprite({
@@ -691,7 +793,8 @@ export const enemy = new Sprite({
     blockStun: false,
     side: "right",
     isAttacking: false,
-    perfectBlock: false
+    perfectBlock: false,
+    FramesCharging: 0
 })
 
 //-----------------------------------------------------------------------------
