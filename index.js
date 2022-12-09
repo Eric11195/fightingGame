@@ -635,11 +635,15 @@ function animate(){
         player.velocity.x = 0
     }
 
-    if(player.unable) {
+    if(player.HKD){
+        player.color = "green"
+    }else if(player.unable) {
         player.color = "yellow"
     }else player.color = "blue"
 
-    if(enemy.unable) {
+    if(enemy.HKD){
+        enemy.color = "green"
+    }else if(enemy.unable) {
         enemy.color = "yellow"
     }else enemy.color = "red"
 
@@ -753,7 +757,7 @@ decreaseTimer()
 
 
 function attackFunction(goodGuy, badGuy, theAttack){
-    if(goodGuy.isAttacking && !(badGuy.agachado && theAttack.attackClass =="HIGH")){
+    if((goodGuy.isAttacking && !(badGuy.agachado && theAttack.attackClass =="HIGH")) && !badGuy.invulnerable){
         badGuy.velocity.x = 0
         badGuy.unable = true
         if (badGuy.blockState &&(theAttack.attackClass =="MID" || (badGuy.blockType == CROUCHING && theAttack.attackClass =="LOW") || (badGuy.blockType == STANDING && theAttack.attackClass =="OVERHEAD") || (theAttack.attackClass =="HIGH" && badGuy.blockType == STANDING))){ 
@@ -776,9 +780,24 @@ function attackFunction(goodGuy, badGuy, theAttack){
                 }else badGuy.fakePosition.x -= theAttack.pushblock
             }
 
-        }else {
+        }else{
             badGuy.health -= theAttack.damage
-            if(goodGuy == player){
+            if(theAttack.onHit == "HKD"){
+                badGuy.unable = true
+                setTimeout(knockedDown, (theAttack.active + theAttack.recovery)*1000/FPS, badGuy)
+                if(goodGuy == player){
+                    document.querySelector('#enemyHealth').style.width = badGuy.health + '%'
+                    if(pDerecha == "izq"){
+                        badGuy.fakePosition.x += theAttack.pushhit
+                    }else badGuy.fakePosition.x -= theAttack.pushhit
+                }else{
+                    document.querySelector('#playerHealth').style.width = badGuy.health + '%'
+                    if(pDerecha == "der"){
+                        badGuy.fakePosition.x += theAttack.pushhit
+                    }else badGuy.fakePosition.x -= theAttack.pushhit
+                }
+
+            }else if(goodGuy == player){
                 document.querySelector('#enemyHealth').style.width = badGuy.health + '%'
                 setTimeout(unableE, (theAttack.active + theAttack.recovery + theAttack.onHit)*1000/FPS)
                 if(pDerecha == "izq"){
@@ -799,11 +818,6 @@ function attackFunction(goodGuy, badGuy, theAttack){
         }
     }
 }
-
-
-
-
-
 
 function twoThreeSixPlayer(){
     if(!p1FramesCharging || player.FramesCharging > 120){
@@ -840,4 +854,8 @@ function twoThreeSixEnemy(){
         enemy.FramesCharging ++
     }
     
+}
+
+function knockedDown(who){
+    who.HKD = true
 }

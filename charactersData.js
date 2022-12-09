@@ -23,7 +23,7 @@ export const FPS = 60;
 export class Sprite {
     //parametros iniciales de cualquier objeto que creemos de esta clase.
     //({}) --> el orden ya no importa pq son propiedades de un objeto y no son obligatorias
-    constructor({DashRemains, FramesCharging, position, velocity, jumps, color, side, perfectBlock, jumpMaxPoint, canvasContext, canvasRef, unable, blockType, blockState, framesBlocking, height, agachado, fakePosition, initAttack, blockStun}){
+    constructor({invulnerable, HKD, DashRemains, FramesCharging, position, velocity, jumps, color, side, perfectBlock, jumpMaxPoint, canvasContext, canvasRef, unable, blockType, blockState, framesBlocking, height, agachado, fakePosition, initAttack, blockStun}){
         //creación de atributos del objeto
         this.canvasContext = canvasContext
         this.canvasRef = canvasRef
@@ -53,6 +53,8 @@ export class Sprite {
         this.perfectBlock = perfectBlock
         this.DashRemains = DashRemains
         this.FramesCharging = FramesCharging
+        this.HKD = HKD
+        this.invulnerable = invulnerable
     }
 
     //comprueba si se ha llegado a la posición de salto máx
@@ -80,7 +82,7 @@ export class Sprite {
 
 
 export class Attack{
-    constructor({attackClass, startup, active, recovery, position, width, height, offset, damage, pushblock, pushhit, onHit, onBlock, lowProfile}){
+    constructor({attackClass, startup, active, recovery, position, width, height, offset, damage, pushblock, pushhit, onHit, onBlock, lowProfile,forceApply, forceX, forceY}){
             this.attackClass = attackClass
             this.damage = damage
 
@@ -99,6 +101,9 @@ export class Attack{
             this.onBlock = onBlock
             this.onHit = onHit
             this.lowProfile = lowProfile
+            this.forceApply = forceApply
+            this.forceX = forceX
+            this.forceY = forceY
             }
 
 }
@@ -129,6 +134,10 @@ export const stAone = new Attack({
     pushblock:20,
     pushhit:15, 
 
+    forceApply: "air",
+    forceX:1,
+    forceY:-4
+
 })
 export const stAtwo = new Attack({
     attackClass: "HIGH",
@@ -154,6 +163,10 @@ export const stAtwo = new Attack({
     damage:5,
     pushblock:20,
     pushhit:15, 
+
+    forceApply: "air",
+    forceX:1,
+    forceY:-4
 
 })
 export const aAone = new Attack({
@@ -181,6 +194,10 @@ export const aAone = new Attack({
     pushblock:15,
     pushhit:5, 
 
+    forceApply: "air",
+    forceX:1,
+    forceY:-4
+
 })
 export const aAtwo = new Attack({
     attackClass: "OVERHEAD",
@@ -206,6 +223,10 @@ export const aAtwo = new Attack({
     damage:2,
     pushblock:15,
     pushhit:5, 
+
+    forceApply: "air",
+    forceX:1,
+    forceY:-4
 
 })
 
@@ -233,6 +254,10 @@ export const crAone = new Attack({
     damage:4,
     pushblock:30,
     pushhit:20, 
+
+    forceApply: "air",
+    forceX:2,
+    forceY:-5
 })
 export const crAtwo = new Attack({
     attackClass: "LOW",
@@ -258,6 +283,10 @@ export const crAtwo = new Attack({
     damage:4,
     pushblock:30,
     pushhit:20, 
+
+    forceApply: "air",
+    forceX:2,
+    forceY:-5
 })
 export const crstAone = new Attack({
     attackClass: "OVERHEAD",
@@ -283,6 +312,10 @@ export const crstAone = new Attack({
     damage:4,
     pushblock:30,
     pushhit:20, 
+
+    forceApply: "air",
+    forceX:1,
+    forceY:"GB"
 })
 export const crstAtwo = new Attack({
     attackClass: "OVERHEAD",
@@ -308,6 +341,10 @@ export const crstAtwo = new Attack({
     damage:4,
     pushblock:30,
     pushhit:20, 
+
+    forceApply: "air",
+    forceX:1,
+    forceY:"GB"
 })
 export const Alvl1one = new Attack({
     attackClass: "MID",
@@ -317,7 +354,7 @@ export const Alvl1one = new Attack({
     active: 5,
     recovery: 20,
 
-    onHit: 20,
+    onHit: "HKD",
     onBlock: -4,
 
     position: {
@@ -333,6 +370,10 @@ export const Alvl1one = new Attack({
     damage:6,
     pushblock:80,
     pushhit:25, 
+
+    forceApply: "air",
+    forceX:2,
+    forceY:2
 })
 
 export const Alvl1two = new Attack({
@@ -343,7 +384,7 @@ export const Alvl1two = new Attack({
     active: 5,
     recovery: 20,
 
-    onHit: 20,
+    onHit: "HKD",
     onBlock: -4,
 
     position: {
@@ -359,6 +400,10 @@ export const Alvl1two = new Attack({
     damage:6,
     pushblock:80,
     pushhit:25, 
+
+    forceApply: "air",
+    forceX:2,
+    forceY:2
 })
 export const Alvl2one = new Attack({
     attackClass: "MID",
@@ -368,7 +413,7 @@ export const Alvl2one = new Attack({
     active: 5,
     recovery: 20,
 
-    onHit: 40,
+    onHit: "HKD",
     onBlock: 3,
 
     position: {
@@ -384,6 +429,10 @@ export const Alvl2one = new Attack({
     damage:10,
     pushblock:80,
     pushhit:100, 
+
+    forceApply: "air",
+    forceX:2,
+    forceY:3
 })
 export const Alvl2two = new Attack({
     attackClass: "MID",
@@ -393,7 +442,7 @@ export const Alvl2two = new Attack({
     active: 5,
     recovery: 20,
 
-    onHit: 40,
+    onHit: "HKD",
     onBlock: 3,
 
     position: {
@@ -409,6 +458,10 @@ export const Alvl2two = new Attack({
     damage:10,
     pushblock:80,
     pushhit:100, 
+
+    forceApply: "air",
+    forceX:2,
+    forceY:3
 })
 export const Alvl3one = new Attack({
     attackClass: "MID",
@@ -418,7 +471,7 @@ export const Alvl3one = new Attack({
     active: 5,
     recovery: 30,
 
-    onHit: 40,
+    onHit: "HKD",
     onBlock: 40,
 
     position: {
@@ -434,6 +487,10 @@ export const Alvl3one = new Attack({
     damage:20,
     pushblock:80,
     pushhit:100, 
+
+    forceApply: "air",
+    forceX:2,
+    forceY:"GB"
 })
 export const Alvl3two = new Attack({
     attackClass: "MID",
@@ -443,7 +500,7 @@ export const Alvl3two = new Attack({
     active: 5,
     recovery: 30,
 
-    onHit: 40,
+    onHit: "HKD",
     onBlock: 40,
 
     position: {
@@ -459,6 +516,10 @@ export const Alvl3two = new Attack({
     damage:20,
     pushblock:80,
     pushhit:100, 
+
+    forceApply: "air",
+    forceX:2,
+    forceY:"GB"
 })
 
 export const ddAone = new Attack({
@@ -469,7 +530,7 @@ export const ddAone = new Attack({
     active: 4,
     recovery: 18,
 
-    onHit: 40,
+    onHit: "HKD",
     onBlock: -12,
 
     position: {
@@ -485,6 +546,10 @@ export const ddAone = new Attack({
     damage:6,
     pushblock:30,
     pushhit:10, 
+
+    forceApply: "ground",
+    forceX:4,
+    forceY:-26
 })
 export const ddAtwo = new Attack({
     attackClass: "MID",
@@ -510,6 +575,10 @@ export const ddAtwo = new Attack({
     damage:6,
     pushblock:30,
     pushhit:10, 
+
+    forceApply: "ground",
+    forceX:4,
+    forceY:-26
 })
 
 export const stBone = new Attack({
@@ -536,6 +605,10 @@ export const stBone = new Attack({
     damage:5,
     pushblock:15,
     pushhit:8, 
+
+    forceApply: "air",
+    forceX:3,
+    forceY:-7
 })
 export const stBtwo = new Attack({
     attackClass: "MID",
@@ -561,6 +634,10 @@ export const stBtwo = new Attack({
     damage:5,
     pushblock:15,
     pushhit:8, 
+
+    forceApply: "air",
+    forceX:3,
+    forceY:-7
 })
 export const crBone = new Attack({
     attackClass: "LOW",
@@ -568,9 +645,9 @@ export const crBone = new Attack({
 
     startup: 16,
     active: 7,
-    recovery: 36,
+    recovery: 15,
 
-    onHit: 40,
+    onHit: "HKD",
     onBlock: -14,
 
     position: {
@@ -588,6 +665,10 @@ export const crBone = new Attack({
     damage:8,
     pushblock:15,
     pushhit:8, 
+
+    forceApply: "air",
+    forceX:3,
+    forceY:5
 })
 export const crBtwo = new Attack({
     attackClass: "LOW",
@@ -597,7 +678,7 @@ export const crBtwo = new Attack({
     active: 7,
     recovery: 36,
 
-    onHit: 40,
+    onHit: "HKD",
     onBlock: -14,
 
     position: {
@@ -615,6 +696,10 @@ export const crBtwo = new Attack({
     damage:8,
     pushblock:15,
     pushhit:8, 
+
+    forceApply: "air",
+    forceX:3,
+    forceY:5
 })
 export const aBone = new Attack({
     attackClass: "OVERHEAD",
@@ -642,6 +727,10 @@ export const aBone = new Attack({
     damage:4,
     pushblock:30,
     pushhit:20, 
+
+    forceApply: "air",
+    forceX:4,
+    forceY:-20
 })
 export const aBtwo = new Attack({
     attackClass: "OVERHEAD",
@@ -669,6 +758,10 @@ export const aBtwo = new Attack({
     damage:4,
     pushblock:30,
     pushhit:20, 
+
+    forceApply: "air",
+    forceX:4,
+    forceY:-20
 })
 export const fBone = new Attack({
     attackClass: "HIGH",
@@ -696,6 +789,10 @@ export const fBone = new Attack({
     damage:4,
     pushblock:40,
     pushhit:30, 
+
+    forceApply: "air",
+    forceX:10,
+    forceY:2
 })
 export const fBtwo = new Attack({
     attackClass: "HIGH",
@@ -723,6 +820,10 @@ export const fBtwo = new Attack({
     damage:4,
     pushblock:40,
     pushhit:30, 
+
+    forceApply: "air",
+    forceX:10,
+    forceY:2
 })
 
 
@@ -759,7 +860,9 @@ export const player = new Sprite({
     side: "left",
     isAttacking: false,
     perfectBlock: false,
-    FramesCharging: 0
+    FramesCharging: 0,
+    HKD: false,
+    invulnerable: false
 })
 
 export const enemy = new Sprite({
@@ -794,7 +897,9 @@ export const enemy = new Sprite({
     side: "right",
     isAttacking: false,
     perfectBlock: false,
-    FramesCharging: 0
+    FramesCharging: 0,
+    HKD: false,
+    invulnerable: false
 })
 
 //-----------------------------------------------------------------------------
@@ -865,9 +970,6 @@ function ACTIVE(who){
 }
 
 function RECOVERY(who){
-    /*if (who == player){
-        console.log("recuperao1")
-    }else console.log("recuperao2")*/
     who.unable = false
     who.myAttack = "none"
     who.agachado = false
@@ -903,6 +1005,11 @@ export function update(who, move) {
         who.position.y = who.canvasRef.height - who.height
         who.jumps.n = 2
         who.fakePosition.y = 476
+        if(who.HKD){
+            who.invulnerable = true
+            who.unable = true
+            setTimeout(HardKnockDown, (52)*1000/FPS, who)
+        }
         playerSide()
         if(who == player){
             if(pDerecha == "der"){
@@ -969,14 +1076,14 @@ export function checkWinner({player, enemy, timerId}){
 
 export function airDash(character, direction){
     character.velocity.y = -8
-    setTimeout(airDashFinished, (10)*1000/FPS, character)
+    //setTimeout(airDashFinished, (10)*1000/FPS, character)
     character.velocity.x -= 3*direction
 }
 
 
-function airDashFinished(character){
+/*function airDashFinished(character){
     console.log('miau')
-}
+}*/
 
 export function Dash(characterG, directionG){
     characterG.unable = true
@@ -990,4 +1097,10 @@ function DashFinished(characterG){
     characterG.agachado = false
     characterG.DashRemains = false
     console.log('miau')
+}
+
+function HardKnockDown(character){
+    character.invulnerable = false
+    character.unable = false
+    character.HKD = false
 }
