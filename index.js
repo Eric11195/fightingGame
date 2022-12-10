@@ -155,7 +155,9 @@ function animate(){
 
 
     if(playing) {
-        console.log(player.FramesCharging)
+        console.log(enemy.SKD)
+        console.log(player.HKD)
+
         // qcb, etc
         checkSpecialInputs();
 
@@ -263,7 +265,6 @@ function animate(){
                     myAttack1 = ddA
                     attack(player,ddAone)
                 }else if((player.side == "right" && SpecialInput1 == "214A") || (player.side == "left" && SpecialInput1 == "236A")){
-                    player.FramesCharging = 0
                     player.agachado = false
                     player.velocity.x = 0
                     player.unable = true
@@ -430,7 +431,6 @@ function animate(){
                     myAttack2 = ddA
                     attack(enemy,ddAtwo)
                 }else if((enemy.side == "right" && SpecialInput2 == "214A") || (enemy.side == "left" && SpecialInput2 == "236A")){
-                    enemy.FramesCharging = 0
                     enemy.agachado = false
                     enemy.velocity.x = 0
                     enemy.unable = true
@@ -637,18 +637,28 @@ function animate(){
 
     if(player.HKD){
         player.color = "green"
+    }else if(player.SKD) {
+        player.color = "purple"
     }else if(player.unable) {
         player.color = "yellow"
+    }if(player.FramesCharging  > 60){
+        player.color = "grey"
+    }else if(player.FramesCharging  > 25){
+        player.color = "magenta"
+    }else if(player.FramesCharging  <= 25 && player.FramesCharging  != 0){
+        player.color = "violet"
     }else player.color = "blue"
 
     if(enemy.HKD){
         enemy.color = "green"
+    }else if(enemy.SKD) {
+        enemy.color = "purple"
     }else if(enemy.unable) {
         enemy.color = "yellow"
     }else enemy.color = "red"
 
 
-    console.log(SpecialInput1)
+    //console.log(SpecialInput1)
 
 
 
@@ -760,7 +770,7 @@ function attackFunction(goodGuy, badGuy, theAttack){
     if((goodGuy.isAttacking && !(badGuy.agachado && theAttack.attackClass =="HIGH")) && !badGuy.invulnerable){
         badGuy.velocity.x = 0
         badGuy.unable = true
-        if (badGuy.blockState &&(theAttack.attackClass =="MID" || (badGuy.blockType == CROUCHING && theAttack.attackClass =="LOW") || (badGuy.blockType == STANDING && theAttack.attackClass =="OVERHEAD") || (theAttack.attackClass =="HIGH" && badGuy.blockType == STANDING))){ 
+        if (badGuy.blockState && !theAttackClass=="UNBLOCKABLE" &&((badGuy.velocity.y != 0 || badGuy.jumpMaxPoint)|| (theAttack.attackClass =="MID" || (badGuy.blockType == CROUCHING && theAttack.attackClass =="LOW") || (badGuy.blockType == STANDING && theAttack.attackClass =="OVERHEAD") || (theAttack.attackClass =="HIGH" && badGuy.blockType == STANDING)))){ 
             if(badGuy.perfectBlock){
                 badGuy.health += 3
             }else{
@@ -782,9 +792,49 @@ function attackFunction(goodGuy, badGuy, theAttack){
 
         }else{
             badGuy.health -= theAttack.damage
+            badGuy.unable = true
+            if(((theAttack.forceApply == "air") && (badGuy.velocity.y != 0 || badGuy.jumpMaxPoint)) || ((theAttack.forceApply == "ground") && !(badGuy.velocity.y != 0 || badGuy.jumpMaxPoint))){
+                if(theAttack.onHit != "HKD"){
+                    badGuy.SKD = true
+                    badGuy.HKD = false
+                }else{
+                    badGuy.SKD = false
+                    badGuy.HKD = true
+                }
+                badGuy.velocity.y = theAttack.forceY * (badGuy.juggleMultiplier/100)
+                badGuy.juggleMultiplier += theAttack.juggleValue
+                if(pDerecha == "izq"){
+                    if(badGuy == enemy){
+                        badGuy.velocity.x = theAttack.forceX
+                    }else{
+                        badGuy.velocity.x = -theAttack.forceX
+                    }
+                }else{
+                    if(badGuy == player){
+                        badGuy.velocity.x = theAttack.forceX
+                    }else{
+                        badGuy.velocity.x = -theAttack.forceX
+                    }
+                }
+            }
             if(theAttack.onHit == "HKD"){
-                badGuy.unable = true
-                setTimeout(knockedDown, (theAttack.active + theAttack.recovery)*1000/FPS, badGuy)
+                //badGuy.unable = true
+                setTimeout(hardKnockedDown, (theAttack.active + theAttack.recovery)*1000/FPS, badGuy)
+                if(goodGuy == player){
+                    document.querySelector('#enemyHealth').style.width = badGuy.health + '%'
+                    if(pDerecha == "izq"){
+                        badGuy.fakePosition.x += theAttack.pushhit
+                    }else badGuy.fakePosition.x -= theAttack.pushhit
+                }else{
+                    document.querySelector('#playerHealth').style.width = badGuy.health + '%'
+                    if(pDerecha == "der"){
+                        badGuy.fakePosition.x += theAttack.pushhit
+                    }else badGuy.fakePosition.x -= theAttack.pushhit
+                }
+
+            }else if(theAttack.onHit == "SKD"){
+                //badGuy.unable = true
+                setTimeout(softKnockedDown, (theAttack.active + theAttack.recovery)*1000/FPS, badGuy)
                 if(goodGuy == player){
                     document.querySelector('#enemyHealth').style.width = badGuy.health + '%'
                     if(pDerecha == "izq"){
@@ -831,6 +881,7 @@ function twoThreeSixPlayer(){
             attack(player, Alvl1one)
             myAttack1 = qcfA1
         }
+        player.FramesCharging = 0
     }else if(p1FramesCharging){
         setTimeout (twoThreeSixPlayer, 1000/FPS)
         player.FramesCharging ++
@@ -849,6 +900,7 @@ function twoThreeSixEnemy(){
             attack(enemy, Alvl1two)
             myAttack2 = qcfA1
         }
+        enemy.FramesCharging = 0
     }else if(p2FramesCharging){
         setTimeout (twoThreeSixEnemy, 1000/FPS)
         enemy.FramesCharging ++
@@ -856,6 +908,10 @@ function twoThreeSixEnemy(){
     
 }
 
-function knockedDown(who){
+function hardKnockedDown(who){
     who.HKD = true
+}
+
+function softKnockedDown(who){
+    who.SKD = true
 }

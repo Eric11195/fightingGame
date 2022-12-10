@@ -23,7 +23,7 @@ export const FPS = 60;
 export class Sprite {
     //parametros iniciales de cualquier objeto que creemos de esta clase.
     //({}) --> el orden ya no importa pq son propiedades de un objeto y no son obligatorias
-    constructor({invulnerable, HKD, DashRemains, FramesCharging, position, velocity, jumps, color, side, perfectBlock, jumpMaxPoint, canvasContext, canvasRef, unable, blockType, blockState, framesBlocking, height, agachado, fakePosition, initAttack, blockStun}){
+    constructor({juggleMultiplier, invulnerable,SKD, HKD, DashRemains, FramesCharging, position, velocity, jumps, color, side, perfectBlock, jumpMaxPoint, canvasContext, canvasRef, unable, blockType, blockState, framesBlocking, height, agachado, fakePosition, initAttack, blockStun}){
         //creación de atributos del objeto
         this.canvasContext = canvasContext
         this.canvasRef = canvasRef
@@ -54,7 +54,9 @@ export class Sprite {
         this.DashRemains = DashRemains
         this.FramesCharging = FramesCharging
         this.HKD = HKD
+        this.SKD = SKD
         this.invulnerable = invulnerable
+        this.juggleMultiplier = juggleMultiplier
     }
 
     //comprueba si se ha llegado a la posición de salto máx
@@ -65,14 +67,14 @@ export class Sprite {
     }
 
     wallCollision(){
-        if(!this.unable){
+        //if(!this.unable){
             if(this.fakePosition.x < speed){
                 this.fakePosition.x = speed
             }
             if(this.fakePosition.x > (1024 - this.width - speed)){
                 this.fakePosition.x = 1024 - speed - this.width
             }
-        }
+        //}
     }
 
     //para dibujar las cosas en la posición actualizada
@@ -82,7 +84,7 @@ export class Sprite {
 
 
 export class Attack{
-    constructor({attackClass, startup, active, recovery, position, width, height, offset, damage, pushblock, pushhit, onHit, onBlock, lowProfile,forceApply, forceX, forceY}){
+    constructor({juggleValue, attackClass, startup, active, recovery, position, width, height, offset, damage, pushblock, pushhit, onHit, onBlock, lowProfile,forceApply, forceX, forceY}){
             this.attackClass = attackClass
             this.damage = damage
 
@@ -104,6 +106,7 @@ export class Attack{
             this.forceApply = forceApply
             this.forceX = forceX
             this.forceY = forceY
+            this.juggleValue = juggleValue
             }
 
 }
@@ -136,7 +139,8 @@ export const stAone = new Attack({
 
     forceApply: "air",
     forceX:1,
-    forceY:-4
+    forceY:-4,
+    juggleValue: -15
 
 })
 export const stAtwo = new Attack({
@@ -166,7 +170,8 @@ export const stAtwo = new Attack({
 
     forceApply: "air",
     forceX:1,
-    forceY:-4
+    forceY:-4,
+    juggleValue: -15
 
 })
 export const aAone = new Attack({
@@ -196,7 +201,8 @@ export const aAone = new Attack({
 
     forceApply: "air",
     forceX:1,
-    forceY:-4
+    forceY:-4,
+    juggleValue: -5
 
 })
 export const aAtwo = new Attack({
@@ -226,7 +232,8 @@ export const aAtwo = new Attack({
 
     forceApply: "air",
     forceX:1,
-    forceY:-4
+    forceY:-4,
+    juggleValue: -5
 
 })
 
@@ -257,7 +264,8 @@ export const crAone = new Attack({
 
     forceApply: "air",
     forceX:2,
-    forceY:-5
+    forceY:-5,
+    juggleValue: -7
 })
 export const crAtwo = new Attack({
     attackClass: "LOW",
@@ -286,7 +294,8 @@ export const crAtwo = new Attack({
 
     forceApply: "air",
     forceX:2,
-    forceY:-5
+    forceY:-5,
+    juggleValue: -7
 })
 export const crstAone = new Attack({
     attackClass: "OVERHEAD",
@@ -315,7 +324,8 @@ export const crstAone = new Attack({
 
     forceApply: "air",
     forceX:1,
-    forceY:"GB"
+    forceY:"GB",
+    juggleValue: -10
 })
 export const crstAtwo = new Attack({
     attackClass: "OVERHEAD",
@@ -344,7 +354,8 @@ export const crstAtwo = new Attack({
 
     forceApply: "air",
     forceX:1,
-    forceY:"GB"
+    forceY:"GB",
+    juggleValue: -10
 })
 export const Alvl1one = new Attack({
     attackClass: "MID",
@@ -354,7 +365,7 @@ export const Alvl1one = new Attack({
     active: 5,
     recovery: 20,
 
-    onHit: "HKD",
+    onHit: "SKD",
     onBlock: -4,
 
     position: {
@@ -368,12 +379,12 @@ export const Alvl1one = new Attack({
         y: 0,
     },
     damage:6,
-    pushblock:80,
+    pushblock:40,
     pushhit:25, 
 
     forceApply: "air",
     forceX:2,
-    forceY:2
+    forceY:2,
 })
 
 export const Alvl1two = new Attack({
@@ -384,7 +395,7 @@ export const Alvl1two = new Attack({
     active: 5,
     recovery: 20,
 
-    onHit: "HKD",
+    onHit: "SKD",
     onBlock: -4,
 
     position: {
@@ -398,7 +409,7 @@ export const Alvl1two = new Attack({
         y: 0,
     },
     damage:6,
-    pushblock:80,
+    pushblock:40,
     pushhit:25, 
 
     forceApply: "air",
@@ -427,8 +438,8 @@ export const Alvl2one = new Attack({
         y: 0,
     },
     damage:10,
-    pushblock:80,
-    pushhit:100, 
+    pushblock:60,
+    pushhit:20, 
 
     forceApply: "air",
     forceX:2,
@@ -456,15 +467,15 @@ export const Alvl2two = new Attack({
         y: 0,
     },
     damage:10,
-    pushblock:80,
-    pushhit:100, 
+    pushblock:60,
+    pushhit:20, 
 
     forceApply: "air",
     forceX:2,
     forceY:3
 })
 export const Alvl3one = new Attack({
-    attackClass: "MID",
+    attackClass: "UNBLOCKABLE",
     lowProfile: false,
 
     startup: 1,
@@ -484,16 +495,17 @@ export const Alvl3one = new Attack({
         x: 50,
         y: 0,
     },
-    damage:20,
-    pushblock:80,
+    damage:12,
+    //pushblock:80,
     pushhit:100, 
 
     forceApply: "air",
     forceX:2,
-    forceY:"GB"
+    forceY:"GB",
+    juggleValue: 0
 })
 export const Alvl3two = new Attack({
-    attackClass: "MID",
+    attackClass: "UNBLOCKABLE",
     lowProfile: false,
 
     startup: 1,
@@ -513,13 +525,14 @@ export const Alvl3two = new Attack({
         x: 50,
         y: 0,
     },
-    damage:20,
-    pushblock:80,
-    pushhit:100, 
+    damage:12,
+    //pushblock:80,
+    pushhit:30, 
 
     forceApply: "air",
     forceX:2,
-    forceY:"GB"
+    forceY:"GB",
+    juggleValue: 0
 })
 
 export const ddAone = new Attack({
@@ -548,8 +561,9 @@ export const ddAone = new Attack({
     pushhit:10, 
 
     forceApply: "ground",
-    forceX:4,
-    forceY:-26
+    forceX:1,
+    forceY:-15,
+    juggleValue: 0
 })
 export const ddAtwo = new Attack({
     attackClass: "MID",
@@ -577,8 +591,9 @@ export const ddAtwo = new Attack({
     pushhit:10, 
 
     forceApply: "ground",
-    forceX:4,
-    forceY:-26
+    forceX:1,
+    forceY:-15,
+    juggleValue: 0
 })
 
 export const stBone = new Attack({
@@ -608,7 +623,8 @@ export const stBone = new Attack({
 
     forceApply: "air",
     forceX:3,
-    forceY:-7
+    forceY:-7,
+    juggleValue: -3
 })
 export const stBtwo = new Attack({
     attackClass: "MID",
@@ -637,7 +653,8 @@ export const stBtwo = new Attack({
 
     forceApply: "air",
     forceX:3,
-    forceY:-7
+    forceY:-7,
+    juggleValue: -3
 })
 export const crBone = new Attack({
     attackClass: "LOW",
@@ -729,8 +746,9 @@ export const aBone = new Attack({
     pushhit:20, 
 
     forceApply: "air",
-    forceX:4,
-    forceY:-20
+    forceX:2,
+    forceY:-18,
+    juggleValue: -20
 })
 export const aBtwo = new Attack({
     attackClass: "OVERHEAD",
@@ -760,8 +778,9 @@ export const aBtwo = new Attack({
     pushhit:20, 
 
     forceApply: "air",
-    forceX:4,
-    forceY:-20
+    forceX:2,
+    forceY:-18,
+    juggleValue: -20
 })
 export const fBone = new Attack({
     attackClass: "HIGH",
@@ -792,7 +811,7 @@ export const fBone = new Attack({
 
     forceApply: "air",
     forceX:10,
-    forceY:2
+    forceY:5
 })
 export const fBtwo = new Attack({
     attackClass: "HIGH",
@@ -823,7 +842,7 @@ export const fBtwo = new Attack({
 
     forceApply: "air",
     forceX:10,
-    forceY:2
+    forceY:5
 })
 
 
@@ -862,7 +881,9 @@ export const player = new Sprite({
     perfectBlock: false,
     FramesCharging: 0,
     HKD: false,
-    invulnerable: false
+    SKD: false,
+    invulnerable: false,
+    juggleMultiplier: 100
 })
 
 export const enemy = new Sprite({
@@ -899,7 +920,9 @@ export const enemy = new Sprite({
     perfectBlock: false,
     FramesCharging: 0,
     HKD: false,
-    invulnerable: false
+    SKD: false,
+    invulnerable: false,
+    juggleMultiplier: 100
 })
 
 //-----------------------------------------------------------------------------
@@ -1006,9 +1029,17 @@ export function update(who, move) {
         who.jumps.n = 2
         who.fakePosition.y = 476
         if(who.HKD){
+            who.juggleMultiplier = 100
+            who.velocity.x = 0
             who.invulnerable = true
             who.unable = true
-            setTimeout(HardKnockDown, (52)*1000/FPS, who)
+            setTimeout(GetUpKnockDown, (52)*1000/FPS, who)
+        }else if(who.SKD){
+            who.juggleMultiplier = 100
+            who.velocity.x = 0
+            who.invulnerable = true
+            who.unable = true
+            setTimeout(GetUpKnockDown, (15)*1000/FPS, who)
         }
         playerSide()
         if(who == player){
@@ -1026,7 +1057,6 @@ export function update(who, move) {
             }
         }
     } else {
-        //this.offset.y = 110
         if(!who.airDashRemains){
             who.velocity.y += GRAVITY//aceleración en caida
         }
@@ -1099,8 +1129,9 @@ function DashFinished(characterG){
     console.log('miau')
 }
 
-function HardKnockDown(character){
+function GetUpKnockDown(character){
     character.invulnerable = false
     character.unable = false
     character.HKD = false
+    character.SKD = false
 }
