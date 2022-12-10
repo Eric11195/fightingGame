@@ -1,4 +1,4 @@
-import {FPS, player, enemy, speed, jumpForce, pDerecha, playerSide, xEnemyCollision, xPlayerCollision, minusxEnemyCollision, minusxPlayerCollision, hitboxCollision, attack, update, secondJumpForce, airDash, stAone, stAtwo, aAone ,aAtwo, crAone, crAtwo, Alvl1one, Alvl1two, Alvl3one, ddAone, ddAtwo, stBone, stBtwo, crBone, crBtwo, aBone, aBtwo, crstAone, crstAtwo, fBone, fBtwo, Alvl2one, Alvl2two, Alvl3two, timer, timerId, playing, checkWinner, decreaseTimer, runSpeed, longJumpForce, highJumpForce, airRunSpeed, Dash, longJumpSpeed} from './charactersData.js'
+import {FPS, player, enemy, speed, jumpForce, pDerecha, playerSide, xEnemyCollision, xPlayerCollision, minusxEnemyCollision, minusxPlayerCollision, hitboxCollision, attack, update, secondJumpForce, airDash, stAone, stAtwo, aAone ,aAtwo, crAone, crAtwo, Alvl1one, Alvl1two, Alvl3one, ddAone, ddAtwo, stBone, stBtwo, crBone, crBtwo, aBone, aBtwo, crstAone, crstAtwo, fBone, fBtwo, Alvl2one, Alvl2two, Alvl3two, Blvl1one,Blvl1two, Blvl2two, Blvl2one,  Blvl3one, Blvl3two, timer, timerId, playing, checkWinner, decreaseTimer, runSpeed, longJumpForce, highJumpForce, airRunSpeed, Dash, longJumpSpeed} from './charactersData.js'
 import {keys, p1InputBuffer, p2InputBuffer, checkSpecialInputs, getPlayerOneInput, getPlayerTwoInput, SpecialInput1, SpecialInput2, playerOneRunning, playerTwoRunning, p1FramesCharging, p2FramesCharging} from './inputHandler.js'
 import {canvas, c, CROUCHING, STANDING} from './System.js'
 
@@ -9,6 +9,9 @@ const A3 = "3A"
 const qcfA1 = "236A1"
 const qcfA2 = "236A2"
 const qcfA3 = "236A3"
+const qcfB1 = "236B1"
+const qcfB2 = "236B2"
+const qcfB3 = "236B3"
 const ddA = "22A"
 const B5 = "5B"
 const B2 = "2B"
@@ -109,6 +112,12 @@ function animate(){
             update(player, Alvl2one)
         }else if(myAttack1 == qcfA3){
             update(player, Alvl3one)
+        }else if(myAttack1 == qcfB1){
+            update(player, Blvl1one)
+        }else if(myAttack1 == qcfB2){
+            update(player, Blvl2one)
+        }else if(myAttack1 == qcfB3){
+            update(player, Blvl3one)
         }else if(myAttack1 == A5){
             update(player, stAone)
         }else if(myAttack1 == A2){
@@ -135,6 +144,12 @@ function animate(){
             update(enemy, Alvl2two)
         }else if(myAttack2 == qcfA3){
             update(enemy, Alvl3two)
+        }else if(myAttack2 == qcfB1){
+            update(enemy, Blvl1two)
+        }else if(myAttack2 == qcfB2){
+            update(enemy, Blvl2two)
+        }else if(myAttack2 == qcfB3){
+            update(enemy, Blvl3two)
         }else if(myAttack2 == A5){
             update(enemy, stAtwo)
         }else if(myAttack2 == A2){
@@ -268,7 +283,7 @@ function animate(){
                     player.agachado = false
                     player.velocity.x = 0
                     player.unable = true
-                    twoThreeSixPlayer()
+                    twoThreeSixPlayer("A")
                 }else if(player.agachado){
                     myAttack1 = A2
                     attack(player,crAone)
@@ -282,6 +297,11 @@ function animate(){
                 if(player.velocity.y != 0 || player.jumpMaxPoint){
                     myAttack1 = aB
                     attack(player,aBone)
+                }else if((player.side == "right" && SpecialInput1 == "214B") || (player.side == "left" && SpecialInput1 == "236B")){
+                    player.agachado = false
+                    player.velocity.x = 0
+                    player.unable = true
+                    twoThreeSixPlayer("B")
                 }else if(player.agachado){
                     myAttack1 = B2
                     attack(player,crBone)
@@ -434,7 +454,7 @@ function animate(){
                     enemy.agachado = false
                     enemy.velocity.x = 0
                     enemy.unable = true
-                    twoThreeSixEnemy()
+                    twoThreeSixEnemy("A")
                 }else if(enemy.agachado == true){
                     enemy.velocity.x = 0
                     myAttack2 = A2
@@ -450,6 +470,11 @@ function animate(){
                 if(enemy.velocity.y != 0 || enemy.jumpMaxPoint){
                     myAttack2 = aB
                     attack(enemy,aBtwo)
+                }else if((enemy.side == "right" && SpecialInput2 == "214B") || (enemy.side == "left" && SpecialInput2 == "236B")){
+                    enemy.agachado = false
+                    enemy.velocity.x = 0
+                    enemy.unable = true
+                    twoThreeSixEnemy("B")
                 }else if(enemy.agachado == true){
                     enemy.velocity.x = 0
                     myAttack2 = B2
@@ -557,6 +582,21 @@ function animate(){
                 attackFunction(player, enemy, Alvl3one)
             }
         }
+        if(myAttack1 == qcfB1){
+            if (hitboxCollision({hitbox: Blvl1one, Enemy: enemy})) {
+                attackFunction(player, enemy, Blvl1one)
+            }
+        }
+        if(myAttack1 == qcfB2){
+            if (hitboxCollision({hitbox: Blvl2one, Enemy: enemy})) {
+                attackFunction(player, enemy, Blvl2one)
+            }
+        }
+        if(myAttack1 == qcfB3){
+            if (hitboxCollision({hitbox: Blvl3one, Enemy: enemy})) {
+                attackFunction(player, enemy, Blvl3one)
+            }
+        }
         if(myAttack1 == ddA){
             if (hitboxCollision({hitbox: ddAone, Enemy: enemy})) {
                 attackFunction(player, enemy, ddAone)
@@ -617,6 +657,21 @@ function animate(){
         if(myAttack2 == qcfA3){
             if (hitboxCollision({hitbox: Alvl3two, Enemy: player})){
                 attackFunction(enemy,player,Alvl3two)
+            }
+        }
+        if(myAttack2 == qcfB1){
+            if (hitboxCollision({hitbox: Blvl1two, Enemy: player})){
+                attackFunction(enemy,player,Blvl1two)
+            }
+        }
+        if(myAttack2 == qcfB2){
+            if (hitboxCollision({hitbox: Blvl2two, Enemy: player})){
+                attackFunction(enemy,player,Blvl2two)
+            }
+        }
+        if(myAttack2 == qcfB3){
+            if (hitboxCollision({hitbox: Blvl3two, Enemy: player})){
+                attackFunction(enemy,player,Blvl3two)
             }
         }
         if(myAttack2 == ddA){
@@ -804,7 +859,6 @@ function attackFunction(goodGuy, badGuy, theAttack){
                 badGuy.SKD = false
                 badGuy.GB = true
                 badGuy.velocity.y = theAttack.forceY * (badGuy.juggleMultiplier/100)
-                console.log(badGuy.velocity.y)
                 badGuy.juggleMultiplier += theAttack.juggleValue
                 if(pDerecha == "izq"){
                     if(badGuy == enemy){
@@ -895,41 +949,79 @@ function attackFunction(goodGuy, badGuy, theAttack){
     }
 }
 
-function twoThreeSixPlayer(){
-    if(!p1FramesCharging || player.FramesCharging > 120){
-        if(player.FramesCharging  > 60){
-            attack(player, Alvl3one)
-            myAttack1 = qcfA3
-        }else if(player.FramesCharging  > 25){
-            attack(player, Alvl2one)
-            myAttack1 = qcfA2
-        }else{
-            attack(player, Alvl1one)
-            myAttack1 = qcfA1
+function twoThreeSixPlayer(whatAttack){
+    if(whatAttack == "A"){
+        if(!p1FramesCharging || player.FramesCharging > 120){
+            if(player.FramesCharging  > 60){
+                attack(player, Alvl3one)
+                myAttack1 = qcfA3
+            }else if(player.FramesCharging  > 25){
+                attack(player, Alvl2one)
+                myAttack1 = qcfA2
+            }else{
+                attack(player, Alvl1one)
+                myAttack1 = qcfA1
+            }
+            player.FramesCharging = 0
+        }else if(p1FramesCharging){
+            setTimeout (twoThreeSixPlayer, 1000/FPS, whatAttack)
+            player.FramesCharging ++
         }
-        player.FramesCharging = 0
-    }else if(p1FramesCharging){
-        setTimeout (twoThreeSixPlayer, 1000/FPS)
-        player.FramesCharging ++
+    }else{
+        if(!p1FramesCharging || player.FramesCharging > 120){
+            if(player.FramesCharging  > 60){
+                attack(player, Blvl3one)
+                myAttack1 = qcfB3
+            }else if(player.FramesCharging  > 25){
+                attack(player, Blvl2one)
+                myAttack1 = qcfB2
+            }else{
+                attack(player, Blvl1one)
+                myAttack1 = qcfB1
+            }
+            player.FramesCharging = 0
+        }else if(p1FramesCharging){
+            setTimeout (twoThreeSixPlayer, 1000/FPS, whatAttack)
+            player.FramesCharging ++
+        }
     }
     
 }
-function twoThreeSixEnemy(){
-    if(!p2FramesCharging || enemy.FramesCharging > 120){
-        if(enemy.FramesCharging  > 60){
-            attack(enemy, Alvl3two)
-            myAttack2 = qcfA3
-        }else if(enemy.FramesCharging  > 25){
-            attack(enemy, Alvl2two)
-            myAttack2 = qcfA2
-        }else{
-            attack(enemy, Alvl1two)
-            myAttack2 = qcfA1
+function twoThreeSixEnemy(whatAttack){
+    if(whatAttack == "A"){
+        if(!p2FramesCharging || enemy.FramesCharging > 120){
+            if(enemy.FramesCharging  > 60){
+                attack(enemy, Alvl3two)
+                myAttack2 = qcfA3
+            }else if(enemy.FramesCharging  > 25){
+                attack(enemy, Alvl2two)
+                myAttack2 = qcfA2
+            }else{
+                attack(enemy, Alvl1two)
+                myAttack2 = qcfA1
+            }
+            enemy.FramesCharging = 0
+        }else if(p2FramesCharging){
+            setTimeout (twoThreeSixEnemy, 1000/FPS, whatAttack)
+            enemy.FramesCharging ++
         }
-        enemy.FramesCharging = 0
-    }else if(p2FramesCharging){
-        setTimeout (twoThreeSixEnemy, 1000/FPS)
-        enemy.FramesCharging ++
+    }else{
+        if(!p2FramesCharging || enemy.FramesCharging > 120){
+            if(enemy.FramesCharging  > 60){
+                attack(enemy, Blvl3two)
+                myAttack2 = qcfB3
+            }else if(enemy.FramesCharging  > 25){
+                attack(enemy, Blvl2two)
+                myAttack2 = qcfB2
+            }else{
+                attack(enemy, Blvl1two)
+                myAttack2 = qcfB1
+            }
+            enemy.FramesCharging = 0
+        }else if(p2FramesCharging){
+            setTimeout (twoThreeSixEnemy, 1000/FPS, whatAttack)
+            enemy.FramesCharging ++
+        }
     }
     
 }

@@ -326,7 +326,7 @@ export const crstAone = new Attack({
 
     forceApply: "GB",
     forceX:1,
-    forceY:16,
+    forceY:14,
     juggleValue: -15
 })
 export const crstAtwo = new Attack({
@@ -356,7 +356,7 @@ export const crstAtwo = new Attack({
 
     forceApply: "GB",
     forceX:1,
-    forceY:16,
+    forceY:14,
     juggleValue: -15
 })
 export const Alvl1one = new Attack({
@@ -417,6 +417,125 @@ export const Alvl1two = new Attack({
     forceApply: "air",
     forceX:2,
     forceY:2
+})
+
+export const Blvl1one = new Attack({
+    attackClass: "MID",
+    lowProfile: false,
+
+    startup: 7,
+    active: 5,
+    recovery: 20,
+
+    onHit: "SKD",
+    onBlock: -13,
+
+    position: {
+        x:0,
+        y:0
+    },
+    width:150,
+    height:120,
+    offset: {
+        x: 50,
+        y: 0,
+    },
+    damage:3,
+    pushblock:30,
+    pushhit:15, 
+
+    forceApply: "air",
+    forceX:15,
+    forceY:-2,
+})
+export const Blvl1two = new Attack({
+    attackClass: "MID",
+    lowProfile: false,
+
+    startup: 7,
+    active: 5,
+    recovery: 20,
+
+    onHit: "SKD",
+    onBlock: -4,
+
+    position: {
+        x:0,
+        y:0
+    },
+    width:150,
+    height:120,
+    offset: {
+        x: 50,
+        y: 0,
+    },
+    damage:3,
+    pushblock:30,
+    pushhit:15, 
+
+    forceApply: "air",
+    forceX:15,
+    forceY:-2,
+})
+export const Blvl2one = new Attack({
+    attackClass: "MID",
+    lowProfile: false,
+
+    startup: 2,
+    active: 5,
+    recovery: 20,
+
+    onHit: "SKD",
+    onBlock: -2,
+
+    position: {
+        x:0,
+        y:0
+    },
+    width:150,
+    height:120,
+    offset: {
+        x: 50,
+        y: 0,
+    },
+    damage:5,
+    pushblock:40,
+    pushhit:25, 
+
+    forceApply: "WB",
+    forceX:30,
+    forceY:2,
+    juggleValue: 10
+})
+export const Blvl2two = new Attack({
+    attackClass: "MID",
+    lowProfile: false,
+
+    startup: 2,
+    active: 5,
+    recovery: 20,
+
+    onHit: "SKD",
+    onBlock: -2,
+
+    position: {
+        x:0,
+        y:0
+    },
+    width:150,
+    height:120,
+    offset: {
+        x: 50,
+        y: 0,
+    },
+    damage:5,
+    pushblock:40,
+    pushhit:25, 
+
+    forceApply: "WB",
+    forceX:30,
+    forceY:2,
+    juggleValue: 10
 })
 export const Alvl2one = new Attack({
     attackClass: "MID",
@@ -529,11 +648,72 @@ export const Alvl3two = new Attack({
     },
     damage:12,
     //pushblock:80,
+    pushhit:100, 
+
+    forceApply: "GB",
+    forceX:1,
+    forceY: 20,
+    juggleValue: 0
+})
+export const Blvl3two = new Attack({
+    attackClass: "UNBLOCKABLE",
+    lowProfile: false,
+
+    startup: 1,
+    active: 5,
+    recovery: 30,
+
+    onHit: "HKD",
+    onBlock: 40,
+
+    position: {
+        x:0,
+        y:0
+    },
+    width:150,
+    height:120,
+    offset: {
+        x: 50,
+        y: 0,
+    },
+    damage:5,
+    //pushblock:80,
     pushhit:30, 
 
     forceApply: "GB",
     forceX:1,
     forceY:20,
+    juggleValue: 0
+})
+
+export const Blvl3one = new Attack({
+    attackClass: "UNBLOCKABLE",
+    lowProfile: false,
+
+    startup: 1,
+    active: 5,
+    recovery: 30,
+
+    onHit: "HKD",
+    onBlock: -2,
+
+    position: {
+        x:0,
+        y:0
+    },
+    width:150,
+    height:120,
+    offset: {
+        x: 50,
+        y: 0,
+    },
+    damage:5,
+    pushblock:40,
+    pushhit:25, 
+
+    forceApply: "WB",
+    forceX:30,
+    forceY:2,
     juggleValue: 0
 })
 
