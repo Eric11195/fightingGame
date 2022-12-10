@@ -639,20 +639,26 @@ function animate(){
         player.color = "green"
     }else if(player.SKD) {
         player.color = "purple"
-    }else if(player.unable) {
-        player.color = "yellow"
-    }if(player.FramesCharging  > 60){
+    }else if(player.FramesCharging  > 60){
         player.color = "grey"
     }else if(player.FramesCharging  > 25){
         player.color = "magenta"
     }else if(player.FramesCharging  <= 25 && player.FramesCharging  != 0){
         player.color = "violet"
+    }else if(player.unable) {
+        player.color = "yellow"
     }else player.color = "blue"
 
     if(enemy.HKD){
         enemy.color = "green"
     }else if(enemy.SKD) {
         enemy.color = "purple"
+    }else if(enemy.FramesCharging  > 60){
+        enemy.color = "grey"
+    }else if(enemy.FramesCharging  > 25){
+        enemy.color = "magenta"
+    }else if(enemy.FramesCharging  <= 25 && enemy.FramesCharging  != 0){
+        enemy.color = "violet"
     }else if(enemy.unable) {
         enemy.color = "yellow"
     }else enemy.color = "red"
@@ -770,7 +776,7 @@ function attackFunction(goodGuy, badGuy, theAttack){
     if((goodGuy.isAttacking && !(badGuy.agachado && theAttack.attackClass =="HIGH")) && !badGuy.invulnerable){
         badGuy.velocity.x = 0
         badGuy.unable = true
-        if (badGuy.blockState && !theAttackClass=="UNBLOCKABLE" &&((badGuy.velocity.y != 0 || badGuy.jumpMaxPoint)|| (theAttack.attackClass =="MID" || (badGuy.blockType == CROUCHING && theAttack.attackClass =="LOW") || (badGuy.blockType == STANDING && theAttack.attackClass =="OVERHEAD") || (theAttack.attackClass =="HIGH" && badGuy.blockType == STANDING)))){ 
+        if (badGuy.blockState && theAttack.attackClass!="UNBLOCKABLE" &&((badGuy.velocity.y != 0 || badGuy.jumpMaxPoint)|| (theAttack.attackClass =="MID" || (badGuy.blockType == CROUCHING && theAttack.attackClass =="LOW") || (badGuy.blockType == STANDING && theAttack.attackClass =="OVERHEAD") || (theAttack.attackClass =="HIGH" && badGuy.blockType == STANDING)))){ 
             if(badGuy.perfectBlock){
                 badGuy.health += 3
             }else{
