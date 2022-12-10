@@ -23,7 +23,7 @@ export const FPS = 60;
 export class Sprite {
     //parametros iniciales de cualquier objeto que creemos de esta clase.
     //({}) --> el orden ya no importa pq son propiedades de un objeto y no son obligatorias
-    constructor({juggleMultiplier, invulnerable,SKD, HKD, DashRemains, FramesCharging, position, velocity, jumps, color, side, perfectBlock, jumpMaxPoint, canvasContext, canvasRef, unable, blockType, blockState, framesBlocking, height, agachado, fakePosition, initAttack, blockStun}){
+    constructor({GB,WB,juggleMultiplier, invulnerable,SKD, HKD, DashRemains, FramesCharging, position, velocity, jumps, color, side, perfectBlock, jumpMaxPoint, canvasContext, canvasRef, unable, blockType, blockState, framesBlocking, height, agachado, fakePosition, initAttack, blockStun}){
         //creación de atributos del objeto
         this.canvasContext = canvasContext
         this.canvasRef = canvasRef
@@ -57,6 +57,8 @@ export class Sprite {
         this.SKD = SKD
         this.invulnerable = invulnerable
         this.juggleMultiplier = juggleMultiplier
+        this.GB = GB
+        this.WB = WB
     }
 
     //comprueba si se ha llegado a la posición de salto máx
@@ -318,14 +320,14 @@ export const crstAone = new Attack({
         x: 70,
         y: 40,
     },
-    damage:4,
+    damage:8,
     pushblock:30,
     pushhit:20, 
 
-    forceApply: "air",
+    forceApply: "GB",
     forceX:1,
-    forceY:"GB",
-    juggleValue: -10
+    forceY:16,
+    juggleValue: -15
 })
 export const crstAtwo = new Attack({
     attackClass: "OVERHEAD",
@@ -348,14 +350,14 @@ export const crstAtwo = new Attack({
         x: 70,
         y: 40,
     },
-    damage:4,
+    damage:8,
     pushblock:30,
     pushhit:20, 
 
-    forceApply: "air",
+    forceApply: "GB",
     forceX:1,
-    forceY:"GB",
-    juggleValue: -10
+    forceY:16,
+    juggleValue: -15
 })
 export const Alvl1one = new Attack({
     attackClass: "MID",
@@ -499,9 +501,9 @@ export const Alvl3one = new Attack({
     //pushblock:80,
     pushhit:100, 
 
-    forceApply: "air",
-    forceX:2,
-    forceY:"GB",
+    forceApply: "GB",
+    forceX:1,
+    forceY: 20,
     juggleValue: 0
 })
 export const Alvl3two = new Attack({
@@ -529,9 +531,9 @@ export const Alvl3two = new Attack({
     //pushblock:80,
     pushhit:30, 
 
-    forceApply: "air",
-    forceX:2,
-    forceY:"GB",
+    forceApply: "GB",
+    forceX:1,
+    forceY:20,
     juggleValue: 0
 })
 
@@ -883,7 +885,9 @@ export const player = new Sprite({
     HKD: false,
     SKD: false,
     invulnerable: false,
-    juggleMultiplier: 100
+    juggleMultiplier: 100,
+    GB: false,
+    WB: false
 })
 
 export const enemy = new Sprite({
@@ -922,7 +926,9 @@ export const enemy = new Sprite({
     HKD: false,
     SKD: false,
     invulnerable: false,
-    juggleMultiplier: 100
+    juggleMultiplier: 100,
+    GB: false,
+    WB: false
 })
 
 //-----------------------------------------------------------------------------
@@ -1024,22 +1030,28 @@ export function update(who, move) {
 
     //comprobar si toca el suelo
     if(who.position.y + who.height + who.velocity.y >= who.canvasRef.height){
-        who.velocity.y = 0
         who.position.y = who.canvasRef.height - who.height
         who.jumps.n = 2
         who.fakePosition.y = 476
-        if(who.HKD){
-            who.juggleMultiplier = 100
-            who.velocity.x = 0
-            who.invulnerable = true
-            who.unable = true
-            setTimeout(GetUpKnockDown, (52)*1000/FPS, who)
-        }else if(who.SKD){
-            who.juggleMultiplier = 100
-            who.velocity.x = 0
-            who.invulnerable = true
-            who.unable = true
-            setTimeout(GetUpKnockDown, (15)*1000/FPS, who)
+        if(!who.GB){
+            who.velocity.y = 0
+            if(who.HKD){
+                who.juggleMultiplier = 100
+                who.velocity.x = 0
+                who.invulnerable = true
+                who.unable = true
+                setTimeout(GetUpKnockDown, (52)*1000/FPS, who)
+            }else if(who.SKD){
+                who.juggleMultiplier = 100
+                who.velocity.x = 0
+                who.invulnerable = true
+                who.unable = true
+                setTimeout(GetUpKnockDown, (15)*1000/FPS, who)
+            }
+        }else{
+            who.velocity.y = -who.velocity.y
+            console.log(who.velocity.y)
+            who.GB = false
         }
         playerSide()
         if(who == player){
@@ -1126,7 +1138,7 @@ function DashFinished(characterG){
     characterG.unable = false
     characterG.agachado = false
     characterG.DashRemains = false
-    console.log('miau')
+    //console.log('miau')
 }
 
 function GetUpKnockDown(character){

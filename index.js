@@ -155,8 +155,8 @@ function animate(){
 
 
     if(playing) {
-        console.log(enemy.SKD)
-        console.log(player.HKD)
+        //console.log(enemy.SKD)
+        //console.log(player.HKD)
 
         // qcb, etc
         checkSpecialInputs();
@@ -799,7 +799,27 @@ function attackFunction(goodGuy, badGuy, theAttack){
         }else{
             badGuy.health -= theAttack.damage
             badGuy.unable = true
-            if(((theAttack.forceApply == "air") && (badGuy.velocity.y != 0 || badGuy.jumpMaxPoint)) || ((theAttack.forceApply == "ground") && !(badGuy.velocity.y != 0 || badGuy.jumpMaxPoint))){
+            if(theAttack.forceApply == "GB"){
+                badGuy.HKD = true
+                badGuy.SKD = false
+                badGuy.GB = true
+                badGuy.velocity.y = theAttack.forceY * (badGuy.juggleMultiplier/100)
+                console.log(badGuy.velocity.y)
+                badGuy.juggleMultiplier += theAttack.juggleValue
+                if(pDerecha == "izq"){
+                    if(badGuy == enemy){
+                        badGuy.velocity.x = theAttack.forceX
+                    }else{
+                        badGuy.velocity.x = -theAttack.forceX
+                    }
+                }else{
+                    if(badGuy == player){
+                        badGuy.velocity.x = theAttack.forceX
+                    }else{
+                        badGuy.velocity.x = -theAttack.forceX
+                    }
+                }
+            }else if(((theAttack.forceApply == "air") && (badGuy.velocity.y != 0 || badGuy.jumpMaxPoint)) || ((theAttack.forceApply == "ground") && !(badGuy.velocity.y != 0 || badGuy.jumpMaxPoint))){
                 if(theAttack.onHit != "HKD"){
                     badGuy.SKD = true
                     badGuy.HKD = false
