@@ -465,6 +465,7 @@ export const Blvl1one = new Attack({
     forceApply: "WS",
     forceX:15,
     forceY:-2,
+    juggleValue: -50
 })
 export const Blvl1two = new Attack({
     attackClass: "MID",
@@ -494,6 +495,7 @@ export const Blvl1two = new Attack({
     forceApply: "WS",
     forceX:15,
     forceY:-2,
+    juggleValue: -50
 })
 export const Blvl2one = new Attack({
     attackClass: "MID",
