@@ -23,7 +23,7 @@ export const FPS = 60;
 export class Sprite {
     //parametros iniciales de cualquier objeto que creemos de esta clase.
     //({}) --> el orden ya no importa pq son propiedades de un objeto y no son obligatorias
-    constructor({GB,WB,juggleMultiplier, invulnerable,SKD, HKD, DashRemains, FramesCharging, position, velocity, jumps, color, side, perfectBlock, jumpMaxPoint, canvasContext, canvasRef, unable, blockType, blockState, framesBlocking, height, agachado, fakePosition, initAttack, blockStun}){
+    constructor({GB,WB, WS, wallSplated,juggleMultiplier, invulnerable,SKD, HKD, DashRemains, FramesCharging, position, velocity, jumps, color, side, perfectBlock, jumpMaxPoint, canvasContext, canvasRef, unable, blockType, blockState, framesBlocking, height, agachado, fakePosition, initAttack, blockStun}){
         //creación de atributos del objeto
         this.canvasContext = canvasContext
         this.canvasRef = canvasRef
@@ -59,6 +59,8 @@ export class Sprite {
         this.juggleMultiplier = juggleMultiplier
         this.GB = GB
         this.WB = WB
+        this.WS = WS
+        this.wallSplated = wallSplated
     }
 
     //comprueba si se ha llegado a la posición de salto máx
@@ -69,14 +71,30 @@ export class Sprite {
     }
 
     wallCollision(){
-        //if(!this.unable){
-            if(this.fakePosition.x < speed){
-                this.fakePosition.x = speed
+        if(this.fakePosition.x < speed){
+            this.fakePosition.x = speed
+            if(this.WB){
+                this.velocity.x = -this.velocity.x
+                this.WB = false
             }
-            if(this.fakePosition.x > (1024 - this.width - speed)){
-                this.fakePosition.x = 1024 - speed - this.width
+            if(this.WS){
+                this.WS = false
+                this.wallSplated = true
+                this.velocity.x = 0
+
             }
-        //}
+        }
+        if(this.fakePosition.x > (1024 - this.width - speed)){
+            this.fakePosition.x = 1024 - speed - this.width
+            if(this.WB){
+                this.velocity.x = -this.velocity.x
+            }
+            if(this.WS){
+                this.WS = false
+                this.wallSplated = true
+                this.velocity.x = 0
+            }
+        }
     }
 
     //para dibujar las cosas en la posición actualizada
@@ -444,7 +462,7 @@ export const Blvl1one = new Attack({
     pushblock:30,
     pushhit:15, 
 
-    forceApply: "air",
+    forceApply: "WS",
     forceX:15,
     forceY:-2,
 })
@@ -473,7 +491,7 @@ export const Blvl1two = new Attack({
     pushblock:30,
     pushhit:15, 
 
-    forceApply: "air",
+    forceApply: "WS",
     forceX:15,
     forceY:-2,
 })
@@ -503,9 +521,9 @@ export const Blvl2one = new Attack({
     pushhit:25, 
 
     forceApply: "WB",
-    forceX:30,
-    forceY:2,
-    juggleValue: 10
+    forceX:13,
+    forceY:-17,
+    juggleValue: -20
 })
 export const Blvl2two = new Attack({
     attackClass: "MID",
@@ -533,9 +551,9 @@ export const Blvl2two = new Attack({
     pushhit:25, 
 
     forceApply: "WB",
-    forceX:30,
-    forceY:2,
-    juggleValue: 10
+    forceX:35,
+    forceY:-20,
+    juggleValue: -20
 })
 export const Alvl2one = new Attack({
     attackClass: "MID",
@@ -661,10 +679,10 @@ export const Blvl3two = new Attack({
 
     startup: 1,
     active: 5,
-    recovery: 30,
+    recovery: 35,
 
     onHit: "HKD",
-    onBlock: 40,
+    //onBlock: 40,
 
     position: {
         x:0,
@@ -680,9 +698,9 @@ export const Blvl3two = new Attack({
     //pushblock:80,
     pushhit:30, 
 
-    forceApply: "GB",
-    forceX:1,
-    forceY:20,
+    forceApply: "WB",
+    forceX:40,
+    forceY:-18,
     juggleValue: 0
 })
 
@@ -692,10 +710,10 @@ export const Blvl3one = new Attack({
 
     startup: 1,
     active: 5,
-    recovery: 30,
+    recovery: 35,
 
     onHit: "HKD",
-    onBlock: -2,
+    //onBlock: -2,
 
     position: {
         x:0,
@@ -712,8 +730,8 @@ export const Blvl3one = new Attack({
     pushhit:25, 
 
     forceApply: "WB",
-    forceX:30,
-    forceY:2,
+    forceX:40,
+    forceY:-18,
     juggleValue: 0
 })
 
@@ -1067,7 +1085,9 @@ export const player = new Sprite({
     invulnerable: false,
     juggleMultiplier: 100,
     GB: false,
-    WB: false
+    WB: false,
+    WS: false,
+    wallSplated: false
 })
 
 export const enemy = new Sprite({
@@ -1108,7 +1128,9 @@ export const enemy = new Sprite({
     invulnerable: false,
     juggleMultiplier: 100,
     GB: false,
-    WB: false
+    WB: false,
+    WS: false,
+    wallSplated: false,
 })
 
 //-----------------------------------------------------------------------------
@@ -1210,6 +1232,7 @@ export function update(who, move) {
 
     //comprobar si toca el suelo
     if(who.position.y + who.height + who.velocity.y >= who.canvasRef.height){
+        //lo toca
         who.position.y = who.canvasRef.height - who.height
         who.jumps.n = 2
         who.fakePosition.y = 476
@@ -1229,9 +1252,9 @@ export function update(who, move) {
                 setTimeout(GetUpKnockDown, (15)*1000/FPS, who)
             }
         }else{
-            who.velocity.y = -who.velocity.y
-            console.log(who.velocity.y)
             who.GB = false
+            who.WB = false
+            //who.WS = false
         }
         playerSide()
         if(who == player){
@@ -1250,7 +1273,13 @@ export function update(who, move) {
         }
     } else {
         if(!who.airDashRemains){
-            who.velocity.y += GRAVITY//aceleración en caida
+            if(!who.wallSplated){
+                who.velocity.y += GRAVITY//aceleración en caida
+            }else{
+                console.log("miau")
+                who.velocity.y = 0
+                setTimeout(stopWS, (40)*1000/FPS, who)
+            }
         }
     }
     who.checkJumpMaxHeight()
@@ -1326,4 +1355,8 @@ function GetUpKnockDown(character){
     character.unable = false
     character.HKD = false
     character.SKD = false
+}
+
+function stopWS(character){
+    character.wallSplated = false
 }

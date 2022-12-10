@@ -170,7 +170,7 @@ function animate(){
 
 
     if(playing) {
-        //console.log(enemy.SKD)
+        console.log(enemy.WS)
         //console.log(player.HKD)
 
         // qcb, etc
@@ -857,6 +857,7 @@ function attackFunction(goodGuy, badGuy, theAttack){
             if(theAttack.forceApply == "GB"){
                 badGuy.HKD = true
                 badGuy.SKD = false
+                badGuy.WB = false
                 badGuy.GB = true
                 badGuy.velocity.y = theAttack.forceY * (badGuy.juggleMultiplier/100)
                 badGuy.juggleMultiplier += theAttack.juggleValue
@@ -873,7 +874,27 @@ function attackFunction(goodGuy, badGuy, theAttack){
                         badGuy.velocity.x = -theAttack.forceX
                     }
                 }
-            }else if(((theAttack.forceApply == "air") && (badGuy.velocity.y != 0 || badGuy.jumpMaxPoint)) || ((theAttack.forceApply == "ground") && !(badGuy.velocity.y != 0 || badGuy.jumpMaxPoint))){
+            }else if(theAttack.forceApply == "WB"){
+                badGuy.HKD = true
+                badGuy.SKD = false
+                badGuy.WB = true
+                badGuy.GB = false
+                badGuy.velocity.y = theAttack.forceY * (badGuy.juggleMultiplier/100)
+                badGuy.juggleMultiplier += theAttack.juggleValue
+                if(pDerecha == "izq"){
+                    if(badGuy == enemy){
+                        badGuy.velocity.x = theAttack.forceX
+                    }else{
+                        badGuy.velocity.x = -theAttack.forceX
+                    }
+                }else{
+                    if(badGuy == player){
+                        badGuy.velocity.x = theAttack.forceX
+                    }else{
+                        badGuy.velocity.x = -theAttack.forceX
+                    }
+                }
+            }else if(((theAttack.forceApply == "air") && (badGuy.velocity.y != 0 || badGuy.jumpMaxPoint)) || (theAttack.forceApply == "WS") || ((theAttack.forceApply == "ground") && !(badGuy.velocity.y != 0 || badGuy.jumpMaxPoint))){
                 if(theAttack.onHit != "HKD"){
                     badGuy.SKD = true
                     badGuy.HKD = false
@@ -895,6 +916,9 @@ function attackFunction(goodGuy, badGuy, theAttack){
                     }else{
                         badGuy.velocity.x = -theAttack.forceX
                     }
+                }
+                if(theAttack.forceApply == "WS"){
+                    badGuy.WS = true
                 }
             }
             if(theAttack.onHit == "HKD"){
