@@ -23,7 +23,7 @@ export const FPS = 60;
 export class Sprite {
     //parametros iniciales de cualquier objeto que creemos de esta clase.
     //({}) --> el orden ya no importa pq son propiedades de un objeto y no son obligatorias
-    constructor({GB,WB, WS, wallSplated,juggleMultiplier, invulnerable,SKD, HKD, DashRemains, FramesCharging, position, velocity, jumps, color, side, perfectBlock, jumpMaxPoint, canvasContext, canvasRef, unable, blockType, blockState, framesBlocking, height, agachado, fakePosition, initAttack, blockStun}){
+    constructor({inCombo, GB,WB, WS, wallSplated,juggleMultiplier, invulnerable,SKD, HKD, DashRemains, FramesCharging, position, velocity, jumps, color, side, perfectBlock, jumpMaxPoint, canvasContext, canvasRef, unable, blockType, blockState, framesBlocking, height, agachado, fakePosition, initAttack, blockStun}){
         //creación de atributos del objeto
         this.canvasContext = canvasContext
         this.canvasRef = canvasRef
@@ -61,6 +61,7 @@ export class Sprite {
         this.WB = WB
         this.WS = WS
         this.wallSplated = wallSplated
+        this.inCombo = inCombo
     }
 
     //comprueba si se ha llegado a la posición de salto máx
@@ -1089,7 +1090,8 @@ export const player = new Sprite({
     GB: false,
     WB: false,
     WS: false,
-    wallSplated: false
+    wallSplated: false,
+    inCombo: false
 })
 
 export const enemy = new Sprite({
@@ -1133,6 +1135,7 @@ export const enemy = new Sprite({
     WB: false,
     WS: false,
     wallSplated: false,
+    inCombo: false
 })
 
 //-----------------------------------------------------------------------------
@@ -1239,6 +1242,7 @@ export function update(who, move) {
         who.jumps.n = 2
         who.fakePosition.y = 476
         if(!who.GB){
+            who.inCombo = false
             who.velocity.y = 0
             if(who.HKD){
                 who.juggleMultiplier = 100
@@ -1256,7 +1260,6 @@ export function update(who, move) {
         }else{
             who.GB = false
             who.WB = false
-            //who.WS = false
         }
         playerSide()
         if(who == player){

@@ -34,11 +34,12 @@ c.fillRect(0,0,canvas.width,canvas.height)
 
 //barras de vida, movimiento, ataques...
 function animate(){ 
+    console.log(enemy.inCombo)
     n++    
     //ea para donde se mira y cambia la hitbox en consecuencia, mira a ver si toca bloquar
     playerSide()
     if(pDerecha == "izq"){
-        if (keys.a.pressed){
+        if (keys.a.pressed && !player.inCombo){
             player.blockState= true
             player.framesBlocking++
             if(keys.s.pressed){
@@ -48,7 +49,7 @@ function animate(){
             player.blockState = false
             player.framesBlocking = 0
         }
-        if (keys.AR.pressed){
+        if (keys.AR.pressed && !enemy.inCombo){
             enemy.blockState = true
             enemy.framesBlocking++
             if(keys.AD.pressed){
@@ -59,7 +60,7 @@ function animate(){
             enemy.framesBlocking = 0
         }
     }else{
-        if (keys.d.pressed){
+        if (keys.d.pressed && !player.inCombo){
             player.blockState = true
             player.framesBlocking++
             if(keys.s.pressed){
@@ -69,7 +70,7 @@ function animate(){
             player.blockState = false
             player.framesBlocking = 0
         }
-        if (keys.AL.pressed){
+        if (keys.AL.pressed && !enemy.inCombo){
             enemy.blockState = true
             enemy.framesBlocking++
             if(keys.AD.pressed){
@@ -170,7 +171,7 @@ function animate(){
 
 
     if(playing) {
-        console.log(enemy.WS)
+        //console.log(enemy.WS)
         //console.log(player.HKD)
 
         // qcb, etc
@@ -178,6 +179,8 @@ function animate(){
 
 //player--------------------------------------------------------------------------------------------------------
         if(keys.space.pressed && ((!player.unable || player.DashRemains || (player.velocity.y != 0 || player.jumpMaxPoint)))){
+            //player.unable = true
+            //setTimeout(STARTUP, 4*1000/FPS, who)
             keys.space.pressed = false
             if (player.jumps.n > 0 ){
                 if (pDerecha == "izq"){
@@ -852,6 +855,7 @@ function attackFunction(goodGuy, badGuy, theAttack){
             }
 
         }else{
+            badGuy.inCombo = true
             badGuy.health -= theAttack.damage
             badGuy.unable = true
             if(theAttack.forceApply == "GB"){
