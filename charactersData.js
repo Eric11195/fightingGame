@@ -133,10 +133,11 @@ export class Attack{
 }
 
 export class Projectile{
-    constructor({juggleValue, attackClass, position, width, height, offset, damage, pushblock,forceApply, forceX, forceY, velocity, onScreen}){
+    constructor({juggleValue,timeUntilAppear, attackClass, position, width, height, offset, damage, pushblock,forceApply, forceX, forceY, velocity, onScreen}){
         this.onScreen = onScreen
         this.attackClass = attackClass
         this.damage = damage
+        this.timeUntilAppear = timeUntilAppear
        
         //creation of hitbox
         this.position = position
@@ -155,59 +156,6 @@ export class Projectile{
     }
 
 }
-
-export const rock1 = new Projectile({
-    attackClass: "PROJECTILE",
-    onScreen: false,
-
-    hitstun: 30,
-
-    position: {
-        x:0,
-        y:0
-    },
-    width:80,
-    height:80,
-    offset: {
-        x: 40,
-        y: 20,
-    },
-    damage:10,
-    pushblock:20, 
-
-    forceApply: "air",
-    forceX:0,
-    forceY:3,
-    juggleValue: -50
-
-})
-
-export const rock2 = new Projectile({
-    attackClass: "PROJECTILE",
-    onScreen: false,
-
-    hitstun: 30,
-
-    position: {
-        x:0,
-        y:0
-    },
-    width:80,
-    height:80,
-    offset: {
-        x: 40,
-        y: 20,
-    },
-    damage:5,
-    pushblock:20, 
-
-    forceApply: "air",
-    forceX:0,
-    forceY:3,
-    juggleValue: -50
-
-})
-
 
 export const stAone = new Attack({
     attackClass: "HIGH",
@@ -454,6 +402,320 @@ export const crstAtwo = new Attack({
     forceY:14,
     juggleValue: -15
 })
+
+export const stBone = new Attack({
+    attackClass: "MID",
+    lowProfile: false,
+
+    startup: 9,
+    active: 5,
+    recovery: 15,
+
+    onHit: 5,
+    onBlock: 2,
+
+    position: {
+        x:0,
+        y:0
+    },
+    width:100,
+    height:100,
+    offset: {
+        x: 50,
+        y: 25,
+    },
+    damage:5,
+    pushblock:15,
+    pushhit:8, 
+
+    forceApply: "air",
+    forceX:3,
+    forceY:-7,
+    juggleValue: -3
+})
+export const stBtwo = new Attack({
+    attackClass: "MID",
+    lowProfile: false,
+
+    startup: 9,
+    active: 5,
+    recovery: 15,
+
+    onHit: 5,
+    onBlock: 2,
+
+    position: {
+        x:0,
+        y:0
+    },
+    width:100,
+    height:100,
+    offset: {
+        x: 50,
+        y: 25,
+    },
+    damage:5,
+    pushblock:15,
+    pushhit:8, 
+
+    forceApply: "air",
+    forceX:3,
+    forceY:-7,
+    juggleValue: -3
+})
+export const crBone = new Attack({
+    attackClass: "LOW",
+    lowProfile: true,
+
+    startup: 16,
+    active: 7,
+    recovery: 15,
+
+    onHit: "HKD",
+    onBlock: -14,
+
+    position: {
+        x:0,
+        y:0
+    },
+
+    width:370,
+    height:40,
+    offset: {
+        x: -150,
+        y: 60,
+    },
+
+    damage:8,
+    pushblock:15,
+    pushhit:8, 
+
+    forceApply: "air",
+    forceX:3,
+    forceY:5
+})
+export const crBtwo = new Attack({
+    attackClass: "LOW",
+    lowProfile: true,
+
+    startup: 16,
+    active: 7,
+    recovery: 36,
+
+    onHit: "HKD",
+    onBlock: -14,
+
+    position: {
+        x:0,
+        y:0
+    },
+
+    width:370,
+    height:40,
+    offset: {
+        x: -150,
+        y: 60,
+    },
+    
+    damage:8,
+    pushblock:15,
+    pushhit:8, 
+
+    forceApply: "air",
+    forceX:3,
+    forceY:5
+})
+export const aBone = new Attack({
+    attackClass: "OVERHEAD",
+    lowProfile: false,
+
+    startup: 16,
+    active: 5,
+    recovery: 20,
+
+    onHit: 12,
+    onBlock: 5,
+
+    position: {
+        x:0,
+        y:0
+    },
+
+    width:175,
+    height:150,
+    offset: {
+        x: 25,
+        y:  90,
+    },
+
+    damage:4,
+    pushblock:30,
+    pushhit:20, 
+
+    forceApply: "air",
+    forceX:2,
+    forceY:-18,
+    juggleValue: -20
+})
+export const aBtwo = new Attack({
+    attackClass: "OVERHEAD",
+    lowProfile: false,
+
+    startup: 16,
+    active: 5,
+    recovery: 20,
+
+    onHit: 12,
+    onBlock: 5,
+
+    position: {
+        x:0,
+        y:0
+    },
+
+    width:175,
+    height:150,
+    offset: {
+        x: 25,
+        y:  90,
+    },
+
+    damage:4,
+    pushblock:30,
+    pushhit:20, 
+
+    forceApply: "air",
+    forceX:2,
+    forceY:-18,
+    juggleValue: -20
+})
+export const fBone = new Attack({
+    attackClass: "HIGH",
+    lowProfile: false,
+
+    startup: 18,
+    active: 4,
+    recovery: 18,
+
+    onHit: 5,
+    onBlock: -7,
+
+    position: {
+        x:0,
+        y:0
+    },
+
+    width:230,
+    height:40,
+    offset: {
+        x: 50,
+        y:  20,
+    },
+
+    damage:4,
+    pushblock:40,
+    pushhit:30, 
+
+    forceApply: "air",
+    forceX:10,
+    forceY:5
+})
+export const fBtwo = new Attack({
+    attackClass: "HIGH",
+    lowProfile: false,
+
+    startup: 18,
+    active: 4,
+    recovery: 18,
+
+    onHit: 5,
+    onBlock: -7,
+
+    position: {
+        x:0,
+        y:0
+    },
+
+    width:230,
+    height:40,
+    offset: {
+        x: 50,
+        y:  20,
+    },
+
+    damage:4,
+    pushblock:40,
+    pushhit:30, 
+
+    forceApply: "air",
+    forceX:10,
+    forceY:5
+})
+//special moves---------------------------------------------------------------------------------------------------------------------
+export const ddBone = new Attack({
+    attackClass: "MID",
+    lowProfile: false,
+
+    startup: 32,
+    active: 0,
+    recovery: 8,
+
+    onHit: 0,
+    onBlock: 0,
+
+    position: {
+        x:0,
+        y:0
+    },
+
+    width:0,
+    height:0,
+    offset: {
+        x: 0,
+        y:  0,
+    },
+
+    damage:0,
+    pushblock:0,
+    pushhit:0, 
+
+    forceApply: "none",
+    forceX:0,
+    forceY:0
+})
+
+export const ddBtwo = new Attack({
+    attackClass: "MID",
+    lowProfile: false,
+
+    startup: 32,
+    active: 0,
+    recovery: 8,
+
+    onHit: 0,
+    onBlock: 0,
+
+    position: {
+        x:0,
+        y:0
+    },
+
+    width:0,
+    height:0,
+    offset: {
+        x: 0,
+        y:  0,
+    },
+
+    damage:0,
+    pushblock:0,
+    pushhit:0, 
+
+    forceApply: "none",
+    forceX:0,
+    forceY:0
+})
+
 export const Alvl1one = new Attack({
     attackClass: "MID",
     lowProfile: false,
@@ -875,317 +1137,69 @@ export const ddAtwo = new Attack({
     juggleValue: 0
 })
 
-export const stBone = new Attack({
-    attackClass: "MID",
-    lowProfile: false,
+//projectiles--------------------------------------------------------------------------------------------------------------------------------------------------
 
-    startup: 9,
-    active: 5,
-    recovery: 15,
+export const rock1 = new Projectile({
+    attackClass: "PROJECTILE",
+    onScreen: false,
+    timeUntilAppear: ddBone.startup,
 
-    onHit: 5,
-    onBlock: 2,
+    hitstun: 24,
 
     position: {
         x:0,
         y:0
     },
-    width:100,
-    height:100,
+    velocity: {
+        x:0,
+        y:-14
+    },
+    width:50,
+    height:50,
     offset: {
-        x: 50,
-        y: 25,
+        x: 70,
+        y: 0,
+    },
+    damage:10,
+    pushblock:20, 
+
+    forceApply: "HKD",
+    forceX:0,
+    forceY:3,
+    juggleValue: -50
+
+
+})
+
+export const rock2 = new Projectile({
+    attackClass: "PROJECTILE",
+    onScreen: false,
+    timeUntilAppear: ddBtwo.startup,
+
+    hitstun: 24,
+
+    position: {
+        x:0,
+        y:0
+    },
+    velocity: {
+        x:0,
+        y:-14
+    },
+    width:50,
+    height:50,
+    offset: {
+        x: 70,
+        y: 0,
     },
     damage:5,
-    pushblock:15,
-    pushhit:8, 
+    pushblock:20, 
 
-    forceApply: "air",
-    forceX:3,
-    forceY:-7,
-    juggleValue: -3
-})
-export const stBtwo = new Attack({
-    attackClass: "MID",
-    lowProfile: false,
-
-    startup: 9,
-    active: 5,
-    recovery: 15,
-
-    onHit: 5,
-    onBlock: 2,
-
-    position: {
-        x:0,
-        y:0
-    },
-    width:100,
-    height:100,
-    offset: {
-        x: 50,
-        y: 25,
-    },
-    damage:5,
-    pushblock:15,
-    pushhit:8, 
-
-    forceApply: "air",
-    forceX:3,
-    forceY:-7,
-    juggleValue: -3
-})
-export const crBone = new Attack({
-    attackClass: "LOW",
-    lowProfile: true,
-
-    startup: 16,
-    active: 7,
-    recovery: 15,
-
-    onHit: "HKD",
-    onBlock: -14,
-
-    position: {
-        x:0,
-        y:0
-    },
-
-    width:370,
-    height:40,
-    offset: {
-        x: -150,
-        y: 60,
-    },
-
-    damage:8,
-    pushblock:15,
-    pushhit:8, 
-
-    forceApply: "air",
-    forceX:3,
-    forceY:5
-})
-export const crBtwo = new Attack({
-    attackClass: "LOW",
-    lowProfile: true,
-
-    startup: 16,
-    active: 7,
-    recovery: 36,
-
-    onHit: "HKD",
-    onBlock: -14,
-
-    position: {
-        x:0,
-        y:0
-    },
-
-    width:370,
-    height:40,
-    offset: {
-        x: -150,
-        y: 60,
-    },
-    
-    damage:8,
-    pushblock:15,
-    pushhit:8, 
-
-    forceApply: "air",
-    forceX:3,
-    forceY:5
-})
-export const aBone = new Attack({
-    attackClass: "OVERHEAD",
-    lowProfile: false,
-
-    startup: 16,
-    active: 5,
-    recovery: 20,
-
-    onHit: 12,
-    onBlock: 5,
-
-    position: {
-        x:0,
-        y:0
-    },
-
-    width:175,
-    height:150,
-    offset: {
-        x: 25,
-        y:  90,
-    },
-
-    damage:4,
-    pushblock:30,
-    pushhit:20, 
-
-    forceApply: "air",
-    forceX:2,
-    forceY:-18,
-    juggleValue: -20
-})
-export const aBtwo = new Attack({
-    attackClass: "OVERHEAD",
-    lowProfile: false,
-
-    startup: 16,
-    active: 5,
-    recovery: 20,
-
-    onHit: 12,
-    onBlock: 5,
-
-    position: {
-        x:0,
-        y:0
-    },
-
-    width:175,
-    height:150,
-    offset: {
-        x: 25,
-        y:  90,
-    },
-
-    damage:4,
-    pushblock:30,
-    pushhit:20, 
-
-    forceApply: "air",
-    forceX:2,
-    forceY:-18,
-    juggleValue: -20
-})
-export const fBone = new Attack({
-    attackClass: "HIGH",
-    lowProfile: false,
-
-    startup: 18,
-    active: 4,
-    recovery: 18,
-
-    onHit: 5,
-    onBlock: -7,
-
-    position: {
-        x:0,
-        y:0
-    },
-
-    width:230,
-    height:40,
-    offset: {
-        x: 50,
-        y:  20,
-    },
-
-    damage:4,
-    pushblock:40,
-    pushhit:30, 
-
-    forceApply: "air",
-    forceX:10,
-    forceY:5
-})
-export const fBtwo = new Attack({
-    attackClass: "HIGH",
-    lowProfile: false,
-
-    startup: 18,
-    active: 4,
-    recovery: 18,
-
-    onHit: 5,
-    onBlock: -7,
-
-    position: {
-        x:0,
-        y:0
-    },
-
-    width:230,
-    height:40,
-    offset: {
-        x: 50,
-        y:  20,
-    },
-
-    damage:4,
-    pushblock:40,
-    pushhit:30, 
-
-    forceApply: "air",
-    forceX:10,
-    forceY:5
-})
-
-export const ddBone = new Attack({
-    attackClass: "MID",
-    lowProfile: false,
-
-    startup: 27,
-    active: 0,
-    recovery: 5,
-
-    onHit: 0,
-    onBlock: 0,
-
-    position: {
-        x:0,
-        y:0
-    },
-
-    width:0,
-    height:0,
-    offset: {
-        x: 0,
-        y:  0,
-    },
-
-    damage:0,
-    pushblock:0,
-    pushhit:0, 
-
-    forceApply: "none",
+    forceApply: "HKD",
     forceX:0,
-    forceY:0
-})
+    forceY:3,
+    juggleValue: -50
 
-export const ddBtwo = new Attack({
-    attackClass: "MID",
-    lowProfile: false,
-
-    startup: 27,
-    active: 0,
-    recovery: 5,
-
-    onHit: 0,
-    onBlock: 0,
-
-    position: {
-        x:0,
-        y:0
-    },
-
-    width:0,
-    height:0,
-    offset: {
-        x: 0,
-        y:  0,
-    },
-
-    damage:0,
-    pushblock:0,
-    pushhit:0, 
-
-    forceApply: "none",
-    forceX:0,
-    forceY:0
 })
 
 
@@ -1350,7 +1364,7 @@ function RECOVERY(who){
     who.myAttack = "none"
     who.agachado = false
 }
-export function update(who, move) {
+export function update(who, move, playerProjectile) {
     if(who.agachado){
         who.height = 100
         who.position.y = who.fakePosition.y
@@ -1364,16 +1378,30 @@ export function update(who, move) {
     //posición en y se le suma la velocidad que tenga en ese momento
     who.fakePosition.y += who.velocity.y 
 
+    if(playerProjectile.onScreen){
+        playerProjectile.position.y += playerProjectile.velocity.y
+        playerProjectile.position.x += playerProjectile.velocity.x
+
+        if(!(playerProjectile.position.y + playerProjectile.height >= who.canvasRef.height)){
+            playerProjectile.velocity.y += GRAVITY
+        }else {
+            playerProjectile.onScreen = false
+            playerProjectile.velocity.y = -14
+            playerProjectile.velocity.x = 0
+        }
+    }
+
     who.wallCollision()
     //posición hitbox
     if(who.side == "left"){
         move.position.x = who.fakePosition.x + move.offset.x
     }else{
-        move.position.x = who.fakePosition.x - move.width + who.width - move.offset.x//10
+        move.position.x = who.fakePosition.x - move.width + who.width - move.offset.x
     }
     move.position.y = who.position.y + move.offset.y 
 
-    draw(who, move)
+    draw(who, move, playerProjectile)
+
 
     //comprobar si toca el suelo
     if(who.position.y + who.height + who.velocity.y >= who.canvasRef.height){
@@ -1432,7 +1460,7 @@ export function update(who, move) {
     who.checkJumpMaxHeight()
 }
 
-export function draw(who, move) {
+export function draw(who, move, playerProjectile) {
     //pintar personaje
     who.canvasContext.fillStyle = who.color //color
     who.canvasContext.fillRect(who.position.x, who.position.y, who.width, who.height)
@@ -1445,6 +1473,15 @@ export function draw(who, move) {
             move.width, 
             move.height)
         }
+    if(playerProjectile.onScreen){
+        who.canvasContext.fillStyle = "brown"
+        who.canvasContext.fillRect(
+            playerProjectile.position.x, 
+            playerProjectile.position.y, 
+            playerProjectile.width, 
+            playerProjectile.height
+        )
+    }
 }
 
 //reloj-----------------------------------------------------------------------------------

@@ -35,7 +35,7 @@ c.fillRect(0,0,canvas.width,canvas.height)
 
 //barras de vida, movimiento, ataques...
 function animate(){ 
-    console.log(enemy.inCombo)
+    //console.log("miau")
     n++    
     //ea para donde se mira y cambia la hitbox en consecuencia, mira a ver si toca bloquar
     playerSide()
@@ -105,71 +105,71 @@ function animate(){
     
         //updateeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
         if (myAttack1 == aA){
-            update(player, aAone)//objeto player de la clase Sprite usando metodo update del
+            update(player, aAone, rock1)//objeto player de la clase Sprite usando metodo update del
         }if (myAttack1 == ddA){
-            update(player, ddAone)//objeto player de la clase Sprite usando metodo update del
+            update(player, ddAone, rock1)//objeto player de la clase Sprite usando metodo update del
         }else if(myAttack1 == qcfA1){
-            update(player, Alvl1one)
+            update(player, Alvl1one, rock1)
         }else if(myAttack1 == qcfA2){
-            update(player, Alvl2one)
+            update(player, Alvl2one, rock1)
         }else if(myAttack1 == qcfA3){
-            update(player, Alvl3one)
+            update(player, Alvl3one, rock1)
         }else if(myAttack1 == qcfB1){
-            update(player, Blvl1one)
+            update(player, Blvl1one, rock1)
         }else if(myAttack1 == qcfB2){
-            update(player, Blvl2one)
+            update(player, Blvl2one, rock1)
         }else if(myAttack1 == qcfB3){
-            update(player, Blvl3one)
+            update(player, Blvl3one, rock1)
         }else if(myAttack1 == A5){
-            update(player, stAone)
+            update(player, stAone, rock1)
         }else if(myAttack1 == A2){
-            update(player, crAone)
+            update(player, crAone, rock1)
         }else if(myAttack1 == A3){
-            update(player, crstAone)
+            update(player, crstAone, rock1)
         }else if(myAttack1 == B5){
-            update(player, stBone)
+            update(player, stBone, rock1)
         }else if(myAttack1 == B2){
-            update(player, crBone)
+            update(player, crBone, rock1)
         }else if(myAttack1 == aB){
-            update(player, aBone)
+            update(player, aBone, rock1)
         }else if(myAttack1 == B6){
-            update(player, fBone)
+            update(player, fBone, rock1)
         }else if(myAttack1 == ddB){
-            update(player, ddBone)
+            update(player, ddBone, rock1)
         }
     
         if (myAttack2 == aA){
-            update(enemy, aAtwo)//objeto player de la clase Sprite usando metodo update del
+            update(enemy, aAtwo, rock2)//objeto player de la clase Sprite usando metodo update del
         }if (myAttack2 == ddA){
-            update(enemy, ddAtwo)//objeto player de la clase Sprite usando metodo update del
+            update(enemy, ddAtwo, rock2)//objeto player de la clase Sprite usando metodo update del
         }else if(myAttack2 == qcfA1){
-            update(enemy, Alvl1two)
+            update(enemy, Alvl1two, rock2)
         }else if(myAttack2 == qcfA2){
-            update(enemy, Alvl2two)
+            update(enemy, Alvl2two, rock2)
         }else if(myAttack2 == qcfA3){
-            update(enemy, Alvl3two)
+            update(enemy, Alvl3two, rock2)
         }else if(myAttack2 == qcfB1){
-            update(enemy, Blvl1two)
+            update(enemy, Blvl1two, rock2)
         }else if(myAttack2 == qcfB2){
-            update(enemy, Blvl2two)
+            update(enemy, Blvl2two, rock2)
         }else if(myAttack2 == qcfB3){
-            update(enemy, Blvl3two)
+            update(enemy, Blvl3two, rock2)
         }else if(myAttack2 == A5){
-            update(enemy, stAtwo)
+            update(enemy, stAtwo, rock2)
         }else if(myAttack2 == A2){
-            update(enemy, crAtwo)
+            update(enemy, crAtwo, rock2)
         }else if(myAttack2 == A3){
-            update(enemy, crstAtwo)
+            update(enemy, crstAtwo, rock2)
         }else if(myAttack2 == B5){
-            update(enemy, stBtwo)
+            update(enemy, stBtwo, rock2)
         }else if(myAttack2 == B2){
-            update(enemy, crBtwo)
+            update(enemy, crBtwo, rock2)
         }else if(myAttack2 == aB){
-            update(enemy, aBtwo)
+            update(enemy, aBtwo, rock2)
         }else if(myAttack2 == B6){
-            update(enemy, fBtwo)
+            update(enemy, fBtwo, rock2)
         }else if(myAttack2 == ddB){
-            update(enemy, ddBtwo)
+            update(enemy, ddBtwo, rock2)
         }
     
     
@@ -312,6 +312,9 @@ function animate(){
                 }else if(SpecialInput1 == "22B"){
                     myAttack1 = ddB
                     attack(player,ddBone)
+                    setTimeout(() => {
+                        summonProjectile(rock1, player)
+                    },(ddBone.startup)*1000/FPS)
                 }else if((player.side == "right" && SpecialInput1 == "214B") || (player.side == "left" && SpecialInput1 == "236B")){
                     player.agachado = false
                     player.velocity.x = 0
@@ -498,6 +501,9 @@ function animate(){
                 }else if(SpecialInput2 == "22B"){
                     myAttack2 = ddB
                     attack(enemy,ddBtwo)
+                    setTimeout(() => {
+                        summonProjectile(rock2, enemy)
+                    },(ddBtwo.startup)*1000/FPS)
                 }else if((enemy.side == "right" && SpecialInput2 == "214B") || (enemy.side == "left" && SpecialInput2 == "236B")){
                     enemy.agachado = false
                     enemy.velocity.x = 0
@@ -821,7 +827,6 @@ function animate(){
 
         }
     }
-    //console.log(depuredBuffer1[depuredBuffer1.lastIndexOf(4)-1])
     //Crea un bucle infinito para que el juego funcione a un numero de fps concreto
     setTimeout(() => {
         requestAnimationFrame(animate)
@@ -848,11 +853,11 @@ function animate(){
 
 function unableP(){
     player.unable = false
-    console.log("recuperao1")
+    //console.log("recuperao1")
 }
 function unableE(){
     enemy.unable = false
-    console.log("recuperao2")
+    //console.log("recuperao2")
 }
 
 animate()
@@ -863,7 +868,7 @@ function attackFunction(goodGuy, badGuy, theAttack){
     if((goodGuy.isAttacking && !(badGuy.agachado && theAttack.attackClass =="HIGH")) && !badGuy.invulnerable){
         badGuy.velocity.x = 0
         badGuy.unable = true
-        if (badGuy.blockState && theAttack.attackClass!="UNBLOCKABLE" &&((badGuy.velocity.y != 0 || badGuy.jumpMaxPoint)|| (theAttack.attackClass =="MID" || (badGuy.blockType == CROUCHING && theAttack.attackClass =="LOW") || (badGuy.blockType == STANDING && theAttack.attackClass =="OVERHEAD") || (theAttack.attackClass =="HIGH" && badGuy.blockType == STANDING)))){ 
+        if (badGuy.blockState && theAttack.attackClass !="UNBLOCKABLE" &&((badGuy.velocity.y != 0 || badGuy.jumpMaxPoint)|| ((theAttack.attackClass =="MID" || theAttack.attackClass =="PROJECTILE") || (badGuy.blockType == CROUCHING && theAttack.attackClass =="LOW") || (badGuy.blockType == STANDING && theAttack.attackClass =="OVERHEAD") || (theAttack.attackClass =="HIGH" && badGuy.blockType == STANDING)))){ 
             if(badGuy.perfectBlock){
                 badGuy.health += 3
             }else{
@@ -871,13 +876,17 @@ function attackFunction(goodGuy, badGuy, theAttack){
             }
             if(goodGuy == player){
                 document.querySelector('#enemyHealth').style.width = badGuy.health + '%'
-                setTimeout(unableE, (theAttack.active + theAttack.recovery + theAttack.onBlock)*1000/FPS)
+                if(theAttack.attackClass !="PROJECTILE"){
+                    setTimeout(unableE, (theAttack.active + theAttack.recovery + theAttack.onBlock)*1000/FPS)
+                }else setTimeout(unableE, (hitstun)*1000/FPS)
                 if(pDerecha == "izq"){
                     badGuy.fakePosition.x += theAttack.pushblock
                 }else badGuy.fakePosition.x -= theAttack.pushblock
             }else{
                 document.querySelector('#playerHealth').style.width = badGuy.health + '%'
-                setTimeout(unableP, (theAttack.active + theAttack.recovery + theAttack.onBlock)*1000/FPS)
+                if(theAttack.attackClass !="PROJECTILE"){
+                    setTimeout(unableP, (theAttack.active + theAttack.recovery + theAttack.onBlock)*1000/FPS)
+                } else setTimeout(unableP, (hitstun)*1000/FPS)
                 if(pDerecha == "der"){
                     badGuy.fakePosition.x += theAttack.pushblock
                 }else badGuy.fakePosition.x -= theAttack.pushblock
@@ -1093,4 +1102,15 @@ function softKnockedDown(who){
 
 function jumpInvulnerabilityEnds(who){
     who.inCombo = false
+}
+
+function summonProjectile(projectileName, who){
+    console.log("miau")
+    if(who.side == "left"){
+        projectileName.position.x = who.fakePosition.x + projectileName.offset.x
+    }else{
+        projectileName.position.x = who.fakePosition.x - projectileName.width + who.width - projectileName.offset.x//10
+    }
+    projectileName.position.y = 576- projectileName.height - 10
+    projectileName.onScreen = true
 }
