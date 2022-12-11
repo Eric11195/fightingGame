@@ -132,6 +132,82 @@ export class Attack{
 
 }
 
+export class Projectile{
+    constructor({juggleValue, attackClass, position, width, height, offset, damage, pushblock,forceApply, forceX, forceY, velocity, onScreen}){
+        this.onScreen = onScreen
+        this.attackClass = attackClass
+        this.damage = damage
+       
+        //creation of hitbox
+        this.position = position
+        this.velocity = velocity
+
+        this.width = width
+        this.height = height
+        //desplazamiento de la hitbox para cambios de sentido
+        this.offset = offset
+        this.pushblock = pushblock
+
+        this.forceApply = forceApply
+        this.forceX = forceX
+        this.forceY = forceY
+        this.juggleValue = juggleValue
+    }
+
+}
+
+export const rock1 = new Projectile({
+    attackClass: "PROJECTILE",
+    onScreen: false,
+
+    hitstun: 30,
+
+    position: {
+        x:0,
+        y:0
+    },
+    width:80,
+    height:80,
+    offset: {
+        x: 40,
+        y: 20,
+    },
+    damage:10,
+    pushblock:20, 
+
+    forceApply: "air",
+    forceX:0,
+    forceY:3,
+    juggleValue: -50
+
+})
+
+export const rock2 = new Projectile({
+    attackClass: "PROJECTILE",
+    onScreen: false,
+
+    hitstun: 30,
+
+    position: {
+        x:0,
+        y:0
+    },
+    width:80,
+    height:80,
+    offset: {
+        x: 40,
+        y: 20,
+    },
+    damage:5,
+    pushblock:20, 
+
+    forceApply: "air",
+    forceX:0,
+    forceY:3,
+    juggleValue: -50
+
+})
+
 
 export const stAone = new Attack({
     attackClass: "HIGH",
@@ -1046,6 +1122,70 @@ export const fBtwo = new Attack({
     forceApply: "air",
     forceX:10,
     forceY:5
+})
+
+export const ddBone = new Attack({
+    attackClass: "MID",
+    lowProfile: false,
+
+    startup: 27,
+    active: 0,
+    recovery: 5,
+
+    onHit: 0,
+    onBlock: 0,
+
+    position: {
+        x:0,
+        y:0
+    },
+
+    width:0,
+    height:0,
+    offset: {
+        x: 0,
+        y:  0,
+    },
+
+    damage:0,
+    pushblock:0,
+    pushhit:0, 
+
+    forceApply: "none",
+    forceX:0,
+    forceY:0
+})
+
+export const ddBtwo = new Attack({
+    attackClass: "MID",
+    lowProfile: false,
+
+    startup: 27,
+    active: 0,
+    recovery: 5,
+
+    onHit: 0,
+    onBlock: 0,
+
+    position: {
+        x:0,
+        y:0
+    },
+
+    width:0,
+    height:0,
+    offset: {
+        x: 0,
+        y:  0,
+    },
+
+    damage:0,
+    pushblock:0,
+    pushhit:0, 
+
+    forceApply: "none",
+    forceX:0,
+    forceY:0
 })
 
 

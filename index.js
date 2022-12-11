@@ -1,4 +1,4 @@
-import {FPS, player, enemy, speed, jumpForce, pDerecha, playerSide, xEnemyCollision, xPlayerCollision, minusxEnemyCollision, minusxPlayerCollision, hitboxCollision, attack, update, secondJumpForce, airDash, stAone, stAtwo, aAone ,aAtwo, crAone, crAtwo, Alvl1one, Alvl1two, Alvl3one, ddAone, ddAtwo, stBone, stBtwo, crBone, crBtwo, aBone, aBtwo, crstAone, crstAtwo, fBone, fBtwo, Alvl2one, Alvl2two, Alvl3two, Blvl1one,Blvl1two, Blvl2two, Blvl2one,  Blvl3one, Blvl3two, timer, timerId, playing, checkWinner, decreaseTimer, runSpeed, longJumpForce, highJumpForce, airRunSpeed, Dash, longJumpSpeed} from './charactersData.js'
+import {FPS, player, enemy, speed, jumpForce, pDerecha, playerSide, xEnemyCollision, xPlayerCollision, minusxEnemyCollision, minusxPlayerCollision, hitboxCollision, attack, update, secondJumpForce, airDash, stAone, stAtwo, aAone ,aAtwo, crAone, crAtwo, Alvl1one, Alvl1two, Alvl3one, ddAone, ddAtwo, stBone, stBtwo, crBone, crBtwo, aBone, aBtwo, crstAone, crstAtwo, fBone, fBtwo, Alvl2one, Alvl2two, Alvl3two, Blvl1one,Blvl1two, Blvl2two, Blvl2one,  Blvl3one, Blvl3two, timer, timerId, playing, checkWinner, decreaseTimer, runSpeed, longJumpForce, highJumpForce, airRunSpeed, Dash, longJumpSpeed, rock1, rock2, ddBone, ddBtwo} from './charactersData.js'
 import {keys, p1InputBuffer, p2InputBuffer, checkSpecialInputs, getPlayerOneInput, getPlayerTwoInput, SpecialInput1, SpecialInput2, playerOneRunning, playerTwoRunning, p1FramesCharging, p2FramesCharging} from './inputHandler.js'
 import {canvas, c, CROUCHING, STANDING} from './System.js'
 
@@ -17,6 +17,7 @@ const B5 = "5B"
 const B2 = "2B"
 const B6 = "6B"
 const aB = "a.B"
+const ddB = "22B"
 
 var myAttack1 = A5
 var myAttack2 = A5 
@@ -133,6 +134,8 @@ function animate(){
             update(player, aBone)
         }else if(myAttack1 == B6){
             update(player, fBone)
+        }else if(myAttack1 == ddB){
+            update(player, ddBone)
         }
     
         if (myAttack2 == aA){
@@ -165,6 +168,8 @@ function animate(){
             update(enemy, aBtwo)
         }else if(myAttack2 == B6){
             update(enemy, fBtwo)
+        }else if(myAttack2 == ddB){
+            update(enemy, ddBtwo)
         }
     
     
@@ -304,6 +309,9 @@ function animate(){
                 if(player.velocity.y != 0 || player.jumpMaxPoint){
                     myAttack1 = aB
                     attack(player,aBone)
+                }else if(SpecialInput1 == "22B"){
+                    myAttack1 = ddB
+                    attack(player,ddBone)
                 }else if((player.side == "right" && SpecialInput1 == "214B") || (player.side == "left" && SpecialInput1 == "236B")){
                     player.agachado = false
                     player.velocity.x = 0
@@ -487,6 +495,9 @@ function animate(){
                 if(enemy.velocity.y != 0 || enemy.jumpMaxPoint){
                     myAttack2 = aB
                     attack(enemy,aBtwo)
+                }else if(SpecialInput2 == "22B"){
+                    myAttack2 = ddB
+                    attack(enemy,ddBtwo)
                 }else if((enemy.side == "right" && SpecialInput2 == "214B") || (enemy.side == "left" && SpecialInput2 == "236B")){
                     enemy.agachado = false
                     enemy.velocity.x = 0

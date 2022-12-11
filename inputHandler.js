@@ -193,7 +193,7 @@ export const KEYDOWN = window.addEventListener('keydown', (event) => {
             break
         case '-':
             keys.barra.pressed = true
-            if(!playerTwoA){
+            if(!playerTwoB){
                 p2FramesCharging = true
                 checkInputBufferLength()
                 p2InputBuffer.push("B")
@@ -300,7 +300,7 @@ export function checkSpecialInputs(){
     playerTwoRunning = false
     //depuredBuffer1 = checkSpecialInputs.slice()
     depuredBuffer1 = p1InputBuffer.filter(filterBlankSpace)
-    //console.log(depuredBuffer1)
+    console.log(depuredBuffer2)
     depuredBuffer2 = p2InputBuffer.filter(filterBlankSpace)
 
     //console.log(depuredBuffer1.lastIndexOf(6) != -1 && (6 == depuredBuffer1[depuredBuffer1.lastIndexOf(6)-1]))
