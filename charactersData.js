@@ -1429,6 +1429,7 @@ export function update(who, move, playerProjectile) {
             }
         }else{
             who.GB = false
+            who.velocity.y = -who.velocity.y
             who.WB = false
         }
         playerSide()
