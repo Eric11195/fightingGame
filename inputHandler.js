@@ -300,7 +300,7 @@ export function checkSpecialInputs(){
     playerTwoRunning = false
     //depuredBuffer1 = checkSpecialInputs.slice()
     depuredBuffer1 = p1InputBuffer.filter(filterBlankSpace)
-    console.log(depuredBuffer1)
+    //console.log(depuredBuffer1)
     depuredBuffer2 = p2InputBuffer.filter(filterBlankSpace)
 
     //console.log(depuredBuffer1.lastIndexOf(6) != -1 && (6 == depuredBuffer1[depuredBuffer1.lastIndexOf(6)-1]))

@@ -1242,8 +1242,10 @@ export function update(who, move) {
         who.jumps.n = 2
         who.fakePosition.y = 476
         if(!who.GB){
-            who.inCombo = false
-            who.velocity.y = 0
+            if(!who.DashRemains){
+                who.inCombo = false
+            }
+                who.velocity.y = 0
             if(who.HKD){
                 who.juggleMultiplier = 100
                 who.velocity.x = 0
@@ -1281,7 +1283,7 @@ export function update(who, move) {
             if(!who.wallSplated){
                 who.velocity.y += GRAVITY//aceleración en caida
             }else{
-                console.log("miau")
+                //console.log("miau")
                 who.velocity.y = 0
                 setTimeout(stopWS, (40)*1000/FPS, who)
             }

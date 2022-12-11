@@ -171,7 +171,7 @@ function animate(){
 
 
     if(playing) {
-        //console.log(enemy.WS)
+        //console.log(player.unable)
         //console.log(player.HKD)
 
         // qcb, etc
@@ -179,8 +179,8 @@ function animate(){
 
 //player--------------------------------------------------------------------------------------------------------
         if(keys.space.pressed && ((!player.unable || player.DashRemains || (player.velocity.y != 0 || player.jumpMaxPoint)))){
-            //player.unable = true
-            //setTimeout(STARTUP, 4*1000/FPS, who)
+            player.inCombo = true
+            setTimeout(jumpInvulnerabilityEnds, 6*1000/FPS, player)
             keys.space.pressed = false
             if (player.jumps.n > 0 ){
                 if (pDerecha == "izq"){
@@ -258,10 +258,14 @@ function animate(){
             if(player.jumps.n>0){
                 if (player.velocity.y != 0 || player.jumpMaxPoint){
                     if(SpecialInput1 == "66"){
+                        player.inCombo = true
+                        setTimeout(jumpInvulnerabilityEnds, 6*1000/FPS, player)
                         player.velocity.x = airRunSpeed
                         airDash(player,1)
                         player.jumps.n--
                     }else if(SpecialInput1 == "44"){
+                        player.inCombo = true
+                        setTimeout(jumpInvulnerabilityEnds, 6*1000/FPS, player)
                         player.velocity.x = -airRunSpeed
                         airDash(player,-1)
                         player.jumps.n--
@@ -327,13 +331,17 @@ function animate(){
                     if(playerOneRunning){
                         player.velocity.x = runSpeed
                         Dash(player,1)
+                        player.inCombo = true
+                        setTimeout(jumpInvulnerabilityEnds, 12*1000/FPS, player)
                     }else player.velocity.x = speed
                 }
             } else if (keys.a.pressed && !player.agachado){
                 if(!minusxPlayerCollision({ Me: player, Opponent: enemy})){
                     if(playerOneRunning){
-                            player.velocity.x = -runSpeed
-                            Dash(player, -1)
+                        player.velocity.x = -runSpeed
+                        Dash(player, -1)
+                        player.inCombo = true
+                        setTimeout(jumpInvulnerabilityEnds, 12*1000/FPS, player)
                     }else player.velocity.x = -speed
                 }
             } else if (!keys.d.pressed && !keys.a.pressed && !xPlayerCollision({ me: player, opponent: enemy}) && !minusxPlayerCollision({ Me: player, Opponent: enemy})) {
@@ -347,6 +355,8 @@ function animate(){
 
 //enemy---------------------------------------------------------------------------------------------------------
         if(keys.AU.pressed && ((!enemy.unable || enemy.DashRemains || (enemy.velocity.y != 0 || enemy.jumpMaxPoint)))){
+            enemy.inCombo = true
+            setTimeout(jumpInvulnerabilityEnds, 5.2*1000/FPS, enemy)
             keys.AU.pressed = false
             if (enemy.jumps.n > 0 ){
                 if (pDerecha == "der"){
@@ -425,10 +435,14 @@ function animate(){
             if(enemy.jumps.n>0){
                 if (enemy.velocity.y != 0 || enemy.jumpMaxPoint){
                     if(SpecialInput2 == "66"){
+                        enemy.inCombo = true
+                        setTimeout(jumpInvulnerabilityEnds, 5.2*1000/FPS, enemy)
                         enemy.velocity.x = airRunSpeed
                         airDash(enemy,1)
                         enemy.jumps.n--
                     }else if(SpecialInput2 == "44"){
+                        enemy.inCombo = true
+                        setTimeout(jumpInvulnerabilityEnds, 5.2*1000/FPS, enemy)
                         enemy.velocity.x = -airRunSpeed
                         airDash(enemy,-1)
                         enemy.jumps.n--
@@ -500,6 +514,8 @@ function animate(){
                     if(playerTwoRunning){
                         enemy.velocity.x = runSpeed
                         Dash(enemy, 1)
+                        enemy.inCombo = true
+                        setTimeout(jumpInvulnerabilityEnds, 9.9*1000/FPS, enemy)
                     }else enemy.velocity.x = speed
                 }
             } else if (keys.AL.pressed && !enemy.agachado){
@@ -507,6 +523,8 @@ function animate(){
                     if(playerTwoRunning){
                         enemy.velocity.x = -runSpeed
                         Dash(enemy, -1)
+                        enemy.inCombo = true
+                        setTimeout(jumpInvulnerabilityEnds, 9.9*1000/FPS, enemy)
                     }else enemy.velocity.x = -speed
                 }
             } else if(!keys.AL.pressed && !keys.AR.pressed && !xEnemyCollision({ meE: enemy, opponentE: player})&& !minusxEnemyCollision({ MeE: enemy, OpponentE: player})) {
@@ -1060,4 +1078,8 @@ function hardKnockedDown(who){
 
 function softKnockedDown(who){
     who.SKD = true
+}
+
+function jumpInvulnerabilityEnds(who){
+    who.inCombo = false
 }
