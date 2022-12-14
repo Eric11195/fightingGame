@@ -133,11 +133,12 @@ export class Attack{
 }
 
 export class Projectile{
-    constructor({juggleValue,timeUntilAppear, attackClass, position, width, height, offset, damage, pushblock,forceApply, forceX, forceY, velocity, onScreen}){
+    constructor({juggleValue,timeUntilAppear, attackClass, hitstun, position, width, height, offset, damage, pushblock, pushhit,forceApply, forceX, forceY, velocity, onScreen}){
         this.onScreen = onScreen
         this.attackClass = attackClass
         this.damage = damage
         this.timeUntilAppear = timeUntilAppear
+        this.hitstun = hitstun
        
         //creation of hitbox
         this.position = position
@@ -148,6 +149,7 @@ export class Projectile{
         //desplazamiento de la hitbox para cambios de sentido
         this.offset = offset
         this.pushblock = pushblock
+        this.pushhit = pushhit
 
         this.forceApply = forceApply
         this.forceX = forceX
@@ -1160,12 +1162,13 @@ export const rock1 = new Projectile({
         x: 70,
         y: 0,
     },
-    damage:10,
-    pushblock:20, 
+    damage:5,
+    pushblock:20,
+    pushhit: 10, 
 
-    forceApply: "HKD",
+    forceApply: "none",
     forceX:0,
-    forceY:3,
+    forceY:0,
     juggleValue: -50
 
 
@@ -1193,11 +1196,12 @@ export const rock2 = new Projectile({
         y: 0,
     },
     damage:5,
-    pushblock:20, 
+    pushblock:20,
+    pushhit:10, 
 
-    forceApply: "HKD",
+    forceApply: "none",
     forceX:0,
-    forceY:3,
+    forceY:0,
     juggleValue: -50
 
 })
@@ -1419,7 +1423,7 @@ export function update(who, move, playerProjectile) {
                 who.velocity.x = 0
                 who.invulnerable = true
                 who.unable = true
-                setTimeout(GetUpKnockDown, (52)*1000/FPS, who)
+                setTimeout(GetUpKnockDown, (62)*1000/FPS, who)
             }else if(who.SKD){
                 who.juggleMultiplier = 100
                 who.velocity.x = 0

@@ -641,6 +641,13 @@ function animate(){
             }
         }
 
+        if(rock1.onScreen){
+            if (hitboxCollision({hitbox: rock1, Enemy: enemy})) {
+                attackFunction(player, enemy, rock1)
+                player.isAttacking = true
+            }
+        }
+
 
 
         if(myAttack2 == A5){
@@ -715,6 +722,13 @@ function animate(){
         if(myAttack2 == ddA){
             if (hitboxCollision({hitbox: ddAtwo, Enemy: player})){
                 attackFunction(enemy,player,ddAtwo)
+            }
+        }
+
+        if(rock2.onScreen){
+            if (hitboxCollision({hitbox: rock2, Enemy: player})) {
+                attackFunction(enemy,player, rock2)
+                enemy.isAttacking = true
             }
         }
 
@@ -878,7 +892,7 @@ function attackFunction(goodGuy, badGuy, theAttack){
                 document.querySelector('#enemyHealth').style.width = badGuy.health + '%'
                 if(theAttack.attackClass !="PROJECTILE"){
                     setTimeout(unableE, (theAttack.active + theAttack.recovery + theAttack.onBlock)*1000/FPS)
-                }else setTimeout(unableE, (hitstun)*1000/FPS)
+                }else setTimeout(unableE, (theAttack.hitstun)*1000/FPS)
                 if(pDerecha == "izq"){
                     badGuy.fakePosition.x += theAttack.pushblock
                 }else badGuy.fakePosition.x -= theAttack.pushblock
@@ -886,7 +900,7 @@ function attackFunction(goodGuy, badGuy, theAttack){
                 document.querySelector('#playerHealth').style.width = badGuy.health + '%'
                 if(theAttack.attackClass !="PROJECTILE"){
                     setTimeout(unableP, (theAttack.active + theAttack.recovery + theAttack.onBlock)*1000/FPS)
-                } else setTimeout(unableP, (hitstun)*1000/FPS)
+                } else setTimeout(unableP, (theAttack.hitstun)*1000/FPS)
                 if(pDerecha == "der"){
                     badGuy.fakePosition.x += theAttack.pushblock
                 }else badGuy.fakePosition.x -= theAttack.pushblock
@@ -895,7 +909,7 @@ function attackFunction(goodGuy, badGuy, theAttack){
         }else{
             badGuy.inCombo = true
             badGuy.health -= theAttack.damage
-            badGuy.unable = true
+            //badGuy.unable = true
             if(theAttack.forceApply == "GB"){
                 badGuy.HKD = true
                 badGuy.SKD = false
@@ -995,13 +1009,30 @@ function attackFunction(goodGuy, badGuy, theAttack){
 
             }else if(goodGuy == player){
                 document.querySelector('#enemyHealth').style.width = badGuy.health + '%'
-                setTimeout(unableE, (theAttack.active + theAttack.recovery + theAttack.onHit)*1000/FPS)
+                if(theAttack.attackClass != "PROJECTILE"){
+                    setTimeout(unableE, (theAttack.active + theAttack.recovery + theAttack.onHit)*1000/FPS)
+                }else {
+                    if(!badGuy.HKD && !badGuy.SKD){
+                        console.log("miau")
+                        setTimeout(unableE, (theAttack.hitstun)*1000/FPS)
+                        theAttack.onScreen = false
+                        goodGuy.isAttacking = false
+                    }
+                }
                 if(pDerecha == "izq"){
                     badGuy.fakePosition.x += theAttack.pushhit
                 }else badGuy.fakePosition.x -= theAttack.pushhit
             }else {
                 document.querySelector('#playerHealth').style.width = badGuy.health + '%'
-                setTimeout(unableP, (theAttack.active + theAttack.recovery + theAttack.onHit)*1000/FPS)
+                if(theAttack.attackClass != "PROJECTILE"){
+                    setTimeout(unableP, (theAttack.active + theAttack.recovery + theAttack.onHit)*1000/FPS)
+                }else {
+                    if(!badGuy.HKD && !badGuy.SKD){
+                        setTimeout(unableP, (theAttack.hitstun)*1000/FPS)
+                        theAttack.onScreen = false
+                        goodGuy.isAttacking = false
+                    }
+                }
                 if(pDerecha == "der"){
                     badGuy.fakePosition.x += theAttack.pushhit
                 }else badGuy.fakePosition.x -= theAttack.pushhit
@@ -1105,7 +1136,7 @@ function jumpInvulnerabilityEnds(who){
 }
 
 function summonProjectile(projectileName, who){
-    console.log("miau")
+    //console.log("miau")
     if(who.side == "left"){
         projectileName.position.x = who.fakePosition.x + projectileName.offset.x
     }else{
