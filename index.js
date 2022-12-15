@@ -1323,7 +1323,8 @@ function jumpInvulnerabilityEnds(who){
 }
 
 function summonProjectile(projectileName, who){
-    projectileName.velocity.y = -12
+    projectileName.noFalloff = false
+    projectileName.velocity.y = -8
     projectileName.velocity.x = 0
     if(who.side == "left"){
         projectileName.position.x = who.fakePosition.x + projectileName.offset.x
@@ -1335,12 +1336,13 @@ function summonProjectile(projectileName, who){
 }
 
 function throwRockLowP(){
+    rock1.noFalloff= true
     setTimeout (BattingP, 1*1000/FPS)
     rock1.velocity.y = -7
     if(pDerecha == "izq"){
-        rock1.velocity.x = 17
+        rock1.velocity.x = 26
     }else {
-        rock1.velocity.x = -17
+        rock1.velocity.x = -26
     }
 }
 function throwRockHighP(){
@@ -1358,11 +1360,12 @@ function BattingP(){
 }
 
 function throwRockLowE(){
+    rock2.noFalloff = true
     setTimeout (BattingE, 1*1000/FPS)
     if(pDerecha == "der"){
-        rock2.velocity.x = 17
+        rock2.velocity.x = 26
     }else {
-        rock2.velocity.x = -17
+        rock2.velocity.x = -26
     }
     rock2.velocity.y = -7
 }

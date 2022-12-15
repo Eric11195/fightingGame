@@ -137,7 +137,7 @@ export class Attack{
 }
 
 export class Projectile{
-    constructor({juggleValue,timeUntilAppear, attackClass, hitstun, position, width, height, offset, damage, pushblock, pushhit,forceApply, forceX, forceY, velocity, onScreen}){
+    constructor({juggleValue, noFalloff,timeUntilAppear, attackClass, hitstun, position, width, height, offset, damage, pushblock, pushhit,forceApply, forceX, forceY, velocity, onScreen}){
         this.onScreen = onScreen
         this.attackClass = attackClass
         this.damage = damage
@@ -159,6 +159,7 @@ export class Projectile{
         this.forceX = forceX
         this.forceY = forceY
         this.juggleValue = juggleValue
+        this.noFalloff = noFalloff
     }
 
 }
@@ -1127,8 +1128,8 @@ export const ddAtwo = new Attack({
         x:0,
         y:0
     },
-    width:80,
-    height:80,
+    width:70,
+    height:70,
     offset: {
         x: 70,
         y: 70,
@@ -1158,22 +1159,23 @@ export const rock1 = new Projectile({
     },
     velocity: {
         x:0,
-        y:-12
+        y:-8
     },
-    width:80,
-    height:80,
+    width:70,
+    height:70,
     offset: {
         x: 70,
         y: 0,
     },
-    damage:5,
-    pushblock:20,
+    damage:15,
+    pushblock:40,
     pushhit: 10, 
 
     forceApply: "none",
     forceX:0,
     forceY:0,
-    juggleValue: -50
+    juggleValue: -50,
+    noFalloff: false
 
 
 })
@@ -1191,7 +1193,7 @@ export const rock2 = new Projectile({
     },
     velocity: {
         x:0,
-        y:-12
+        y:-8
     },
     width:80,
     height:80,
@@ -1199,14 +1201,15 @@ export const rock2 = new Projectile({
         x: 70,
         y: 0,
     },
-    damage:5,
-    pushblock:20,
+    damage:15,
+    pushblock:40,
     pushhit:10, 
 
     forceApply: "none",
     forceX:0,
     forceY:0,
-    juggleValue: -50
+    juggleValue: -50,
+    noFalloff: false
 
 })
 
@@ -1406,7 +1409,11 @@ export function update(who, move, playerProjectile) {
         playerProjectile.position.x += playerProjectile.velocity.x
 
         if(playerProjectile.position.y + playerProjectile.height <= who.canvasRef.height){
-            playerProjectile.velocity.y += GRAVITY
+            if(!playerProjectile.noFalloff){
+                playerProjectile.velocity.y += GRAVITY
+            }else{
+                playerProjectile.velocity.y = 0
+            }
         }else {
             playerProjectile.onScreen = false
         }
