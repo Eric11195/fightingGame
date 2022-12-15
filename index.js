@@ -35,7 +35,7 @@ c.fillRect(0,0,canvas.width,canvas.height)
 
 //barras de vida, movimiento, ataques...
 function animate(){ 
-    //console.log(player.isAttacking && enemy.unable)
+    //console.log(p1InputBuffer)
     n++    
     //ea para donde se mira y cambia la hitbox en consecuencia, mira a ver si toca bloquar
     playerSide()
@@ -176,6 +176,8 @@ function animate(){
 
 
     if(playing) {
+
+        //console.log(rock1.velocity.x)
         // qcb, etc
         checkSpecialInputs();
 
@@ -276,6 +278,27 @@ function animate(){
             }
         }
 
+        if (player.cancelWindow && myAttack1 == ddB){
+            console.log("ñeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee1")
+            if (keys.f.pressed){
+                player.myAttack = "none"
+                player.agachado = false
+                player.cancelWindow = false
+                player.batting = true
+                player.unable = true
+                setTimeout(unableP, 20*1000/FPS)
+                setTimeout(throwRockLowP, 15*1000/FPS)
+            }else if (keys.g.pressed){
+                player.myAttack = "none"
+                player.agachado = false
+                player.cancelWindow = false
+                player.batting = true
+                player.unable = true
+                setTimeout(unableP, 20*1000/FPS)
+                setTimeout(throwRockHighP, 15*1000/FPS)
+            }
+        }
+
         if (!player.unable){
             //acciones cuando hay alguna tecla pulsada
             if (keys.f.pressed){
@@ -301,17 +324,19 @@ function animate(){
                     player.velocity.x = 0
                     myAttack1 = A5
                 }
-
             }else if(keys.g.pressed){
+                //console.log(SpecialInput1)
                 if(player.velocity.y != 0 || player.jumpMaxPoint){
                     myAttack1 = aB
                     attack(player,aBone)
                 }else if(SpecialInput1 == "22B"){
-                    myAttack1 = ddB
-                    attack(player,ddBone)
-                    setTimeout(() => {
-                        summonProjectile(rock1, player)
-                    },(ddBone.startup)*1000/FPS)
+                    if(!rock1.onScreen){
+                        myAttack1 = ddB
+                        attack(player,ddBone)
+                        setTimeout(() => {
+                            summonProjectile(rock1, player)
+                        },(ddBone.startup)*1000/FPS)
+                    }
                 }else if((player.side == "right" && SpecialInput1 == "214B") || (player.side == "left" && SpecialInput1 == "236B")){
                     player.agachado = false
                     player.velocity.x = 0
@@ -457,6 +482,27 @@ function animate(){
                     }
         
                 }
+            }
+        }
+
+        if (enemy.cancelWindow && myAttack2 == ddB){
+            console.log("ñeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee2")
+            if (keys.dot.pressed){
+                enemy.myAttack = "none"
+                enemy.agachado = false
+                enemy.cancelWindow = false
+                enemy.batting = true
+                enemy.unable = true
+                setTimeout(unableE, 20*1000/FPS)
+                setTimeout(throwRockLowE, 15*1000/FPS)
+            }else if (keys.barra.pressed){
+                enemy.myAttack = "none"
+                enemy.agachado = false
+                enemy.cancelWindow = false
+                enemy.batting = true
+                enemy.unable = true
+                setTimeout(unableE, 20*1000/FPS)
+                setTimeout(throwRockHighE, 15*1000/FPS)
             }
         }
 
@@ -965,8 +1011,6 @@ function unableP(){
 function unableE(){
     if(!(player.attackHitting && player.attackHasLand)){
         enemy.unable = false
-    }else {
-        console.log("miau")
     }
 }
 
@@ -1106,7 +1150,7 @@ function attackFunction(goodGuy, badGuy, theAttack){
                     setTimeout(unableE, (theAttack.active + theAttack.recovery + theAttack.onHit)*1000/FPS)
                 }else {
                     if(!badGuy.HKD && !badGuy.SKD){
-                        console.log("miau1")
+                        //console.log("miau1")
                         setTimeout(unableE, (theAttack.hitstun)*1000/FPS)
                         theAttack.onScreen = false
                     }
@@ -1279,11 +1323,59 @@ function jumpInvulnerabilityEnds(who){
 }
 
 function summonProjectile(projectileName, who){
+    projectileName.velocity.y = -12
+    projectileName.velocity.x = 0
     if(who.side == "left"){
         projectileName.position.x = who.fakePosition.x + projectileName.offset.x
     }else{
         projectileName.position.x = who.fakePosition.x - projectileName.width + who.width - projectileName.offset.x//10
     }
-    projectileName.position.y = 576- projectileName.height - 10
+    projectileName.position.y = 576- projectileName.height - 50
     projectileName.onScreen = true
+}
+
+function throwRockLowP(){
+    setTimeout (BattingP, 1*1000/FPS)
+    rock1.velocity.y = -7
+    if(pDerecha == "izq"){
+        rock1.velocity.x = 17
+    }else {
+        rock1.velocity.x = -17
+    }
+}
+function throwRockHighP(){
+    setTimeout (BattingP, 1*1000/FPS)
+    if(pDerecha == "izq"){
+        rock1.velocity.x = 10
+    } else {
+        rock1.velocity.x = -10
+    }
+    rock1.velocity.y = -19
+}
+
+function BattingP(){
+    player.batting = false
+}
+
+function throwRockLowE(){
+    setTimeout (BattingE, 1*1000/FPS)
+    if(pDerecha == "der"){
+        rock2.velocity.x = 17
+    }else {
+        rock2.velocity.x = -17
+    }
+    rock2.velocity.y = -7
+}
+function throwRockHighE(){
+    setTimeout (BattingE, 1*1000/FPS)
+    if(pDerecha == "der"){
+        rock2.velocity.x = 10
+    } else {
+        rock2.velocity.x = -10
+    }
+    rock2.velocity.y = -19
+}
+
+function BattingE(){
+    enemy.batting = false
 }

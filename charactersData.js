@@ -23,7 +23,7 @@ export const FPS = 60;
 export class Sprite {
     //parametros iniciales de cualquier objeto que creemos de esta clase.
     //({}) --> el orden ya no importa pq son propiedades de un objeto y no son obligatorias
-    constructor({inCombo, attackHasLand, GB,WB, WS, wallSplated,juggleMultiplier,attackHitting, invulnerable,SKD, HKD, DashRemains, FramesCharging, position, velocity, jumps, color, side, perfectBlock, jumpMaxPoint, canvasContext, canvasRef, unable, blockType, blockState, framesBlocking, height, agachado, fakePosition, initAttack, blockStun}){
+    constructor({inCombo, batting, cancelWindow, attackHasLand, GB,WB, WS, wallSplated,juggleMultiplier,attackHitting, invulnerable,SKD, HKD, DashRemains, FramesCharging, position, velocity, jumps, color, side, perfectBlock, jumpMaxPoint, canvasContext, canvasRef, unable, blockType, blockState, framesBlocking, height, agachado, fakePosition, initAttack, blockStun}){
         //creación de atributos del objeto
         this.canvasContext = canvasContext
         this.canvasRef = canvasRef
@@ -64,6 +64,8 @@ export class Sprite {
         this.inCombo = inCombo
         this.attackHitting = attackHitting
         this.attackHasLand = attackHasLand
+        this.cancelWindow = cancelWindow
+        this.batting = batting
     }
 
     //comprueba si se ha llegado a la posición de salto máx
@@ -1156,10 +1158,10 @@ export const rock1 = new Projectile({
     },
     velocity: {
         x:0,
-        y:-14
+        y:-12
     },
-    width:50,
-    height:50,
+    width:80,
+    height:80,
     offset: {
         x: 70,
         y: 0,
@@ -1189,10 +1191,10 @@ export const rock2 = new Projectile({
     },
     velocity: {
         x:0,
-        y:-14
+        y:-12
     },
-    width:50,
-    height:50,
+    width:80,
+    height:80,
     offset: {
         x: 70,
         y: 0,
@@ -1253,7 +1255,9 @@ export const player = new Sprite({
     wallSplated: false,
     inCombo: false,
     attackHitting: false,
-    attackHasLand: false
+    attackHasLand: false,
+    cancelWindow: false,
+    batting: false
 })
 
 export const enemy = new Sprite({
@@ -1299,7 +1303,9 @@ export const enemy = new Sprite({
     wallSplated: false,
     inCombo: false,
     attackHitting: false,
-    attackHasLand: false
+    attackHasLand: false,
+    cancelWindow: false,
+    batting: false
 })
 
 //-----------------------------------------------------------------------------
@@ -1369,12 +1375,17 @@ function ACTIVE(who){
     //console.log("A")
     who.isAttacking = false
     who.attackHitting = false
+    who.cancelWindow = true
+
 }
 
 function RECOVERY(who){
-    who.unable = false
-    who.myAttack = "none"
-    who.agachado = false
+    if(!who.batting){
+        who.unable = false
+        who.myAttack = "none"
+        who.agachado = false
+        who.cancelWindow = false
+    }
 }
 export function update(who, move, playerProjectile) {
     if(who.agachado){
@@ -1394,12 +1405,10 @@ export function update(who, move, playerProjectile) {
         playerProjectile.position.y += playerProjectile.velocity.y
         playerProjectile.position.x += playerProjectile.velocity.x
 
-        if(!(playerProjectile.position.y + playerProjectile.height >= who.canvasRef.height)){
+        if(playerProjectile.position.y + playerProjectile.height <= who.canvasRef.height){
             playerProjectile.velocity.y += GRAVITY
         }else {
             playerProjectile.onScreen = false
-            playerProjectile.velocity.y = -14
-            playerProjectile.velocity.x = 0
         }
     }
 
@@ -1526,14 +1535,9 @@ export function checkWinner({player, enemy, timerId}){
 
 export function airDash(character, direction){
     character.velocity.y = -8
-    //setTimeout(airDashFinished, (10)*1000/FPS, character)
     character.velocity.x -= 3*direction
 }
 
-
-/*function airDashFinished(character){
-    console.log('miau')
-}*/
 
 export function Dash(characterG){
     characterG.unable = true
@@ -1554,7 +1558,7 @@ function GetUpKnockDown(character){
     character.unable = false
     character.HKD = false
     character.SKD = false
-    console.log("miau")
+    //console.log("miau")
 }
 
 function stopWS(character){

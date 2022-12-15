@@ -300,7 +300,7 @@ export function checkSpecialInputs(){
     playerTwoRunning = false
     //depuredBuffer1 = checkSpecialInputs.slice()
     depuredBuffer1 = p1InputBuffer.filter(filterBlankSpace)
-    console.log(depuredBuffer2)
+    //console.log(depuredBuffer1)
     depuredBuffer2 = p2InputBuffer.filter(filterBlankSpace)
 
     //console.log(depuredBuffer1.lastIndexOf(6) != -1 && (6 == depuredBuffer1[depuredBuffer1.lastIndexOf(6)-1]))
@@ -336,16 +336,17 @@ export function checkSpecialInputs(){
         SpecialInput1 = "28"
         p1InputBuffer.splice(0)
     }
+    if(depuredBuffer1.lastIndexOf(2) != -1 && (2 == depuredBuffer1[depuredBuffer1.lastIndexOf(2)-1] )){
+        SpecialInput1 = "22"
+    }
     if(depuredBuffer1.lastIndexOf("A") != -1 && depuredBuffer1.lastIndexOf(2) != -1 && (2 == depuredBuffer1[depuredBuffer1.lastIndexOf(2)-1])&& ("A" == depuredBuffer1[depuredBuffer1.lastIndexOf(2)+1] )){
         SpecialInput1 = "22A"
         p1InputBuffer.splice(0)
     }
     if(depuredBuffer1.lastIndexOf("B") != -1 && depuredBuffer1.lastIndexOf(2) != -1 && (2 == depuredBuffer1[depuredBuffer1.lastIndexOf(2)-1])&& ("B" == depuredBuffer1[depuredBuffer1.lastIndexOf(2)+1] )){
+        console.log("miau")
         SpecialInput1 = "22B"
         p1InputBuffer.splice(0)
-    }
-    if(depuredBuffer1.lastIndexOf(2) != -1 && (2 == depuredBuffer1[depuredBuffer1.lastIndexOf(2)-1] )){
-        SpecialInput1 = "22"
     }
     
 
@@ -379,6 +380,9 @@ export function checkSpecialInputs(){
         SpecialInput2 = "28"
         p2InputBuffer.splice(0)
     }
+    if(depuredBuffer2.lastIndexOf(2) != -1 && (2 == depuredBuffer2[depuredBuffer2.lastIndexOf(2)-1] )){
+        SpecialInput2 = "22"
+    }
     if(depuredBuffer2.lastIndexOf("A") != -1 && depuredBuffer2.lastIndexOf(2) != -1 && (2 == depuredBuffer2[depuredBuffer2.lastIndexOf(2)-1])&& ("A" == depuredBuffer2[depuredBuffer2.lastIndexOf(2)+1] )){
         SpecialInput2 = "22A"
         p1InputBuffer.splice(0)
@@ -386,9 +390,6 @@ export function checkSpecialInputs(){
     if(depuredBuffer2.lastIndexOf("B") != -1 && depuredBuffer2.lastIndexOf(2) != -1 && (2 == depuredBuffer2[depuredBuffer2.lastIndexOf(2)-1])&& ("B" == depuredBuffer2[depuredBuffer2.lastIndexOf(2)+1] )){
         SpecialInput2 = "22B"
         p1InputBuffer.splice(0)
-    }
-    if(depuredBuffer2.lastIndexOf(2) != -1 && (2 == depuredBuffer2[depuredBuffer2.lastIndexOf(2)-1] )){
-        SpecialInput2 = "22"
     }
 }
 
