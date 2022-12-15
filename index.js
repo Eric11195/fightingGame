@@ -35,7 +35,7 @@ c.fillRect(0,0,canvas.width,canvas.height)
 
 //barras de vida, movimiento, ataques...
 function animate(){ 
-    //console.log("miau")
+    //console.log(player.isAttacking && enemy.unable)
     n++    
     //ea para donde se mira y cambia la hitbox en consecuencia, mira a ver si toca bloquar
     playerSide()
@@ -176,9 +176,6 @@ function animate(){
 
 
     if(playing) {
-        //console.log(player.unable)
-        //console.log(player.HKD)
-
         // qcb, etc
         checkSpecialInputs();
 
@@ -565,170 +562,265 @@ function animate(){
         //detect for collision of hitbox and contrary character
         //se detecta si el lado más alejado del personaje de la hitbox, esta a más distancia que el lado más cercano del enemigo 
         //eje x
+
+        if(rock1.onScreen){
+            if (hitboxCollision({hitbox: rock1, Enemy: enemy})) {
+                attackFunction(player, enemy, rock1)
+                //player.isAttacking = true
+                player.attackHasLand = true
+            }else{
+                player.attackHasLand = false
+            }
+        }
         if(myAttack1 == A5){
             if (hitboxCollision({hitbox: stAone, Enemy: enemy})) {
                 attackFunction(player, enemy, stAone)
+                player.attackHasLand = true
+            }else if(player.attackHitting){
+                player.attackHasLand = false
             }
         }
         if(myAttack1 == aA){
             if (hitboxCollision({hitbox: aAone ,Enemy: enemy})) {
                 attackFunction(player, enemy, aAone)
+                player.attackHasLand = true
+            }else if(player.attackHitting){
+                player.attackHasLand = false
             }
         }
         if(myAttack1 == A2){
             if (hitboxCollision({hitbox: crAone ,Enemy: enemy})) {
                 attackFunction(player, enemy, crAone)
+                player.attackHasLand = true
+            }else if(player.attackHitting){
+                player.attackHasLand = false
             }
         }
         if(myAttack1 == A3){
             if (hitboxCollision({hitbox: crstAone ,Enemy: enemy})) {
                 attackFunction(player, enemy, crstAone)
+                player.attackHasLand = true
+            }else if(player.attackHitting){
+                player.attackHasLand = false
             }
         }
         if(myAttack1 == B5){
             if (hitboxCollision({hitbox: stBone, Enemy: enemy})) {
                 attackFunction(player, enemy, stBone)
+                player.attackHasLand = true
+            }else if(player.attackHitting){
+                player.attackHasLand = false
             }
         }
         if(myAttack1 == B2){
             if (hitboxCollision({hitbox: crBone, Enemy: enemy})) {
                 attackFunction(player, enemy, crBone)
+                player.attackHasLand = true
+            }else if(player.attackHitting){
+                player.attackHasLand = false
             }
         }
         if(myAttack1 == aB){
             if (hitboxCollision({hitbox: aBone, Enemy: enemy})) {
                 attackFunction(player, enemy, aBone)
+                player.attackHasLand = true
+            }else if(player.attackHitting){
+                player.attackHasLand = false
             }
         }
         if(myAttack1 == B6){
             if (hitboxCollision({hitbox: fBone, Enemy: enemy})) {
                 attackFunction(player, enemy, fBone)
+                player.attackHasLand = true
+            }else if(player.attackHitting){
+                player.attackHasLand = false
             }
         }
         if(myAttack1 == qcfA1){
             if (hitboxCollision({hitbox: Alvl1one, Enemy: enemy})) {
                 attackFunction(player, enemy, Alvl1one)
+                player.attackHasLand = true
+            }else if(player.attackHitting){
+                player.attackHasLand = false
             }
         }
         if(myAttack1 == qcfA2){
             if (hitboxCollision({hitbox: Alvl2one, Enemy: enemy})) {
                 attackFunction(player, enemy, Alvl2one)
+                player.attackHasLand = true
+            }else if(player.attackHitting){
+                player.attackHasLand = false
             }
         }
         if(myAttack1 == qcfA3){
             if (hitboxCollision({hitbox: Alvl3one, Enemy: enemy})) {
                 attackFunction(player, enemy, Alvl3one)
+                player.attackHasLand = true
+            }else if(player.attackHitting){
+                player.attackHasLand = false
             }
         }
         if(myAttack1 == qcfB1){
             if (hitboxCollision({hitbox: Blvl1one, Enemy: enemy})) {
                 attackFunction(player, enemy, Blvl1one)
+                player.attackHasLand = true
+            }else if(player.attackHitting){
+                player.attackHasLand = false
             }
         }
         if(myAttack1 == qcfB2){
             if (hitboxCollision({hitbox: Blvl2one, Enemy: enemy})) {
                 attackFunction(player, enemy, Blvl2one)
+                player.attackHasLand = true
+            }else if(player.attackHitting){
+                player.attackHasLand = false
             }
         }
         if(myAttack1 == qcfB3){
             if (hitboxCollision({hitbox: Blvl3one, Enemy: enemy})) {
                 attackFunction(player, enemy, Blvl3one)
+                player.attackHasLand = true
+            }else if(player.attackHitting){
+                player.attackHasLand = false
             }
         }
         if(myAttack1 == ddA){
             if (hitboxCollision({hitbox: ddAone, Enemy: enemy})) {
                 attackFunction(player, enemy, ddAone)
-            }
-        }
-
-        if(rock1.onScreen){
-            if (hitboxCollision({hitbox: rock1, Enemy: enemy})) {
-                attackFunction(player, enemy, rock1)
-                player.isAttacking = true
+                player.attackHasLand = true
+            }else if(player.attackHitting){
+                player.attackHasLand = false
             }
         }
 
 
-
+        if(rock2.onScreen){
+            if (hitboxCollision({hitbox: rock2, Enemy: player})) {
+                attackFunction(enemy,player, rock2)
+                //enemy.isAttacking = true
+                enemy.attackHasLand = true
+            }else{
+                enemy.attackHasLand = false
+            }
+        }
         if(myAttack2 == A5){
             if (hitboxCollision({hitbox: stAtwo, Enemy: player})){
-                attackFunction(enemy,player,stAtwo)}
+                attackFunction(enemy,player,stAtwo)
+                enemy.attackHasLand = true
+            }else if(enemy.attackHitting){
+                enemy.attackHasLand = false
+            }
         }
         if(myAttack2 == aA){
             if (hitboxCollision({hitbox: aAtwo, Enemy: player})){
                 attackFunction(enemy,player,aAtwo)
+                enemy.attackHasLand = true
+            }else if(enemy.attackHitting){
+                enemy.attackHasLand = false
             }
         }
         if(myAttack2 == A2){
             if (hitboxCollision({hitbox: crAtwo, Enemy: player})){
                 attackFunction(enemy,player,crAtwo)
+                enemy.attackHasLand = true
+            }else if(enemy.attackHitting){
+                enemy.attackHasLand = false
             }
         }
         if(myAttack2 == A3){
             if (hitboxCollision({hitbox: crstAtwo, Enemy: player})){
                 attackFunction(enemy,player,crstAtwo)
+                enemy.attackHasLand = true
+            }else if(enemy.attackHitting){
+                enemy.attackHasLand = false
             }
         }
         if(myAttack2 == B5){
             if (hitboxCollision({hitbox: stBtwo, Enemy: player})){
                 attackFunction(enemy,player,stBtwo)
+                enemy.attackHasLand = true
+            }else if(enemy.attackHitting){
+                enemy.attackHasLand = false
             }
         }
         if(myAttack2 == B2){
             if (hitboxCollision({hitbox: crBtwo, Enemy: player})){
                 attackFunction(enemy,player,crBtwo)
+                enemy.attackHasLand = true
+            }else if(enemy.attackHitting){
+                enemy.attackHasLand = false
             }
         }
         if(myAttack2 == aB){
             if (hitboxCollision({hitbox: aBtwo, Enemy: player})){
                 attackFunction(enemy,player,aBtwo)
+                enemy.attackHasLand = true
+            }else if(enemy.attackHitting){
+                enemy.attackHasLand = false
             }
         }
         if(myAttack2 == B6){
             if (hitboxCollision({hitbox: fBtwo, Enemy: player})){
                 attackFunction(enemy,player,fBtwo)
+                enemy.attackHasLand = true
+            }else if(enemy.attackHitting){
+                enemy.attackHasLand = false
             }
         }
         if(myAttack2 == qcfA1){
             if (hitboxCollision({hitbox: Alvl1two, Enemy: player})){
                 attackFunction(enemy,player,Alvl1two)
+                enemy.attackHasLand = true
+            }else if(enemy.attackHitting){
+                enemy.attackHasLand = false
             }
         }
         if(myAttack2 == qcfA2){
             if (hitboxCollision({hitbox: Alvl2two, Enemy: player})){
                 attackFunction(enemy,player,Alvl2two)
+                enemy.attackHasLand = true
+            }else if(enemy.attackHitting){
+                enemy.attackHasLand = false
             }
         }
         if(myAttack2 == qcfA3){
             if (hitboxCollision({hitbox: Alvl3two, Enemy: player})){
                 attackFunction(enemy,player,Alvl3two)
+                enemy.attackHasLand = true
+            }else if(enemy.attackHitting){
+                enemy.attackHasLand = false
             }
         }
         if(myAttack2 == qcfB1){
             if (hitboxCollision({hitbox: Blvl1two, Enemy: player})){
                 attackFunction(enemy,player,Blvl1two)
+                enemy.attackHasLand = true
+            }else if(enemy.attackHitting){
+                enemy.attackHasLand = false
             }
         }
         if(myAttack2 == qcfB2){
             if (hitboxCollision({hitbox: Blvl2two, Enemy: player})){
                 attackFunction(enemy,player,Blvl2two)
+                enemy.attackHasLand = true
+            }else if(enemy.attackHitting){
+                enemy.attackHasLand = false
             }
         }
         if(myAttack2 == qcfB3){
             if (hitboxCollision({hitbox: Blvl3two, Enemy: player})){
                 attackFunction(enemy,player,Blvl3two)
+                enemy.attackHasLand = true
+            }else if(enemy.attackHitting){
+                enemy.attackHasLand = false
             }
         }
         if(myAttack2 == ddA){
             if (hitboxCollision({hitbox: ddAtwo, Enemy: player})){
                 attackFunction(enemy,player,ddAtwo)
-            }
-        }
-
-        if(rock2.onScreen){
-            if (hitboxCollision({hitbox: rock2, Enemy: player})) {
-                attackFunction(enemy,player, rock2)
-                enemy.isAttacking = true
+                enemy.attackHasLand = true
+            }else if(enemy.attackHitting){
+                enemy.attackHasLand = false
             }
         }
 
@@ -842,7 +934,7 @@ function animate(){
         }
     }
     //Crea un bucle infinito para que el juego funcione a un numero de fps concreto
-    setTimeout(() => {
+    setTimeout(() => {unableP
         requestAnimationFrame(animate)
     },1000/FPS)
 
@@ -864,14 +956,18 @@ function animate(){
     }
 }
 
-
+//jugador o enemigo se recuperan tras un ataque, no pasa si hay un ataque del que ha hecho un ataque pegando a la vez que se recupera
 function unableP(){
-    player.unable = false
-    //console.log("recuperao1")
+    if(!(enemy.attackhitting && enemy.attackHasLand)){
+        player.unable = false
+    }
 }
 function unableE(){
-    enemy.unable = false
-    //console.log("recuperao2")
+    if(!(player.attackHitting && player.attackHasLand)){
+        enemy.unable = false
+    }else {
+        console.log("miau")
+    }
 }
 
 animate()
@@ -879,7 +975,7 @@ decreaseTimer()
 
 
 function attackFunction(goodGuy, badGuy, theAttack){
-    if((goodGuy.isAttacking && !(badGuy.agachado && theAttack.attackClass =="HIGH")) && !badGuy.invulnerable){
+    if(((goodGuy.isAttacking || theAttack.onScreen) && !(badGuy.agachado && theAttack.attackClass =="HIGH")) && !badGuy.invulnerable){
         badGuy.velocity.x = 0
         badGuy.unable = true
         if (badGuy.blockState && theAttack.attackClass !="UNBLOCKABLE" &&((badGuy.velocity.y != 0 || badGuy.jumpMaxPoint)|| ((theAttack.attackClass =="MID" || theAttack.attackClass =="PROJECTILE") || (badGuy.blockType == CROUCHING && theAttack.attackClass =="LOW") || (badGuy.blockType == STANDING && theAttack.attackClass =="OVERHEAD") || (theAttack.attackClass =="HIGH" && badGuy.blockType == STANDING)))){ 
@@ -909,7 +1005,6 @@ function attackFunction(goodGuy, badGuy, theAttack){
         }else{
             badGuy.inCombo = true
             badGuy.health -= theAttack.damage
-            //badGuy.unable = true
             if(theAttack.forceApply == "GB"){
                 badGuy.HKD = true
                 badGuy.SKD = false
@@ -978,7 +1073,6 @@ function attackFunction(goodGuy, badGuy, theAttack){
                 }
             }
             if(theAttack.onHit == "HKD"){
-                //badGuy.unable = true
                 setTimeout(hardKnockedDown, (theAttack.active + theAttack.recovery)*1000/FPS, badGuy)
                 if(goodGuy == player){
                     document.querySelector('#enemyHealth').style.width = badGuy.health + '%'
@@ -993,7 +1087,6 @@ function attackFunction(goodGuy, badGuy, theAttack){
                 }
 
             }else if(theAttack.onHit == "SKD"){
-                //badGuy.unable = true
                 setTimeout(softKnockedDown, (theAttack.active + theAttack.recovery)*1000/FPS, badGuy)
                 if(goodGuy == player){
                     document.querySelector('#enemyHealth').style.width = badGuy.health + '%'
@@ -1013,10 +1106,9 @@ function attackFunction(goodGuy, badGuy, theAttack){
                     setTimeout(unableE, (theAttack.active + theAttack.recovery + theAttack.onHit)*1000/FPS)
                 }else {
                     if(!badGuy.HKD && !badGuy.SKD){
-                        console.log("miau")
+                        console.log("miau1")
                         setTimeout(unableE, (theAttack.hitstun)*1000/FPS)
                         theAttack.onScreen = false
-                        goodGuy.isAttacking = false
                     }
                 }
                 if(pDerecha == "izq"){
@@ -1030,7 +1122,6 @@ function attackFunction(goodGuy, badGuy, theAttack){
                     if(!badGuy.HKD && !badGuy.SKD){
                         setTimeout(unableP, (theAttack.hitstun)*1000/FPS)
                         theAttack.onScreen = false
-                        goodGuy.isAttacking = false
                     }
                 }
                 if(pDerecha == "der"){
@@ -1136,7 +1227,6 @@ function jumpInvulnerabilityEnds(who){
 }
 
 function summonProjectile(projectileName, who){
-    //console.log("miau")
     if(who.side == "left"){
         projectileName.position.x = who.fakePosition.x + projectileName.offset.x
     }else{

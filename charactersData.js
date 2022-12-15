@@ -23,7 +23,7 @@ export const FPS = 60;
 export class Sprite {
     //parametros iniciales de cualquier objeto que creemos de esta clase.
     //({}) --> el orden ya no importa pq son propiedades de un objeto y no son obligatorias
-    constructor({inCombo, GB,WB, WS, wallSplated,juggleMultiplier, invulnerable,SKD, HKD, DashRemains, FramesCharging, position, velocity, jumps, color, side, perfectBlock, jumpMaxPoint, canvasContext, canvasRef, unable, blockType, blockState, framesBlocking, height, agachado, fakePosition, initAttack, blockStun}){
+    constructor({inCombo, attackHasLand, GB,WB, WS, wallSplated,juggleMultiplier,attackHitting, invulnerable,SKD, HKD, DashRemains, FramesCharging, position, velocity, jumps, color, side, perfectBlock, jumpMaxPoint, canvasContext, canvasRef, unable, blockType, blockState, framesBlocking, height, agachado, fakePosition, initAttack, blockStun}){
         //creación de atributos del objeto
         this.canvasContext = canvasContext
         this.canvasRef = canvasRef
@@ -62,6 +62,8 @@ export class Sprite {
         this.WS = WS
         this.wallSplated = wallSplated
         this.inCombo = inCombo
+        this.attackHitting = attackHitting
+        this.attackHasLand = attackHasLand
     }
 
     //comprueba si se ha llegado a la posición de salto máx
@@ -174,7 +176,7 @@ export const stAone = new Attack({
         x:0,
         y:0
     },
-    width:100,
+    width:70,
     height:35,
     offset: {
         x: 40,
@@ -205,7 +207,7 @@ export const stAtwo = new Attack({
         x:0,
         y:0
     },
-    width:100,
+    width:70,
     height:35,
     offset: {
         x: 40,
@@ -299,7 +301,7 @@ export const crAone = new Attack({
         x:0,
         y:0
     },
-    width:140,
+    width:90,
     height:30,
     offset: {
         x: 30,
@@ -329,7 +331,7 @@ export const crAtwo = new Attack({
         x:0,
         y:0
     },
-    width:140,
+    width:90,
     height:30,
     offset: {
         x: 30,
@@ -1249,7 +1251,9 @@ export const player = new Sprite({
     WB: false,
     WS: false,
     wallSplated: false,
-    inCombo: false
+    inCombo: false,
+    attackHitting: false,
+    attackHasLand: false
 })
 
 export const enemy = new Sprite({
@@ -1293,7 +1297,9 @@ export const enemy = new Sprite({
     WB: false,
     WS: false,
     wallSplated: false,
-    inCombo: false
+    inCombo: false,
+    attackHitting: false,
+    attackHasLand: false
 })
 
 //-----------------------------------------------------------------------------
@@ -1356,11 +1362,13 @@ function STARTUP(who){
     //console.log("S")
     who.isAttacking = true
     who.initAttack = false
+    who.attackHitting = true
 }
 
 function ACTIVE(who){
     //console.log("A")
     who.isAttacking = false
+    who.attackHitting = false
 }
 
 function RECOVERY(who){
@@ -1419,12 +1427,14 @@ export function update(who, move, playerProjectile) {
             }
                 who.velocity.y = 0
             if(who.HKD){
+                who.HKD = false
                 who.juggleMultiplier = 100
                 who.velocity.x = 0
                 who.invulnerable = true
                 who.unable = true
                 setTimeout(GetUpKnockDown, (62)*1000/FPS, who)
             }else if(who.SKD){
+                who.SKD = false
                 who.juggleMultiplier = 100
                 who.velocity.x = 0
                 who.invulnerable = true
@@ -1544,6 +1554,7 @@ function GetUpKnockDown(character){
     character.unable = false
     character.HKD = false
     character.SKD = false
+    console.log("miau")
 }
 
 function stopWS(character){
