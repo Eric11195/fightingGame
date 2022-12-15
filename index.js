@@ -527,7 +527,7 @@ function animate(){
                 if(!xEnemyCollision({ meE: enemy, opponentE: player})){
                     if(playerTwoRunning){
                         enemy.velocity.x = runSpeed
-                        Dash(enemy, 1)
+                        Dash(enemy)
                         enemy.inCombo = true
                         setTimeout(jumpInvulnerabilityEnds, 9.9*1000/FPS, enemy)
                     }else enemy.velocity.x = speed
@@ -536,7 +536,7 @@ function animate(){
                 if(!minusxEnemyCollision({ MeE: enemy, OpponentE: player})){
                     if(playerTwoRunning){
                         enemy.velocity.x = -runSpeed
-                        Dash(enemy, -1)
+                        Dash(enemy)
                         enemy.inCombo = true
                         setTimeout(jumpInvulnerabilityEnds, 9.9*1000/FPS, enemy)
                     }else enemy.velocity.x = -speed
@@ -1152,8 +1152,21 @@ function twoThreeSixPlayer(whatAttack){
             }
             player.FramesCharging = 0
         }else if(p1FramesCharging){
-            setTimeout (twoThreeSixPlayer, 1000/FPS, whatAttack)
             player.FramesCharging ++
+            if(SpecialInput1 != "66" && SpecialInput1 != "44" && SpecialInput1 != "22"){
+                setTimeout (twoThreeSixPlayer, 1000/FPS, whatAttack)
+            }else if(SpecialInput1 == "22"){
+                setTimeout (unableP, 5* 1000/FPS)
+                player.FramesCharging = 0
+            }else if(SpecialInput1 == "44"){
+                player.velocity.x = -runSpeed
+                Dash(player)
+                player.FramesCharging = 0
+            }else if(SpecialInput1 == "66"){
+                player.velocity.x = runSpeed
+                Dash(player)
+                player.FramesCharging = 0
+            }
         }
     }else{
         if(!p1FramesCharging || player.FramesCharging > 120){
@@ -1169,8 +1182,21 @@ function twoThreeSixPlayer(whatAttack){
             }
             player.FramesCharging = 0
         }else if(p1FramesCharging){
-            setTimeout (twoThreeSixPlayer, 1000/FPS, whatAttack)
             player.FramesCharging ++
+            if(SpecialInput1 != "66" && SpecialInput1 != "44" && SpecialInput1 != "22"){
+                setTimeout (twoThreeSixPlayer, 1000/FPS, whatAttack)
+            }else if(SpecialInput1 == "22"){
+                setTimeout (unableP, 5* 1000/FPS)
+                player.FramesCharging = 0
+            }else if(SpecialInput1 == "44"){
+                player.velocity.x = -runSpeed
+                Dash(player)
+                player.FramesCharging = 0
+            }else if(SpecialInput1 == "66"){
+                player.velocity.x = runSpeed
+                Dash(player)
+                player.FramesCharging = 0
+            }
         }
     }
     
@@ -1190,8 +1216,21 @@ function twoThreeSixEnemy(whatAttack){
             }
             enemy.FramesCharging = 0
         }else if(p2FramesCharging){
-            setTimeout (twoThreeSixEnemy, 1000/FPS, whatAttack)
             enemy.FramesCharging ++
+            if(SpecialInput2 != "66" && SpecialInput2 != "44" && SpecialInput2 != "22"){
+                setTimeout (twoThreeSixEnemy, 1000/FPS, whatAttack)
+            }else if(SpecialInput2 == "22"){
+                setTimeout (unableE, 5* 1000/FPS)
+                enemy.FramesCharging = 0
+            }else if(SpecialInput2 == "44"){
+                enemy.velocity.x = -runSpeed
+                Dash(enemy)
+                enemy.FramesCharging = 0
+            }else if(SpecialInput2 == "66"){
+                enemy.velocity.x = runSpeed
+                Dash(enemy)
+                enemy.FramesCharging = 0
+            }
         }
     }else{
         if(!p2FramesCharging || enemy.FramesCharging > 120){
@@ -1207,8 +1246,21 @@ function twoThreeSixEnemy(whatAttack){
             }
             enemy.FramesCharging = 0
         }else if(p2FramesCharging){
-            setTimeout (twoThreeSixEnemy, 1000/FPS, whatAttack)
             enemy.FramesCharging ++
+            if(SpecialInput2 != "66" && SpecialInput2 != "44" && SpecialInput2 != "22"){
+                setTimeout (twoThreeSixEnemy, 1000/FPS, whatAttack)
+            }else if(SpecialInput2 == "22"){
+                setTimeout (unableE, 5* 1000/FPS)
+                enemy.FramesCharging = 0
+            }else if(SpecialInput2 == "44"){
+                enemy.velocity.x = -runSpeed
+                Dash(enemy)
+                enemy.FramesCharging = 0
+            }else if(SpecialInput2 == "66"){
+                enemy.velocity.x = runSpeed
+                Dash(enemy)
+                enemy.FramesCharging = 0
+            }
         }
     }
     

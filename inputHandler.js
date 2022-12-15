@@ -344,6 +344,9 @@ export function checkSpecialInputs(){
         SpecialInput1 = "22B"
         p1InputBuffer.splice(0)
     }
+    if(depuredBuffer1.lastIndexOf(2) != -1 && (2 == depuredBuffer1[depuredBuffer1.lastIndexOf(2)-1] )){
+        SpecialInput1 = "22"
+    }
     
 
     if(depuredBuffer2.lastIndexOf("A") != -1 && depuredBuffer2.lastIndexOf(2) != -1 && depuredBuffer2.lastIndexOf(6) !=-1 && ((depuredBuffer2.lastIndexOf(6) == 1 + depuredBuffer2.lastIndexOf(2)) && (depuredBuffer2.lastIndexOf("A") == 1 + depuredBuffer2.lastIndexOf(6)))){
@@ -383,6 +386,9 @@ export function checkSpecialInputs(){
     if(depuredBuffer2.lastIndexOf("B") != -1 && depuredBuffer2.lastIndexOf(2) != -1 && (2 == depuredBuffer2[depuredBuffer2.lastIndexOf(2)-1])&& ("B" == depuredBuffer2[depuredBuffer2.lastIndexOf(2)+1] )){
         SpecialInput2 = "22B"
         p1InputBuffer.splice(0)
+    }
+    if(depuredBuffer2.lastIndexOf(2) != -1 && (2 == depuredBuffer2[depuredBuffer2.lastIndexOf(2)-1] )){
+        SpecialInput2 = "22"
     }
 }
 

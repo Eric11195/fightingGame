@@ -1535,12 +1535,12 @@ export function airDash(character, direction){
     console.log('miau')
 }*/
 
-export function Dash(characterG, directionG){
+export function Dash(characterG){
     characterG.unable = true
     characterG.agachado = true
     characterG.DashRemains = true
     setTimeout(DashFinished, (15)*1000/FPS, characterG)
-    characterG.velocity.x -= 2*directionG
+    //characterG.velocity.x -= 2*directionG
 }
 function DashFinished(characterG){
     characterG.unable = false
