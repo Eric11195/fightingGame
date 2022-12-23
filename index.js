@@ -1,4 +1,4 @@
-import {FPS, player, enemy, speed, jumpForce, pDerecha, playerSide, xEnemyCollision, xPlayerCollision, minusxEnemyCollision, minusxPlayerCollision, hitboxCollision, attack, update, secondJumpForce, airDash, stAone, stAtwo, aAone ,aAtwo, crAone, crAtwo, Alvl1one, Alvl1two, Alvl3one, ddAone, ddAtwo, stBone, stBtwo, crBone, crBtwo, aBone, aBtwo, crstAone, crstAtwo, fBone, fBtwo, Alvl2one, Alvl2two, Alvl3two, Blvl1one,Blvl1two, Blvl2two, Blvl2one,  Blvl3one, Blvl3two, timer, timerId, playing, checkWinner, decreaseTimer, runSpeed, longJumpForce, highJumpForce, airRunSpeed, Dash, longJumpSpeed, rock1, rock2, ddBone, ddBtwo} from './charactersData.js'
+import {FPS, player, enemy, background, shop, speed, jumpForce, pDerecha, playerSide, xEnemyCollision, xPlayerCollision, minusxEnemyCollision, minusxPlayerCollision, hitboxCollision, attack, update, secondJumpForce, airDash, stAone, stAtwo, aAone ,aAtwo, crAone, crAtwo, Alvl1one, Alvl1two, Alvl3one, ddAone, ddAtwo, stBone, stBtwo, crBone, crBtwo, aBone, aBtwo, crstAone, crstAtwo, fBone, fBtwo, Alvl2one, Alvl2two, Alvl3two, Blvl1one,Blvl1two, Blvl2two, Blvl2one,  Blvl3one, Blvl3two, timer, timerId, playing, checkWinner, decreaseTimer, runSpeed, longJumpForce, highJumpForce, airRunSpeed, Dash, longJumpSpeed, rock1, rock2, ddBone, ddBtwo} from './charactersData.js'
 import {keys, p1InputBuffer, p2InputBuffer, checkSpecialInputs, getPlayerOneInput, getPlayerTwoInput, SpecialInput1, SpecialInput2, playerOneRunning, playerTwoRunning, p1FramesCharging, p2FramesCharging} from './inputHandler.js'
 import {canvas, c, CROUCHING, STANDING} from './System.js'
 
@@ -29,13 +29,15 @@ var localPlayerTwoInput = getPlayerTwoInput()
 
 //fondo
 //hacer un rectangulo con vertices--> fillRect(xPosInicial,yPosInicial,xPosFinal,yPosInicial)
-c.fillRect(0,0,canvas.width,canvas.height)
+//c.fillRect(0,0,canvas.width,canvas.height)
 
 
 
 //barras de vida, movimiento, ataques...
 function animate(){ 
-    //console.log(p1InputBuffer)
+    background.update()
+    shop.update()
+
     n++    
     //ea para donde se mira y cambia la hitbox en consecuencia, mira a ver si toca bloquar
     playerSide()
@@ -99,8 +101,8 @@ function animate(){
     }
 
         //pintar fondo por encima como si fuese processing
-        c.fillStyle = "black"
-        c.fillRect(0, 0, canvas.width, canvas.height)
+        //c.fillStyle = "grey"
+        //c.fillRect(0, 0, canvas.width, canvas.height)
         //dibuja a los jugadores en la posición actualizada
     
         //updateeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee

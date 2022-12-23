@@ -20,14 +20,66 @@ export let timerId
 export let playing = true
 
 export const FPS = 60;
-export class Sprite {
+class Sprite{
     //parametros iniciales de cualquier objeto que creemos de esta clase.
     //({}) --> el orden ya no importa pq son propiedades de un objeto y no son obligatorias
-    constructor({inCombo, batting, cancelWindow, attackHasLand, GB,WB, WS, wallSplated,juggleMultiplier,attackHitting, invulnerable,SKD, HKD, DashRemains, FramesCharging, position, velocity, jumps, color, side, perfectBlock, jumpMaxPoint, canvasContext, canvasRef, unable, blockType, blockState, framesBlocking, height, agachado, fakePosition, initAttack, blockStun}){
+    constructor({position, imageSrc, scale = 1, framesMax = 1, offset = {x:0 ,y:0}}){
+        //creación de atributos del objeto
+        this.position = position
+        this.image = new Image()
+        this.image.src = imageSrc
+        this.width = 50
+        this.height = 150
+        this.scale = scale
+        this.framesMax = framesMax
+        this.framesCurrent = 0
+        this.framesElapsed = 0
+        this.framesHold = 5
+        this.offset = offset
+    }
+    draw(){
+        c.drawImage(
+            this.image,
+            this.framesCurrent * (this.image.width / this.framesMax),
+            0,
+            this.image.width/this.framesMax,
+            this.image.height,
+            this.position.x - this.offset.x, 
+            this.position.y - this.offset.y, 
+            (this.image.width/this.framesMax) * this.scale, 
+            this.image.height * this.scale)
+    }
+
+    update(){
+        this.draw()
+        this.framesElapsed++
+        if(this.framesElapsed % this.framesHold === 0){
+            if(this.framesCurrent < this.framesMax -1){
+                this.framesCurrent++
+            }else {
+                this.framesCurrent = 0
+            }
+        }
+    }
+
+}
+
+class Fighter extends Sprite{
+    //parametros iniciales de cualquier objeto que creemos de esta clase.
+    //({}) --> el orden ya no importa pq son propiedades de un objeto y no son obligatorias
+    constructor({offset, imageSrc, scale = 1, framesMax = 1, inCombo, batting, cancelWindow, attackHasLand, GB,WB, WS, wallSplated,juggleMultiplier,attackHitting, invulnerable,SKD, HKD, DashRemains, FramesCharging, position, velocity, jumps, color, side, perfectBlock, jumpMaxPoint, canvasContext, canvasRef, unable, blockType, blockState, framesBlocking, height, agachado, fakePosition, initAttack, blockStun}){
+        super({
+            imageSrc,
+            position,
+            scale,
+            framesMax,
+            offset
+        })
+        
         //creación de atributos del objeto
         this.canvasContext = canvasContext
         this.canvasRef = canvasRef
-        this.position = position
+        //this.position = position
         this.fakePosition = fakePosition
         this.agachado = agachado
         this.velocity = velocity
@@ -66,6 +118,10 @@ export class Sprite {
         this.attackHasLand = attackHasLand
         this.cancelWindow = cancelWindow
         this.batting = batting
+
+        this.framesCurrent = 0
+        this.framesElapsed = 0
+        this.framesHold = 5
     }
 
     //comprueba si se ha llegado a la posición de salto máx
@@ -101,12 +157,42 @@ export class Sprite {
             }
         }
     }
+    update(){
+        this.draw()
+        this.framesElapsed++
+        if(this.framesElapsed % this.framesHold === 0){
+            if(this.framesCurrent < this.framesMax -1){
+                this.framesCurrent++
+            }else {
+                this.framesCurrent = 0
+            }
+        }
+    }
 
     //para dibujar las cosas en la posición actualizada
     
 
 }
 
+
+
+export const background = new Sprite({
+    position:{
+        x:0,
+        y:0
+    },
+    imageSrc: './img/background.png'
+})
+
+export const shop = new Sprite({
+    position:{
+        x:600,
+        y:128
+    },
+    framesMax: 6,
+    imageSrc: './img/shop.png',
+    scale: 2.75
+})
 
 export class Attack{
     constructor({juggleValue, attackClass, startup, active, recovery, position, width, height, offset, damage, pushblock, pushhit, onHit, onBlock, lowProfile,forceApply, forceX, forceY}){
@@ -1215,7 +1301,7 @@ export const rock2 = new Projectile({
 
 
 //crear un objeto de la clase Sprite-->({})
-export const player = new Sprite({
+export const player = new Fighter({
     //posición es un objeto
     position: {
         x:0,
@@ -1240,7 +1326,7 @@ export const player = new Sprite({
     agachado: false,
     fakePosition:{
         x:362 ,
-        y:874
+        y:374
     },
     initAttack: false,
     blockStun: false,
@@ -1260,10 +1346,19 @@ export const player = new Sprite({
     attackHitting: false,
     attackHasLand: false,
     cancelWindow: false,
-    batting: false
+    batting: false,
+
+    framesMax: 8,
+    imageSrc: './img/samuraiMack/Idle.png',
+    scale: 2.5,
+
+    offset:{
+        x:225,
+        y:155
+    }
 })
 
-export const enemy = new Sprite({
+export const enemy = new Fighter({
     position: {
         x:0,
         y:0
@@ -1288,7 +1383,7 @@ export const enemy = new Sprite({
     agachado: false,
     fakePosition:{
         x:612,
-        y:874
+        y:374
     },
     initAttack: false,
     blockStun: false,
@@ -1308,7 +1403,15 @@ export const enemy = new Sprite({
     attackHitting: false,
     attackHasLand: false,
     cancelWindow: false,
-    batting: false
+    batting: false, 
+
+    framesMax: 4,
+    imageSrc: './img/kenji/Idle.png',
+    scale: 2.5,
+    offset:{
+        x:215,
+        y:170
+    }
 })
 
 //-----------------------------------------------------------------------------
@@ -1429,14 +1532,15 @@ export function update(who, move, playerProjectile) {
     move.position.y = who.position.y + move.offset.y 
 
     draw(who, move, playerProjectile)
+    who.update();
 
 
     //comprobar si toca el suelo
-    if(who.position.y + who.height + who.velocity.y >= who.canvasRef.height){
+    if(who.position.y + who.height + who.velocity.y +110 >= who.canvasRef.height){
         //lo toca
         who.position.y = who.canvasRef.height - who.height
         who.jumps.n = 2
-        who.fakePosition.y = 476
+        who.fakePosition.y = 380
         if(!who.GB){
             if(!who.DashRemains){
                 who.inCombo = false
