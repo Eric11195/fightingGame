@@ -81,7 +81,9 @@ export function getPlayerTwoInput() {
 //se activa cada vez que se presiona una tecla
 export const KEYDOWN = window.addEventListener('keydown', (event) => {
     //mira que teclas as tocado
+    console.log(event.key)
     switch (event.key) {
+        case 'D':
         case 'd':
             //si la d esta presionada el objeto keys dice que d= true
             //o sea que estamos pulsando esta tecla vamos
@@ -95,6 +97,7 @@ export const KEYDOWN = window.addEventListener('keydown', (event) => {
             playerOne6 = true
 
             break
+        case 'A':
         case 'a':
             keys.a.pressed = true
             if(!playerOne4){
@@ -105,6 +108,7 @@ export const KEYDOWN = window.addEventListener('keydown', (event) => {
             }
             playerOne4 = true
             break
+        case 'F':
         case 'f':
             keys.f.pressed = true
             if(!playerOneA){
@@ -117,6 +121,7 @@ export const KEYDOWN = window.addEventListener('keydown', (event) => {
             //p1FramesCharging ++
             playerOneA = true
             break
+        case 'G':
         case 'g':
             keys.g.pressed = true
             if(!playerOneB){
@@ -129,6 +134,7 @@ export const KEYDOWN = window.addEventListener('keydown', (event) => {
             //p1FramesCharging ++
             playerOneB = true
             break
+        case 'S':
         case 's':
             keys.s.pressed = true
             if(!playerOne2){
@@ -218,6 +224,7 @@ export const KEYDOWN = window.addEventListener('keydown', (event) => {
 export const KEYUP = window.addEventListener('keyup', (event) => {
     //mira que teclas as levantado y poner esa tecla como que no esta siendo pulsada
     switch (event.key) {
+        case 'D':
         case 'd':
             keys.d.pressed = false
             playerOne6 = false
@@ -225,6 +232,7 @@ export const KEYUP = window.addEventListener('keyup', (event) => {
                 //playerOneRunning = false
             }
             break
+        case 'A':
         case 'a':
             keys.a.pressed = false
             playerOne4 = false
@@ -236,16 +244,19 @@ export const KEYUP = window.addEventListener('keyup', (event) => {
             keys.space.pressed = false
             jumpingP = false
             break
+        case 'F':
         case 'f':
             keys.f.pressed = false
             playerOneA = false
             p1FramesCharging = false
             break
+        case 'G':
         case 'g':
             keys.g.pressed = false
             playerOneB = false
             p1FramesCharging = false
             break
+        case 'S':
         case 's':
             keys.s.pressed = false
             playerOne2 = false

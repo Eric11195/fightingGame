@@ -37,6 +37,7 @@ var localPlayerTwoInput = getPlayerTwoInput()
 function animate(){ 
     background.update()
     shop.update()
+    console.log(player.velocity.y)
 
     n++    
     //ea para donde se mira y cambia la hitbox en consecuencia, mira a ver si toca bloquar
@@ -1326,14 +1327,14 @@ function jumpInvulnerabilityEnds(who){
 
 function summonProjectile(projectileName, who){
     projectileName.noFalloff = false
-    projectileName.velocity.y = -8
+    projectileName.velocity.y = -10
     projectileName.velocity.x = 0
     if(who.side == "left"){
         projectileName.position.x = who.fakePosition.x + projectileName.offset.x
     }else{
         projectileName.position.x = who.fakePosition.x - projectileName.width + who.width - projectileName.offset.x//10
     }
-    projectileName.position.y = 576- projectileName.height - 50
+    projectileName.position.y = 576- projectileName.height - 120
     projectileName.onScreen = true
 }
 
