@@ -179,7 +179,7 @@ function animate(){
 
     if(playing) {
 
-        //console.log(rock1.velocity.x)
+        console.log(player.side)
         // qcb, etc
         checkSpecialInputs();
 
@@ -377,6 +377,7 @@ function animate(){
                     }else player.velocity.x = speed
                 }
             } else if (keys.a.pressed && !player.agachado){
+                player.switchSprite('back')
                 if(!minusxPlayerCollision({ Me: player, Opponent: enemy})){
                     if(playerOneRunning){
                         player.velocity.x = -runSpeed
@@ -583,6 +584,7 @@ function animate(){
                 enemy.velocity.x = 0
                 enemy.switchSprite('idle')
             }else if (keys.AR.pressed && !enemy.agachado){
+                enemy.switchSprite('run')
                 if(!xEnemyCollision({ meE: enemy, opponentE: player})){
                     if(playerTwoRunning){
                         enemy.velocity.x = runSpeed
@@ -593,7 +595,7 @@ function animate(){
                 }
             } else if (keys.AL.pressed && !enemy.agachado){
                 if(!minusxEnemyCollision({ MeE: enemy, OpponentE: player})){
-                    enemy.switchSprite('run')
+                    enemy.switchSprite('back')
                     if(playerTwoRunning){
                         enemy.velocity.x = -runSpeed
                         Dash(enemy)

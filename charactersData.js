@@ -167,36 +167,85 @@ class Fighter extends Sprite{
     }
 
     switchSprite(sprite){
-        switch(sprite){
-            case 'idle': 
-                if(this.image !== this.sprites.idle.image){
-                    this.image = this.sprites.idle.image
-                    this.framesMax = this.sprites.idle.framesMax
-                    this.framesCurrent = 0
-                    console.log("idle")
-                }
-                break
-            case 'run':
-                if(this.image !== this.sprites.run.image){
-                    this.image = this.sprites.run.image
-                    this.framesMax = this.sprites.run.framesMax
-                    this.framesCurrent = 0
-                }
-                break
-            case 'jump':
-                if(this.image !== this.sprites.jumping.image){
-                    this.image = this.sprites.jumping.image
-                    this.framesMax = this.sprites.jumping.framesMax
-                    this.framesCurrent = 0
-                }
-                break
-            case 'fall':
-                if(this.image !== this.sprites.falling.image){
-                    this.image = this.sprites.falling.image
-                    this.framesMax = this.sprites.falling.framesMax
-                    this.framesCurrent = 0
-                }
-                break
+        if(this.side === "left"){
+            switch(sprite){
+                case 'idle': 
+                    if(this.image !== this.sprites.idleI.image){
+                        this.image = this.sprites.idleI.image
+                        this.framesMax = this.sprites.idleI.framesMax
+                        this.framesCurrent = 0
+                        console.log("idle")
+                    }
+                    break
+                case 'run':
+                    if(this.image !== this.sprites.runI.image){
+                        this.image = this.sprites.runI.image
+                        this.framesMax = this.sprites.runI.framesMax
+                        this.framesCurrent = 0
+                    }
+                    break
+                case 'back':
+                    if(this.image !== this.sprites.backI.image){
+                        this.image = this.sprites.backI.image
+                        this.framesMax = this.sprites.backI.framesMax
+                        this.framesCurrent = 0
+                    }
+                    break
+                case 'jump':
+                    if(this.image !== this.sprites.jumpingI.image){
+                        this.image = this.sprites.jumpingI.image
+                        this.framesMax = this.sprites.jumpingI.framesMax
+                        this.framesCurrent = 0
+                    }
+                    break
+                case 'fall':
+                    if(this.image !== this.sprites.fallingI.image){
+                        this.image = this.sprites.fallingI.image
+                        this.framesMax = this.sprites.fallingI.framesMax
+                        this.framesCurrent = 0
+                    }
+                    break
+            }
+        }else if(this.side === "right"){
+            switch(sprite){
+                case 'idle': 
+                    if(this.image !== this.sprites.idleD.image){
+                        this.image = this.sprites.idleD.image
+                        this.framesMax = this.sprites.idleD.framesMax
+                        this.framesCurrent = 0
+                        console.log("idle")
+                    }
+                    break
+                case 'run':
+                    if(this.image !== this.sprites.backD.image){
+                        this.image = this.sprites.backD.image
+                        this.framesMax = this.sprites.backD.framesMax
+                        this.framesCurrent = 0
+                        
+                    }
+                    break
+                case 'back':
+                    if(this.image !== this.sprites.runD.image){
+                        this.image = this.sprites.runD.image
+                        this.framesMax = this.sprites.runD.framesMax
+                        this.framesCurrent = 0
+                    }
+                    break
+                case 'jump':
+                    if(this.image !== this.sprites.jumpingD.image){
+                        this.image = this.sprites.jumpingD.image
+                        this.framesMax = this.sprites.jumpingD.framesMax
+                        this.framesCurrent = 0
+                    }
+                    break
+                case 'fall':
+                    if(this.image !== this.sprites.fallingD.image){
+                        this.image = this.sprites.fallingD.image
+                        this.framesMax = this.sprites.fallingD.framesMax
+                        this.framesCurrent = 0
+                    }
+                    break
+            }
         }
     }
 
@@ -1395,29 +1444,53 @@ export const player = new Fighter({
     cancelWindow: false,
     batting: false,
 
-    framesMax: 8,
-    imageSrc: './img/samuraiMack/Idle.png',
-    scale: 2.5,
+    framesMax: 10,
+    imageSrc: './img/batGirl/idleI.png',
+    scale: 1.45,
 
     offset:{
-        x:225,
-        y:210
+        x:68,
+        y:75
     },
     sprites:{
-        idle:{
-            imageSrc: './img/samuraiMack/Idle.png',
-            framesMax: 8
+        idleI:{
+            imageSrc: './img/batGirl/idleI.png',
+            framesMax: 10
         },
-        run:{
-            imageSrc: './img/samuraiMack/Run.png',
-            framesMax: 8,
+        runI:{
+            imageSrc: './img/batGirl/runI.png',
+            framesMax: 3,
         },
-        falling:{
-            imageSrc: './img/samuraiMack/Jump.png',
+        backI:{
+            imageSrc: './img/batGirl/walkBackI.png',
+            framesMax: 4,
+        },
+        fallingI:{
+            imageSrc: './img/batGirl/riseI.png',
             framesMax: 2,
         },
-        jumping:{
-            imageSrc: './img/samuraiMack/Fall.png',
+        jumpingI:{
+            imageSrc: './img/batGirl/descendI.png',
+            framesMax: 2,
+        },
+        idleD:{
+            imageSrc: './img/batGirl/idleD.png',
+            framesMax: 10
+        },
+        runD:{
+            imageSrc: './img/batGirl/runD.png',
+            framesMax: 3,
+        },
+        backD:{
+            imageSrc: './img/batGirl/walkBackD.png',
+            framesMax: 4,
+        },
+        fallingD:{
+            imageSrc: './img/batGirl/riseD.png',
+            framesMax: 2,
+        },
+        jumpingD:{
+            imageSrc: './img/batGirl/descendD.png',
             framesMax: 2,
         }
     }
@@ -1471,26 +1544,50 @@ export const enemy = new Fighter({
     batting: false, 
 
     framesMax: 4,
-    imageSrc: './img/kenji/Idle.png',
-    scale: 2.5,
+    imageSrc: './img/batGirl/idle2I.png',
+    scale: 1.45,
     offset:{
-        x:215,
-        y:222
+        x:68,
+        y:75
     },
     sprites:{
-        idle:{
-            imageSrc: './img/kenji/Idle.png',
-            framesMax: 4
+        idleI:{
+            imageSrc: './img/batGirl/idle2I.png',
+            framesMax: 10
         },
-        run:{
-            imageSrc: './img/kenji/Run.png',
-            framesMax: 8,
+        runI:{
+            imageSrc: './img/batGirl/run2I.png',
+            framesMax: 3,
         },
-        falling:{
+        fallingI:{
             imageSrc: './img/kenji/Jump.png',
             framesMax: 2,
         },
-        jumping:{
+        backI:{
+            imageSrc: './img/batGirl/back2I.png',
+            framesMax: 4,
+        },
+        jumpingI:{
+            imageSrc: './img/kenji/Fall.png',
+            framesMax: 2,
+        },
+        idleD:{
+            imageSrc: './img/batGirl/idle2D.png',
+            framesMax: 10
+        },
+        runD:{
+            imageSrc: './img/batGirl/run2D.png',
+            framesMax: 3,
+        },
+        fallingD:{
+            imageSrc: './img/kenji/Jump.png',
+            framesMax: 2,
+        },
+        backD:{
+            imageSrc: './img/batGirl/back2D.png',
+            framesMax: 4,
+        },
+        jumpingD:{
             imageSrc: './img/kenji/Fall.png',
             framesMax: 2,
         }
