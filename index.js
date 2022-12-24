@@ -37,7 +37,6 @@ var localPlayerTwoInput = getPlayerTwoInput()
 function animate(){ 
     background.update()
     shop.update()
-    console.log(player.velocity.y)
 
     n++    
     //ea para donde se mira y cambia la hitbox en consecuencia, mira a ver si toca bloquar
@@ -282,7 +281,7 @@ function animate(){
         }
 
         if (player.cancelWindow && myAttack1 == ddB){
-            console.log("ñeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee1")
+            //console.log("ñeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee1")
             if (keys.f.pressed){
                 player.myAttack = "none"
                 player.agachado = false
@@ -358,11 +357,17 @@ function animate(){
                     myAttack1 = B5
                 }
                 //para no quedarte dentro del ENEMIGO, pero poder saltarr sin que pasen cosas raras
-            }else if (player.velocity.y != 0 || player.jumpMaxPoint){
+            }else if (player.velocity.y < 0 || player.jumpMaxPoint){ 
+                player.switchSprite('fall')
+                //los saltos no son controlables en el aire
+            }else if (player.velocity.y > 0){ 
+                player.switchSprite('jump')
                 //los saltos no son controlables en el aire
             }else if (keys.d.pressed && keys.a.pressed){
                 player.velocity.x = 0
+                player.switchSprite('idle')
             }else if (keys.d.pressed && !player.agachado){
+                player.switchSprite('run')
                 if(!xPlayerCollision({ me: player, opponent: enemy})){
                     if(playerOneRunning){
                         player.velocity.x = runSpeed
@@ -380,7 +385,8 @@ function animate(){
                         setTimeout(jumpInvulnerabilityEnds, 12*1000/FPS, player)
                     }else player.velocity.x = -speed
                 }
-            } else if (!keys.d.pressed && !keys.a.pressed && !xPlayerCollision({ me: player, opponent: enemy}) && !minusxPlayerCollision({ Me: player, Opponent: enemy})) {
+            }else if (!keys.d.pressed && !keys.a.pressed && !xPlayerCollision({ me: player, opponent: enemy}) && !minusxPlayerCollision({ Me: player, Opponent: enemy})) {
+                player.switchSprite('idle')
                 if(!player.DashRemains){
                     player.velocity.x = 0
                 }
@@ -569,10 +575,14 @@ function animate(){
                     myAttack2 = B5
                 }
                 //para no quedarte dentro del ENEMIGO, pero poder saltarr sin que pasen cosas raras
-            }else if (enemy.velocity.y != 0 || enemy.jumpMaxPoint){
+            }else if (enemy.velocity.y > 0 || enemy.jumpMaxPoint){
+                enemy.switchSprite('jump')
+            }else if (enemy.velocity.y < 0){
+                enemy.switchSprite('fall')
             }else if (keys.AL.pressed && keys.AR.pressed){
                 enemy.velocity.x = 0
-            } else if (keys.AR.pressed && !enemy.agachado){
+                enemy.switchSprite('idle')
+            }else if (keys.AR.pressed && !enemy.agachado){
                 if(!xEnemyCollision({ meE: enemy, opponentE: player})){
                     if(playerTwoRunning){
                         enemy.velocity.x = runSpeed
@@ -583,6 +593,7 @@ function animate(){
                 }
             } else if (keys.AL.pressed && !enemy.agachado){
                 if(!minusxEnemyCollision({ MeE: enemy, OpponentE: player})){
+                    enemy.switchSprite('run')
                     if(playerTwoRunning){
                         enemy.velocity.x = -runSpeed
                         Dash(enemy)
@@ -591,6 +602,7 @@ function animate(){
                     }else enemy.velocity.x = -speed
                 }
             } else if(!keys.AL.pressed && !keys.AR.pressed && !xEnemyCollision({ meE: enemy, opponentE: player})&& !minusxEnemyCollision({ MeE: enemy, OpponentE: player})) {
+                enemy.switchSprite('idle')
                 if(!enemy.DashRemains){
                     enemy.velocity.x = 0
                 }

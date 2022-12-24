@@ -67,7 +67,7 @@ class Sprite{
 class Fighter extends Sprite{
     //parametros iniciales de cualquier objeto que creemos de esta clase.
     //({}) --> el orden ya no importa pq son propiedades de un objeto y no son obligatorias
-    constructor({image, offset, imageSrc, scale = 1, framesMax = 1, inCombo, batting, cancelWindow, attackHasLand, GB,WB, WS, wallSplated,juggleMultiplier,attackHitting, invulnerable,SKD, HKD, DashRemains, FramesCharging, position, velocity, jumps, color, side, perfectBlock, jumpMaxPoint, canvasContext, canvasRef, unable, blockType, blockState, framesBlocking, height, agachado, fakePosition, initAttack, blockStun}){
+    constructor({sprites,image, offset, imageSrc, scale = 1, framesMax = 1, inCombo, batting, cancelWindow, attackHasLand, GB,WB, WS, wallSplated,juggleMultiplier,attackHitting, invulnerable,SKD, HKD, DashRemains, FramesCharging, position, velocity, jumps, color, side, perfectBlock, jumpMaxPoint, canvasContext, canvasRef, unable, blockType, blockState, framesBlocking, height, agachado, fakePosition, initAttack, blockStun}){
         super({
             imageSrc,
             fakePosition,
@@ -123,6 +123,13 @@ class Fighter extends Sprite{
         this.framesCurrent = 0
         this.framesElapsed = 0
         this.framesHold = 5
+        this.sprites = sprites
+
+        for (const sprite in this.sprites){
+            sprites[sprite].image = new Image()
+            sprites[sprite].image.src = sprites[sprite].imageSrc
+        }
+
     }
 
     //comprueba si se ha llegado a la posición de salto máx
@@ -158,6 +165,41 @@ class Fighter extends Sprite{
             }
         }
     }
+
+    switchSprite(sprite){
+        switch(sprite){
+            case 'idle': 
+                if(this.image !== this.sprites.idle.image){
+                    this.image = this.sprites.idle.image
+                    this.framesMax = this.sprites.idle.framesMax
+                    this.framesCurrent = 0
+                    console.log("idle")
+                }
+                break
+            case 'run':
+                if(this.image !== this.sprites.run.image){
+                    this.image = this.sprites.run.image
+                    this.framesMax = this.sprites.run.framesMax
+                    this.framesCurrent = 0
+                }
+                break
+            case 'jump':
+                if(this.image !== this.sprites.jumping.image){
+                    this.image = this.sprites.jumping.image
+                    this.framesMax = this.sprites.jumping.framesMax
+                    this.framesCurrent = 0
+                }
+                break
+            case 'fall':
+                if(this.image !== this.sprites.falling.image){
+                    this.image = this.sprites.falling.image
+                    this.framesMax = this.sprites.falling.framesMax
+                    this.framesCurrent = 0
+                }
+                break
+        }
+    }
+
     update(){ 
         this.draw()
         this.animating()
@@ -1360,6 +1402,24 @@ export const player = new Fighter({
     offset:{
         x:225,
         y:210
+    },
+    sprites:{
+        idle:{
+            imageSrc: './img/samuraiMack/Idle.png',
+            framesMax: 8
+        },
+        run:{
+            imageSrc: './img/samuraiMack/Run.png',
+            framesMax: 8,
+        },
+        falling:{
+            imageSrc: './img/samuraiMack/Jump.png',
+            framesMax: 2,
+        },
+        jumping:{
+            imageSrc: './img/samuraiMack/Fall.png',
+            framesMax: 2,
+        }
     }
 })
 
@@ -1416,6 +1476,24 @@ export const enemy = new Fighter({
     offset:{
         x:215,
         y:222
+    },
+    sprites:{
+        idle:{
+            imageSrc: './img/kenji/Idle.png',
+            framesMax: 4
+        },
+        run:{
+            imageSrc: './img/kenji/Run.png',
+            framesMax: 8,
+        },
+        falling:{
+            imageSrc: './img/kenji/Jump.png',
+            framesMax: 2,
+        },
+        jumping:{
+            imageSrc: './img/kenji/Fall.png',
+            framesMax: 2,
+        }
     }
 })
 
