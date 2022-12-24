@@ -1560,7 +1560,7 @@ export const enemy = new Fighter({
             framesMax: 3,
         },
         fallingI:{
-            imageSrc: './img/kenji/Jump.png',
+            imageSrc: './img/batGirl/rise2I.png',
             framesMax: 2,
         },
         backI:{
@@ -1568,7 +1568,7 @@ export const enemy = new Fighter({
             framesMax: 4,
         },
         jumpingI:{
-            imageSrc: './img/kenji/Fall.png',
+            imageSrc: './img/batGirl/descend2I.png',
             framesMax: 2,
         },
         idleD:{
@@ -1580,7 +1580,7 @@ export const enemy = new Fighter({
             framesMax: 3,
         },
         fallingD:{
-            imageSrc: './img/kenji/Jump.png',
+            imageSrc: './img/batGirl/rise2D.png',
             framesMax: 2,
         },
         backD:{
@@ -1588,7 +1588,7 @@ export const enemy = new Fighter({
             framesMax: 4,
         },
         jumpingD:{
-            imageSrc: './img/kenji/Fall.png',
+            imageSrc: './img/batGirl/descend2D.png',
             framesMax: 2,
         }
     }
