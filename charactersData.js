@@ -220,6 +220,28 @@ class Fighter extends Sprite{
                         this.framesCurrent = 0
                     }
                     break
+                case 'stA':
+                    if(this.image !== this.sprites.stAI.image){
+                        this.image = this.sprites.stAI.image
+                        this.framesMax = this.sprites.stAI.framesMax
+                        this.framesCurrent = 0
+                    }
+                    break
+                case 'crA':
+                    if(this.image !== this.sprites.crAI.image){
+                        this.image = this.sprites.crAI.image
+                        this.framesMax = this.sprites.crAI.framesMax
+                        this.framesCurrent = 0
+                    }
+                    break
+                case 'stcrA':
+                    if(this.image !== this.sprites.stcrAI.image){
+                        this.image = this.sprites.stcrAI.image
+                        this.framesMax = this.sprites.stcrAI.framesMax
+                        this.framesCurrent = 0
+                    }
+                    break
+                
             }
         }else if(this.side === "right"){
             switch(sprite){
@@ -275,6 +297,28 @@ class Fighter extends Sprite{
                         this.framesCurrent = 0
                     }
                     break
+                case 'stA':
+                    if(this.image !== this.sprites.stAD.image){
+                        this.image = this.sprites.stAD.image
+                        this.framesMax = this.sprites.stAD.framesMax
+                        this.framesCurrent = 0
+                    }
+                    break
+                case 'crA':
+                    if(this.image !== this.sprites.crAD.image){
+                        this.image = this.sprites.crAD.image
+                        this.framesMax = this.sprites.crAD.framesMax
+                        this.framesCurrent = 0
+                    }
+                    break
+                case 'stcrA':
+                    if(this.image !== this.sprites.stcrAD.image){
+                        this.image = this.sprites.stcrAD.image
+                        this.framesMax = this.sprites.stcrAD.framesMax
+                        this.framesCurrent = 0
+                    }
+                    break
+                
             }
         }
     }
@@ -1539,6 +1583,32 @@ export const player = new Fighter({
             imageSrc: './img/batGirl/crouchD.png',
             framesMax: 10,
         },
+
+
+        stAI:{
+            imageSrc: './img/batGirl/stAI.png',
+            framesMax: 3,
+        },
+        stAD:{
+            imageSrc: './img/batGirl/stAD.png',
+            framesMax: 3,
+        },
+        crAI:{
+            imageSrc: './img/batGirl/crAI.png',
+            framesMax: 4,
+        },
+        crAD:{
+            imageSrc: './img/batGirl/crAD.png',
+            framesMax: 4,
+        },
+        stcrAI:{
+            imageSrc: './img/batGirl/stcrAI.png',
+            framesMax: 5,
+        },
+        stcrAD:{
+            imageSrc: './img/batGirl/stcrAD.png',
+            framesMax: 5,
+        },
     }
 })
 
@@ -1652,6 +1722,32 @@ export const enemy = new Fighter({
         crouchD:{
             imageSrc: './img/batGirl/crouch2D.png',
             framesMax: 10,
+        },
+
+
+        stAI:{
+            imageSrc: './img/batGirl/stA2I.png',
+            framesMax: 3,
+        },
+        stAD:{
+            imageSrc: './img/batGirl/stA2D.png',
+            framesMax: 3,
+        },
+        crAI:{
+            imageSrc: './img/batGirl/crA2I.png',
+            framesMax: 4,
+        },
+        crAD:{
+            imageSrc: './img/batGirl/crA2D.png',
+            framesMax: 4,
+        },
+        stcrAI:{
+            imageSrc: './img/batGirl/stcrA2I.png',
+            framesMax: 5,
+        },
+        stcrAD:{
+            imageSrc: './img/batGirl/stcrA2D.png',
+            framesMax: 5,
         },
     }
 })

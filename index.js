@@ -309,6 +309,7 @@ function animate(){
                     myAttack1 = aA
                     attack(player,aAone)
                 }else if(player.agachado && ((keys.a.pressed && pDerecha == "der")|| (keys.d.pressed && pDerecha == "izq"))){
+                    player.switchSprite('stcrA')
                     myAttack1 = A3
                     attack(player,crstAone)
                 }else if(SpecialInput1 == "22A"){
@@ -320,10 +321,12 @@ function animate(){
                     player.unable = true
                     twoThreeSixPlayer("A")
                 }else if(player.agachado){
+                    player.switchSprite('crA')
                     myAttack1 = A2
                     attack(player,crAone)
                 }else{                    
                     attack(player,stAone)
+                    player.switchSprite('stA')
                     player.velocity.x = 0
                     myAttack1 = A5
                 }
@@ -530,6 +533,7 @@ function animate(){
                     attack(enemy,aAtwo)
                 }else if(enemy.agachado && ((keys.AR.pressed && pDerecha == "der")|| (keys.AL.pressed && pDerecha == "izq"))){
                     myAttack2 = A3
+                    enemy.switchSprite('stcrA')
                     attack(enemy,crstAtwo)
                 }else if(SpecialInput2 == "22A"){
                     myAttack2 = ddA
@@ -541,10 +545,12 @@ function animate(){
                     twoThreeSixEnemy("A")
                 }else if(enemy.agachado == true){
                     enemy.velocity.x = 0
+                    enemy.switchSprite('crA')
                     myAttack2 = A2
                     attack(enemy,crAtwo)
                 }else{
                     enemy.velocity.x = 0
+                    enemy.switchSprite('stA')
                     attack(enemy,stAtwo)
                     myAttack2 = A5
                 }
