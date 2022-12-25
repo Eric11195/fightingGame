@@ -254,6 +254,7 @@ function animate(){
         }
         if(!player.unable){
             if(keys.s.pressed && player.velocity.y == 0 && !player.jumpMaxPoint){
+                player.switchSprite("crouch")
                 player.agachado = true
                 player.velocity.x = 0
             }else{
@@ -363,6 +364,8 @@ function animate(){
             }else if (player.velocity.y > 0){ 
                 player.switchSprite('jump')
                 //los saltos no son controlables en el aire
+            }else if(keys.s.pressed && player.velocity.y == 0 && !player.jumpMaxPoint){
+                player.switchSprite("crouch")
             }else if (keys.d.pressed && keys.a.pressed){
                 player.velocity.x = 0
                 player.switchSprite('idle')
@@ -580,6 +583,8 @@ function animate(){
                 enemy.switchSprite('jump')
             }else if (enemy.velocity.y < 0){
                 enemy.switchSprite('fall')
+            }else if(keys.AD.pressed && enemy.velocity.y == 0 && !enemy.jumpMaxPoint){
+                enemy.switchSprite("crouch")
             }else if (keys.AL.pressed && keys.AR.pressed){
                 enemy.velocity.x = 0
                 enemy.switchSprite('idle')

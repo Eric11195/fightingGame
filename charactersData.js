@@ -177,6 +177,14 @@ class Fighter extends Sprite{
                         console.log("idle")
                     }
                     break
+                case 'dash': 
+                    if(this.image !== this.sprites.dashI.image){
+                        this.image = this.sprites.dashI.image
+                        this.framesMax = this.sprites.dashI.framesMax
+                        this.framesCurrent = 0
+                        console.log("dash")
+                    }
+                    break
                 case 'run':
                     if(this.image !== this.sprites.runI.image){
                         this.image = this.sprites.runI.image
@@ -205,6 +213,13 @@ class Fighter extends Sprite{
                         this.framesCurrent = 0
                     }
                     break
+                case 'crouch':
+                    if(this.image !== this.sprites.crouchI.image){
+                        this.image = this.sprites.crouchI.image
+                        this.framesMax = this.sprites.crouchI.framesMax
+                        this.framesCurrent = 0
+                    }
+                    break
             }
         }else if(this.side === "right"){
             switch(sprite){
@@ -222,6 +237,14 @@ class Fighter extends Sprite{
                         this.framesMax = this.sprites.backD.framesMax
                         this.framesCurrent = 0
                         
+                    }
+                    break
+                case 'dash': 
+                    if(this.image !== this.sprites.dashD.image){
+                        this.image = this.sprites.dashD.image
+                        this.framesMax = this.sprites.dashD.framesMax
+                        this.framesCurrent = 0
+                        console.log("dash")
                     }
                     break
                 case 'back':
@@ -242,6 +265,13 @@ class Fighter extends Sprite{
                     if(this.image !== this.sprites.fallingD.image){
                         this.image = this.sprites.fallingD.image
                         this.framesMax = this.sprites.fallingD.framesMax
+                        this.framesCurrent = 0
+                    }
+                    break
+                case 'crouch':
+                    if(this.image !== this.sprites.crouchD.image){
+                        this.image = this.sprites.crouchD.image
+                        this.framesMax = this.sprites.crouchD.framesMax
                         this.framesCurrent = 0
                     }
                     break
@@ -1473,6 +1503,14 @@ export const player = new Fighter({
             imageSrc: './img/batGirl/descendI.png',
             framesMax: 2,
         },
+        dashI:{
+            imageSrc: './img/batGirl/dashI.png',
+            framesMax: 2,
+        },
+        crouchI:{
+            imageSrc: './img/batGirl/crouchI.png',
+            framesMax: 10,
+        },
         idleD:{
             imageSrc: './img/batGirl/idleD.png',
             framesMax: 10
@@ -1492,7 +1530,15 @@ export const player = new Fighter({
         jumpingD:{
             imageSrc: './img/batGirl/descendD.png',
             framesMax: 2,
-        }
+        },
+        dashD:{
+            imageSrc: './img/batGirl/dashD.png',
+            framesMax: 2,
+        },
+        crouchD:{
+            imageSrc: './img/batGirl/crouchD.png',
+            framesMax: 10,
+        },
     }
 })
 
@@ -1571,9 +1617,17 @@ export const enemy = new Fighter({
             imageSrc: './img/batGirl/descend2I.png',
             framesMax: 2,
         },
+        dashI:{
+            imageSrc: './img/batGirl/dash2I.png',
+            framesMax: 2,
+        },
         idleD:{
             imageSrc: './img/batGirl/idle2D.png',
             framesMax: 10
+        },
+        crouchI:{
+            imageSrc: './img/batGirl/crouch2I.png',
+            framesMax: 10,
         },
         runD:{
             imageSrc: './img/batGirl/run2D.png',
@@ -1590,7 +1644,15 @@ export const enemy = new Fighter({
         jumpingD:{
             imageSrc: './img/batGirl/descend2D.png',
             framesMax: 2,
-        }
+        },
+        dashD:{
+            imageSrc: './img/batGirl/dash2D.png',
+            framesMax: 2,
+        },
+        crouchD:{
+            imageSrc: './img/batGirl/crouch2D.png',
+            framesMax: 10,
+        },
     }
 })
 
@@ -1833,8 +1895,8 @@ export function Dash(characterG){
     characterG.unable = true
     characterG.agachado = true
     characterG.DashRemains = true
+    characterG.switchSprite("dash")
     setTimeout(DashFinished, (15)*1000/FPS, characterG)
-    //characterG.velocity.x -= 2*directionG
 }
 function DashFinished(characterG){
     characterG.unable = false
