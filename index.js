@@ -916,8 +916,10 @@ function animate(){
         player.color = "grey"
     }else if(player.FramesCharging  > 25){
         player.color = "magenta"
+        player.switchSprite('charging2')
     }else if(player.FramesCharging  <= 25 && player.FramesCharging  != 0){
         player.color = "violet"
+        player.switchSprite('charging1')
     }else if(player.unable) {
         player.color = "yellow"
     }else player.color = "blue"
@@ -930,8 +932,10 @@ function animate(){
         enemy.color = "grey"
     }else if(enemy.FramesCharging  > 25){
         enemy.color = "magenta"
+        enemy.switchSprite('charging2')
     }else if(enemy.FramesCharging  <= 25 && enemy.FramesCharging  != 0){
         enemy.color = "violet"
+        enemy.switchSprite('charging1')
     }else if(enemy.unable) {
         enemy.color = "yellow"
     }else enemy.color = "red"

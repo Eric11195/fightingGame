@@ -241,6 +241,20 @@ class Fighter extends Sprite{
                         this.framesCurrent = 0
                     }
                     break
+                case 'charging1':
+                    if(this.image !== this.sprites.charging1I.image){
+                        this.image = this.sprites.charging1I.image
+                        this.framesMax = this.sprites.charging1I.framesMax
+                        this.framesCurrent = 0
+                    }
+                    break
+                case 'charging2':
+                    if(this.image !== this.sprites.charging2I.image){
+                        this.image = this.sprites.charging2I.image
+                        this.framesMax = this.sprites.charging2I.framesMax
+                        this.framesCurrent = 0
+                    }
+                    break
                 
             }
         }else if(this.side === "right"){
@@ -318,7 +332,20 @@ class Fighter extends Sprite{
                         this.framesCurrent = 0
                     }
                     break
-                
+                case 'charging1':
+                    if(this.image !== this.sprites.charging1D.image){
+                        this.image = this.sprites.charging1D.image
+                        this.framesMax = this.sprites.charging1D.framesMax
+                        this.framesCurrent = 0
+                    }
+                    break
+                case 'charging2':
+                    if(this.image !== this.sprites.charging2D.image){
+                        this.image = this.sprites.charging2D.image
+                        this.framesMax = this.sprites.charging2D.framesMax
+                        this.framesCurrent = 0
+                    }
+                    break
             }
         }
     }
@@ -1609,6 +1636,22 @@ export const player = new Fighter({
             imageSrc: './img/batGirl/stcrAD.png',
             framesMax: 5,
         },
+        charging1I:{
+            imageSrc: './img/batGirl/chargelvl1I.png',
+            framesMax: 2,
+        },
+        charging1D:{
+            imageSrc: './img/batGirl/chargelvl1D.png',
+            framesMax: 2,
+        },
+        charging2I:{
+            imageSrc: './img/batGirl/chargelvl21I.png',
+            framesMax: 2,
+        },
+        charging2D:{
+            imageSrc: './img/batGirl/chargelvl21D.png',
+            framesMax: 2,
+        },
     }
 })
 
@@ -1748,6 +1791,22 @@ export const enemy = new Fighter({
         stcrAD:{
             imageSrc: './img/batGirl/stcrA2D.png',
             framesMax: 5,
+        },
+        charging1I:{
+            imageSrc: './img/batGirl/chargelvl2I.png',
+            framesMax: 2,
+        },
+        charging1D:{
+            imageSrc: './img/batGirl/chargelvl2D.png',
+            framesMax: 2,
+        },
+        charging2I:{
+            imageSrc: './img/batGirl/chargelvl22I.png',
+            framesMax: 2,
+        },
+        charging2D:{
+            imageSrc: './img/batGirl/chargelvl22D.png',
+            framesMax: 2,
         },
     }
 })
