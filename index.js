@@ -1,4 +1,4 @@
-import {FPS, player, enemy, background, shop, speed, jumpForce, pDerecha, playerSide, xEnemyCollision, xPlayerCollision, minusxEnemyCollision, minusxPlayerCollision, hitboxCollision, attack, update, secondJumpForce, airDash, stAone, stAtwo, aAone ,aAtwo, crAone, crAtwo, Alvl1one, Alvl1two, Alvl3one, ddAone, ddAtwo, stBone, stBtwo, crBone, crBtwo, aBone, aBtwo, crstAone, crstAtwo, fBone, fBtwo, Alvl2one, Alvl2two, Alvl3two, Blvl1one,Blvl1two, Blvl2two, Blvl2one,  Blvl3one, Blvl3two, timer, timerId, playing, checkWinner, decreaseTimer, runSpeed, longJumpForce, highJumpForce, airRunSpeed, Dash, longJumpSpeed, rock1, rock2, ddBone, ddBtwo} from './charactersData.js'
+import {FPS, player, enemy, background, shop, speed, jumpForce, pDerecha, playerSide, xEnemyCollision, xPlayerCollision, minusxEnemyCollision, minusxPlayerCollision, hitboxCollision, attack, update, secondJumpForce, airDash, stAone, stAtwo, aAone ,aAtwo, crAone, crAtwo, Alvl1one, Alvl1two, Alvl3one, ddAone, ddAtwo, stBone, stBtwo, crBone, crBtwo, aBone, aBtwo, crstAone, crstAtwo, fBone, fBtwo, Alvl2one, Alvl2two, Alvl3two, Blvl1one,Blvl1two, Blvl2two, Blvl2one,  Blvl3one, Blvl3two, timer, timerId, playing, checkWinner, decreaseTimer, runSpeed, longJumpForce, highJumpForce, airRunSpeed, Dash, longJumpSpeed, rock1, rock2, ddBone, ddBtwo, pictureRock1} from './charactersData.js'
 import {keys, p1InputBuffer, p2InputBuffer, checkSpecialInputs, getPlayerOneInput, getPlayerTwoInput, SpecialInput1, SpecialInput2, playerOneRunning, playerTwoRunning, p1FramesCharging, p2FramesCharging} from './inputHandler.js'
 import {canvas, c, CROUCHING, STANDING} from './System.js'
 
@@ -37,6 +37,13 @@ var localPlayerTwoInput = getPlayerTwoInput()
 function animate(){ 
     background.update()
     shop.update()
+    console.log(pictureRock1.fakePosition)
+    if(rock1.onScreen){
+        pictureRock1.update()
+    }
+    if(rock2.onScreen){
+        pictureRock2.update()
+    }
 
     n++    
     //ea para donde se mira y cambia la hitbox en consecuencia, mira a ver si toca bloquar
@@ -314,6 +321,7 @@ function animate(){
                     myAttack1 = A3
                     attack(player,crstAone)
                 }else if(SpecialInput1 == "22A"){
+                    player.switchSprite('22A')
                     myAttack1 = ddA
                     attack(player,ddAone)
                 }else if((player.side == "right" && SpecialInput1 == "214A") || (player.side == "left" && SpecialInput1 == "236A")){
@@ -335,8 +343,10 @@ function animate(){
                 //console.log(SpecialInput1)
                 if(player.velocity.y != 0 || player.jumpMaxPoint){
                     myAttack1 = aB
+                    player.switchSprite('aB')
                     attack(player,aBone)
                 }else if(SpecialInput1 == "22B"){
+                    player.switchSprite('22B')
                     if(!rock1.onScreen){
                         myAttack1 = ddB
                         attack(player,ddBone)
@@ -350,10 +360,12 @@ function animate(){
                     player.unable = true
                     twoThreeSixPlayer("B")
                 }else if(player.agachado){
+                    player.switchSprite('crB')
                     myAttack1 = B2
                     attack(player,crBone)
                 }else if((keys.d.pressed && pDerecha == "izq")|| (keys.a.pressed && pDerecha == "der")){
                     player.velocity.x = 0
+                    player.switchSprite('6B')
                     myAttack1 = B6
                     attack(player,fBone)
                 }else {
@@ -540,6 +552,7 @@ function animate(){
                     attack(enemy,crstAtwo)
                 }else if(SpecialInput2 == "22A"){
                     myAttack2 = ddA
+                    enemy.switchSprite('22A')
                     attack(enemy,ddAtwo)
                 }else if((enemy.side == "right" && SpecialInput2 == "214A") || (enemy.side == "left" && SpecialInput2 == "236A")){
                     enemy.agachado = false
@@ -562,9 +575,11 @@ function animate(){
             }else if(keys.barra.pressed){
                 if(enemy.velocity.y != 0 || enemy.jumpMaxPoint){
                     myAttack2 = aB
+                    enemy.switchSprite('aB')
                     attack(enemy,aBtwo)
                 }else if(SpecialInput2 == "22B"){
                     myAttack2 = ddB
+                    enemy.switchSprite('22B')
                     attack(enemy,ddBtwo)
                     setTimeout(() => {
                         summonProjectile(rock2, enemy)
@@ -576,10 +591,12 @@ function animate(){
                     twoThreeSixEnemy("B")
                 }else if(enemy.agachado == true){
                     enemy.velocity.x = 0
+                    enemy.switchSprite('crB')
                     myAttack2 = B2
                     attack(enemy,crBtwo)
                 }else if((keys.AL.pressed && pDerecha == "izq")|| (keys.AR.pressed && pDerecha == "der")){
                     enemy.velocity.x = 0
+                    enemy.switchSprite('6B')
                     myAttack2 = B6
                     attack(enemy,fBone)
                 }else{
@@ -1387,6 +1404,7 @@ function summonProjectile(projectileName, who){
 
 function throwRockLowP(){
     rock1.noFalloff= true
+    player.switchSprite('move236')
     setTimeout (BattingP, 1*1000/FPS)
     rock1.velocity.y = -7
     if(pDerecha == "izq"){
@@ -1397,6 +1415,7 @@ function throwRockLowP(){
 }
 function throwRockHighP(){
     setTimeout (BattingP, 1*1000/FPS)
+    player.switchSprite('move236')
     if(pDerecha == "izq"){
         rock1.velocity.x = 10
     } else {
@@ -1411,6 +1430,7 @@ function BattingP(){
 
 function throwRockLowE(){
     rock2.noFalloff = true
+    enemy.switchSprite('move236')
     setTimeout (BattingE, 1*1000/FPS)
     if(pDerecha == "der"){
         rock2.velocity.x = 26
@@ -1420,6 +1440,7 @@ function throwRockLowE(){
     rock2.velocity.y = -7
 }
 function throwRockHighE(){
+    enemy.switchSprite('move236')
     setTimeout (BattingE, 1*1000/FPS)
     if(pDerecha == "der"){
         rock2.velocity.x = 10

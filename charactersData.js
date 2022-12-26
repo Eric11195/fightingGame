@@ -283,6 +283,41 @@ class Fighter extends Sprite{
                         this.framesCurrent = 0
                     }
                     break
+                case 'aB':
+                    if(this.image !== this.sprites.airBI.image){
+                        this.image = this.sprites.airBI.image
+                        this.framesMax = this.sprites.airBI.framesMax
+                        this.framesCurrent = 0
+                    }
+                    break
+                case 'crB':
+                    if(this.image !== this.sprites.crBI.image){
+                        this.image = this.sprites.crBI.image
+                        this.framesMax = this.sprites.crBI.framesMax
+                        this.framesCurrent = 0
+                    }
+                    break
+                case '6B':
+                    if(this.image !== this.sprites.fBI.image){
+                        this.image = this.sprites.fBI.image
+                        this.framesMax = this.sprites.fBI.framesMax
+                        this.framesCurrent = 0
+                    }
+                    break
+                case '22A':
+                    if(this.image !== this.sprites.ddAI.image){
+                        this.image = this.sprites.ddAI.image
+                        this.framesMax = this.sprites.ddAI.framesMax
+                        this.framesCurrent = 0
+                    }
+                    break
+                case '22B':
+                    if(this.image !== this.sprites.ddBI.image){
+                        this.image = this.sprites.ddBI.image
+                        this.framesMax = this.sprites.ddBI.framesMax
+                        this.framesCurrent = 0
+                    }
+                    break
                 
             }
         }else if(this.side === "right"){
@@ -399,6 +434,41 @@ class Fighter extends Sprite{
                     if(this.image !== this.sprites.stBD.image){
                         this.image = this.sprites.stBD.image
                         this.framesMax = this.sprites.stBD.framesMax
+                        this.framesCurrent = 0
+                    }
+                    break
+                case 'aB':
+                    if(this.image !== this.sprites.airBD.image){
+                        this.image = this.sprites.airBD.image
+                        this.framesMax = this.sprites.airBD.framesMax
+                        this.framesCurrent = 0
+                    }
+                    break
+                case 'crB':
+                    if(this.image !== this.sprites.crBD.image){
+                        this.image = this.sprites.crBD.image
+                        this.framesMax = this.sprites.crBD.framesMax
+                        this.framesCurrent = 0
+                    }
+                    break
+                case '6B':
+                    if(this.image !== this.sprites.fBD.image){
+                        this.image = this.sprites.fBD.image
+                        this.framesMax = this.sprites.fBD.framesMax
+                        this.framesCurrent = 0
+                    }
+                    break
+                case '22A':
+                    if(this.image !== this.sprites.ddAD.image){
+                        this.image = this.sprites.ddAD.image
+                        this.framesMax = this.sprites.ddAD.framesMax
+                        this.framesCurrent = 0
+                    }
+                    break
+                case '22B':
+                    if(this.image !== this.sprites.ddBD.image){
+                        this.image = this.sprites.ddBD.image
+                        this.framesMax = this.sprites.ddBD.framesMax
                         this.framesCurrent = 0
                     }
                     break
@@ -846,7 +916,7 @@ export const crBtwo = new Attack({
 
     startup: 16,
     active: 7,
-    recovery: 36,
+    recovery: 15,
 
     onHit: "HKD",
     onBlock: -14,
@@ -1514,8 +1584,7 @@ export const rock1 = new Projectile({
     forceX:0,
     forceY:0,
     juggleValue: -50,
-    noFalloff: false
-
+    noFalloff: false,
 
 })
 
@@ -1740,6 +1809,46 @@ export const player = new Fighter({
             imageSrc: './img/batGirl/stBD.png',
             framesMax: 5,
         },
+        airBI:{
+            imageSrc: './img/batGirl/airBI.png',
+            framesMax: 5,
+        },
+        airBD:{
+            imageSrc: './img/batGirl/airBD.png',
+            framesMax: 5,
+        },
+        crBI:{
+            imageSrc: './img/batGirl/crBI.png',
+            framesMax: 5,
+        },
+        crBD:{
+            imageSrc: './img/batGirl/crBD.png',
+            framesMax: 5,
+        },
+        fBI:{
+            imageSrc: './img/batGirl/6BI.png',
+            framesMax: 7,
+        },
+        fBD:{
+            imageSrc: './img/batGirl/6BD.png',
+            framesMax: 7,
+        },
+        ddAI:{
+            imageSrc: './img/batGirl/22AI.png',
+            framesMax: 6,
+        },
+        ddAD:{
+            imageSrc: './img/batGirl/22AD.png',
+            framesMax: 6,
+        },
+        ddBI:{
+            imageSrc: './img/batGirl/22BI.png',
+            framesMax: 7,
+        },
+        ddBD:{
+            imageSrc: './img/batGirl/22BD.png',
+            framesMax: 7,
+        },
     }
 })
 
@@ -1928,9 +2037,74 @@ export const enemy = new Fighter({
             imageSrc: './img/batGirl/stB2D.png',
             framesMax: 5,
         },
-        
-        
+        airBI:{
+            imageSrc: './img/batGirl/aB2I.png',
+            framesMax: 5,
+        },
+        airBD:{
+            imageSrc: './img/batGirl/aB2D.png',
+            framesMax: 5,
+        },
+        crBI:{
+            imageSrc: './img/batGirl/crB2I.png',
+            framesMax: 5,
+        },
+        crBD:{
+            imageSrc: './img/batGirl/crB2D.png',
+            framesMax: 5,
+        },
+        fBI:{
+            imageSrc: './img/batGirl/6B2I.png',
+            framesMax: 7,
+        },
+        fBD:{
+            imageSrc: './img/batGirl/6B2D.png',
+            framesMax: 7,
+        },
+        ddAI:{
+            imageSrc: './img/batGirl/22A2I.png',
+            framesMax: 3,
+        },
+        ddAD:{
+            imageSrc: './img/batGirl/22A2D.png',
+            framesMax: 3,
+        },
+        ddAI:{
+            imageSrc: './img/batGirl/22A2I.png',
+            framesMax: 6,
+        },
+        ddAD:{
+            imageSrc: './img/batGirl/22A2D.png',
+            framesMax: 6,
+        },
+        ddBI:{
+            imageSrc: './img/batGirl/22B2I.png',
+            framesMax: 7,
+        },
+        ddBD:{
+            imageSrc: './img/batGirl/22B2D.png',
+            framesMax: 7,
+        },
     }
+})
+
+export const pictureRock1 = new Sprite({
+    fakePosition:{
+        x:rock1.position.x,
+        y:rock1.position.y
+    },
+    imageSrc: './img/rock.png',
+    framesMax: 2,
+    scale: 0.5,
+})
+export const pictureRock2 = new Sprite({
+    fakePosition:{
+        x:rock2.position.x,
+        y:rock2.position.y
+    },
+    imageSrc: './img/rock.png',
+    framesMax: 2,
+    scale: 0.5,
 })
 
 //-----------------------------------------------------------------------------
@@ -2011,6 +2185,10 @@ function RECOVERY(who){
     }
 }
 export function update(who, move, playerProjectile) {
+    pictureRock1.fakePosition.x = rock1.position.x
+    pictureRock1.fakePosition.y = rock1.position.y
+    pictureRock2.fakePosition.x = rock2.position.x
+    pictureRock2.fakePosition.y = rock2.position.y
 
     draw(who, move, playerProjectile)
     who.update();
@@ -2126,7 +2304,7 @@ export function draw(who, move, playerProjectile) {
             move.width, 
             move.height)
         }
-    if(playerProjectile.onScreen){
+    /*if(playerProjectile.onScreen){
         who.canvasContext.fillStyle = "brown"
         who.canvasContext.fillRect(
             playerProjectile.position.x, 
@@ -2134,7 +2312,7 @@ export function draw(who, move, playerProjectile) {
             playerProjectile.width, 
             playerProjectile.height
         )
-    }
+    }*/
 }
 
 //reloj-----------------------------------------------------------------------------------
