@@ -306,6 +306,7 @@ function animate(){
             //acciones cuando hay alguna tecla pulsada
             if (keys.f.pressed){
                 if(player.velocity.y != 0 || player.jumpMaxPoint){
+                    player.switchSprite('aA')
                     myAttack1 = aA
                     attack(player,aAone)
                 }else if(player.agachado && ((keys.a.pressed && pDerecha == "der")|| (keys.d.pressed && pDerecha == "izq"))){
@@ -356,6 +357,7 @@ function animate(){
                     myAttack1 = B6
                     attack(player,fBone)
                 }else {
+                    player.switchSprite('stB')
                     attack(player,stBone)
                     player.velocity.x = 0
                     myAttack1 = B5
@@ -530,6 +532,7 @@ function animate(){
                 n = 0
                 if(enemy.velocity.y != 0 || enemy.jumpMaxPoint){
                     myAttack2 = aA
+                    enemy.switchSprite('aA')
                     attack(enemy,aAtwo)
                 }else if(enemy.agachado && ((keys.AR.pressed && pDerecha == "der")|| (keys.AL.pressed && pDerecha == "izq"))){
                     myAttack2 = A3
@@ -580,6 +583,7 @@ function animate(){
                     myAttack2 = B6
                     attack(enemy,fBone)
                 }else{
+                    enemy.switchSprite('stB')
                     attack(enemy,stBtwo)
                     enemy.velocity.x = 0
                     myAttack2 = B5
@@ -914,6 +918,7 @@ function animate(){
         player.color = "purple"
     }else if(player.FramesCharging  > 60){
         player.color = "grey"
+        player.switchSprite('charging3')
     }else if(player.FramesCharging  > 25){
         player.color = "magenta"
         player.switchSprite('charging2')
@@ -930,6 +935,7 @@ function animate(){
         enemy.color = "purple"
     }else if(enemy.FramesCharging  > 60){
         enemy.color = "grey"
+        enemy.switchSprite('charging3')
     }else if(enemy.FramesCharging  > 25){
         enemy.color = "magenta"
         enemy.switchSprite('charging2')
@@ -1217,12 +1223,15 @@ function twoThreeSixPlayer(whatAttack){
     if(whatAttack == "A"){
         if(!p1FramesCharging || player.FramesCharging > 120){
             if(player.FramesCharging  > 60){
+                player.switchSprite('move236')
                 attack(player, Alvl3one)
                 myAttack1 = qcfA3
             }else if(player.FramesCharging  > 25){
+                player.switchSprite('move236')
                 attack(player, Alvl2one)
                 myAttack1 = qcfA2
             }else{
+                player.switchSprite('move236')
                 attack(player, Alvl1one)
                 myAttack1 = qcfA1
             }
@@ -1247,13 +1256,16 @@ function twoThreeSixPlayer(whatAttack){
     }else{
         if(!p1FramesCharging || player.FramesCharging > 120){
             if(player.FramesCharging  > 60){
+                player.switchSprite('move236')
                 attack(player, Blvl3one)
                 myAttack1 = qcfB3
             }else if(player.FramesCharging  > 25){
+                player.switchSprite('move236')
                 attack(player, Blvl2one)
                 myAttack1 = qcfB2
             }else{
                 attack(player, Blvl1one)
+                player.switchSprite('move236')
                 myAttack1 = qcfB1
             }
             player.FramesCharging = 0
@@ -1281,13 +1293,16 @@ function twoThreeSixEnemy(whatAttack){
     if(whatAttack == "A"){
         if(!p2FramesCharging || enemy.FramesCharging > 120){
             if(enemy.FramesCharging  > 60){
+                enemy.switchSprite('move236')
                 attack(enemy, Alvl3two)
                 myAttack2 = qcfA3
             }else if(enemy.FramesCharging  > 25){
                 attack(enemy, Alvl2two)
+                enemy.switchSprite('move236')
                 myAttack2 = qcfA2
             }else{
                 attack(enemy, Alvl1two)
+                enemy.switchSprite('move236')
                 myAttack2 = qcfA1
             }
             enemy.FramesCharging = 0
@@ -1311,12 +1326,15 @@ function twoThreeSixEnemy(whatAttack){
     }else{
         if(!p2FramesCharging || enemy.FramesCharging > 120){
             if(enemy.FramesCharging  > 60){
+                enemy.switchSprite('move236')
                 attack(enemy, Blvl3two)
                 myAttack2 = qcfB3
             }else if(enemy.FramesCharging  > 25){
+                enemy.switchSprite('move236')
                 attack(enemy, Blvl2two)
                 myAttack2 = qcfB2
             }else{
+                enemy.switchSprite('move236')
                 attack(enemy, Blvl1two)
                 myAttack2 = qcfB1
             }

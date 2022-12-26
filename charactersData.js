@@ -255,6 +255,34 @@ class Fighter extends Sprite{
                         this.framesCurrent = 0
                     }
                     break
+                case 'charging3':
+                    if(this.image !== this.sprites.charging3I.image){
+                        this.image = this.sprites.charging3I.image
+                        this.framesMax = this.sprites.charging3I.framesMax
+                        this.framesCurrent = 0
+                    }
+                    break
+                case 'move236':
+                    if(this.image !== this.sprites.move236I.image){
+                        this.image = this.sprites.move236I.image
+                        this.framesMax = this.sprites.move236I.framesMax
+                        this.framesCurrent = 0
+                    }
+                    break
+                case 'aA':
+                    if(this.image !== this.sprites.airAI.image){
+                        this.image = this.sprites.airAI.image
+                        this.framesMax = this.sprites.airAI.framesMax
+                        this.framesCurrent = 0
+                    }
+                    break
+                case 'stB':
+                    if(this.image !== this.sprites.stBI.image){
+                        this.image = this.sprites.stBI.image
+                        this.framesMax = this.sprites.stBI.framesMax
+                        this.framesCurrent = 0
+                    }
+                    break
                 
             }
         }else if(this.side === "right"){
@@ -343,6 +371,34 @@ class Fighter extends Sprite{
                     if(this.image !== this.sprites.charging2D.image){
                         this.image = this.sprites.charging2D.image
                         this.framesMax = this.sprites.charging2D.framesMax
+                        this.framesCurrent = 0
+                    }
+                    break
+                case 'charging3':
+                    if(this.image !== this.sprites.charging3D.image){
+                        this.image = this.sprites.charging3D.image
+                        this.framesMax = this.sprites.charging3D.framesMax
+                        this.framesCurrent = 0
+                    }
+                    break
+                case 'move236':
+                    if(this.image !== this.sprites.move236D.image){
+                        this.image = this.sprites.move236D.image
+                        this.framesMax = this.sprites.move236D.framesMax
+                        this.framesCurrent = 0
+                    }
+                    break
+                case 'aA':
+                    if(this.image !== this.sprites.airAD.image){
+                        this.image = this.sprites.airAD.image
+                        this.framesMax = this.sprites.airAD.framesMax
+                        this.framesCurrent = 0
+                    }
+                    break
+                case 'stB':
+                    if(this.image !== this.sprites.stBD.image){
+                        this.image = this.sprites.stBD.image
+                        this.framesMax = this.sprites.stBD.framesMax
                         this.framesCurrent = 0
                     }
                     break
@@ -1652,6 +1708,38 @@ export const player = new Fighter({
             imageSrc: './img/batGirl/chargelvl21D.png',
             framesMax: 2,
         },
+        charging3I:{
+            imageSrc: './img/batGirl/chargelvl3I.png',
+            framesMax: 2,
+        },
+        charging3D:{
+            imageSrc: './img/batGirl/chargelvl3D.png',
+            framesMax: 2,
+        },
+        move236I:{
+            imageSrc: './img/batGirl/236I.png',
+            framesMax: 6,
+        },
+        move236D:{
+            imageSrc: './img/batGirl/236D.png',
+            framesMax: 6,
+        },
+        airAI:{
+            imageSrc: './img/batGirl/aAI.png',
+            framesMax: 3,
+        },
+        airAD:{
+            imageSrc: './img/batGirl/aAD.png',
+            framesMax: 3,
+        },
+        stBI:{
+            imageSrc: './img/batGirl/stBI.png',
+            framesMax: 5,
+        },
+        stBD:{
+            imageSrc: './img/batGirl/stBD.png',
+            framesMax: 5,
+        },
     }
 })
 
@@ -1808,6 +1896,40 @@ export const enemy = new Fighter({
             imageSrc: './img/batGirl/chargelvl22D.png',
             framesMax: 2,
         },
+        charging3I:{
+            imageSrc: './img/batGirl/chargelvl32I.png',
+            framesMax: 2,
+        },
+        charging3D:{
+            imageSrc: './img/batGirl/chargelvl32D.png',
+            framesMax: 2,
+        },
+        move236I:{
+            imageSrc: './img/batGirl/2362I.png',
+            framesMax: 6,
+        },
+        move236D:{
+            imageSrc: './img/batGirl/2362D.png',
+            framesMax: 6,
+        },
+        airAI:{
+            imageSrc: './img/batGirl/aA2I.png',
+            framesMax: 3,
+        },
+        airAD:{
+            imageSrc: './img/batGirl/aA2D.png',
+            framesMax: 3,
+        },
+        stBI:{
+            imageSrc: './img/batGirl/stB2I.png',
+            framesMax: 5,
+        },
+        stBD:{
+            imageSrc: './img/batGirl/stB2D.png',
+            framesMax: 5,
+        },
+        
+        
     }
 })
 
@@ -1993,8 +2115,8 @@ export function update(who, move, playerProjectile) {
 
 export function draw(who, move, playerProjectile) {
     //pintar personaje
-    who.canvasContext.fillStyle = who.color //color
-    who.canvasContext.fillRect(who.position.x, who.position.y, who.width, who.height)
+    //who.canvasContext.fillStyle = who.color //color
+    //who.canvasContext.fillRect(who.position.x, who.position.y, who.width, who.height)
     //painting hitBox
     if (who.isAttacking){
         who.canvasContext.fillStyle = "white"
