@@ -81,7 +81,7 @@ export function getPlayerTwoInput() {
 //se activa cada vez que se presiona una tecla
 export const KEYDOWN = window.addEventListener('keydown', (event) => {
     //mira que teclas as tocado
-    console.log(event.key)
+    //console.log(event.key)
     switch (event.key) {
         case 'D':
         case 'd':

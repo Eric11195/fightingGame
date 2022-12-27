@@ -37,7 +37,7 @@ var localPlayerTwoInput = getPlayerTwoInput()
 function animate(){ 
     background.update()
     shop.update()
-    console.log(pictureRock1.fakePosition)
+    //console.log(pictureRock1.fakePosition)
     if(rock1.onScreen){
         pictureRock1.update()
     }
@@ -186,7 +186,7 @@ function animate(){
 
     if(playing) {
 
-        console.log(player.side)
+        //console.log(player.side)
         // qcb, etc
         checkSpecialInputs();
 
@@ -516,7 +516,7 @@ function animate(){
         }
 
         if (enemy.cancelWindow && myAttack2 == ddB){
-            console.log("ñeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee2")
+            //console.log("ñeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee2")
             if (keys.dot.pressed){
                 enemy.myAttack = "none"
                 enemy.agachado = false

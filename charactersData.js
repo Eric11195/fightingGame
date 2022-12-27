@@ -7,6 +7,7 @@ export const secondJumpForce = -12
 export const longJumpSpeed = 10
 export const runSpeed = 16
 export const airRunSpeed = 10
+const PAINTINGHURTBOXESNHITBOXES = false
 
 
 const canvas = document.querySelector("canvas")
@@ -174,7 +175,7 @@ class Fighter extends Sprite{
                         this.image = this.sprites.idleI.image
                         this.framesMax = this.sprites.idleI.framesMax
                         this.framesCurrent = 0
-                        console.log("idle")
+                        //console.log("idle")
                     }
                     break
                 case 'dash': 
@@ -182,7 +183,7 @@ class Fighter extends Sprite{
                         this.image = this.sprites.dashI.image
                         this.framesMax = this.sprites.dashI.framesMax
                         this.framesCurrent = 0
-                        console.log("dash")
+                        //console.log("dash")
                     }
                     break
                 case 'run':
@@ -327,7 +328,7 @@ class Fighter extends Sprite{
                         this.image = this.sprites.idleD.image
                         this.framesMax = this.sprites.idleD.framesMax
                         this.framesCurrent = 0
-                        console.log("idle")
+                        //console.log("idle")
                     }
                     break
                 case 'run':
@@ -343,7 +344,7 @@ class Fighter extends Sprite{
                         this.image = this.sprites.dashD.image
                         this.framesMax = this.sprites.dashD.framesMax
                         this.framesCurrent = 0
-                        console.log("dash")
+                        //console.log("dash")
                     }
                     break
                 case 'back':
@@ -650,11 +651,11 @@ export const aAone = new Attack({
         x:0,
         y:0
     },
-    width:80,
-    height:50,
+    width:100,
+    height:35,
     offset: {
-        x: -15,
-        y: 120,
+        x: -25,
+        y: 125,
     },
     damage:2,
     pushblock:15,
@@ -681,11 +682,11 @@ export const aAtwo = new Attack({
         x:0,
         y:0
     },
-    width:80,
-    height:50,
+    width:100,
+    height:35,
     offset: {
-        x: -15,
-        y: 120,
+        x: -25,
+        y: 125,
     },
     damage:2,
     pushblock:15,
@@ -776,8 +777,8 @@ export const crstAone = new Attack({
     width:50,
     height:50,
     offset: {
-        x: 70,
-        y: 40,
+        x: 55,
+        y: 60,
     },
     damage:8,
     pushblock:30,
@@ -806,8 +807,8 @@ export const crstAtwo = new Attack({
     width:50,
     height:50,
     offset: {
-        x: 70,
-        y: 40,
+        x: 55,
+        y: 60,
     },
     damage:8,
     pushblock:30,
@@ -834,7 +835,7 @@ export const stBone = new Attack({
         x:0,
         y:0
     },
-    width:100,
+    width:70,
     height:100,
     offset: {
         x: 50,
@@ -864,7 +865,7 @@ export const stBtwo = new Attack({
         x:0,
         y:0
     },
-    width:100,
+    width:70,
     height:100,
     offset: {
         x: 50,
@@ -895,10 +896,10 @@ export const crBone = new Attack({
         y:0
     },
 
-    width:370,
+    width:190,
     height:40,
     offset: {
-        x: -150,
+        x: -70,
         y: 60,
     },
 
@@ -926,10 +927,10 @@ export const crBtwo = new Attack({
         y:0
     },
 
-    width:370,
+    width:190,
     height:40,
     offset: {
-        x: -150,
+        x: -70,
         y: 60,
     },
     
@@ -957,11 +958,11 @@ export const aBone = new Attack({
         y:0
     },
 
-    width:175,
-    height:150,
+    width:200,
+    height:120,
     offset: {
-        x: 25,
-        y:  90,
+        x: -70,
+        y:  40,
     },
 
     damage:4,
@@ -989,11 +990,11 @@ export const aBtwo = new Attack({
         y:0
     },
 
-    width:175,
-    height:150,
+    width:200,
+    height:120,
     offset: {
-        x: 25,
-        y:  90,
+        x: -70,
+        y:  40,
     },
 
     damage:4,
@@ -1013,19 +1014,19 @@ export const fBone = new Attack({
     active: 4,
     recovery: 18,
 
-    onHit: 5,
-    onBlock: -7,
+    onHit: +40,
+    onBlock: +10,
 
     position: {
         x:0,
         y:0
     },
 
-    width:230,
+    width:90,
     height:40,
     offset: {
-        x: 50,
-        y:  20,
+        x: 30,
+        y:  30,
     },
 
     damage:4,
@@ -1044,19 +1045,19 @@ export const fBtwo = new Attack({
     active: 4,
     recovery: 18,
 
-    onHit: 5,
-    onBlock: -7,
+    onHit: 40,
+    onBlock: 10,
 
     position: {
         x:0,
         y:0
     },
 
-    width:230,
+    width:90,
     height:40,
     offset: {
-        x: 50,
-        y:  20,
+        x: 30,
+        y:  30,
     },
 
     damage:4,
@@ -1147,7 +1148,7 @@ export const Alvl1one = new Attack({
         x:0,
         y:0
     },
-    width:150,
+    width:80,
     height:120,
     offset: {
         x: 50,
@@ -1177,7 +1178,7 @@ export const Alvl1two = new Attack({
         x:0,
         y:0
     },
-    width:150,
+    width:80,
     height:120,
     offset: {
         x: 50,
@@ -1207,7 +1208,7 @@ export const Blvl1one = new Attack({
         x:0,
         y:0
     },
-    width:150,
+    width:80,
     height:120,
     offset: {
         x: 50,
@@ -1237,7 +1238,7 @@ export const Blvl1two = new Attack({
         x:0,
         y:0
     },
-    width:150,
+    width:80,
     height:120,
     offset: {
         x: 50,
@@ -1267,7 +1268,7 @@ export const Blvl2one = new Attack({
         x:0,
         y:0
     },
-    width:150,
+    width:80,
     height:120,
     offset: {
         x: 50,
@@ -1297,7 +1298,7 @@ export const Blvl2two = new Attack({
         x:0,
         y:0
     },
-    width:150,
+    width:80,
     height:120,
     offset: {
         x: 50,
@@ -1327,7 +1328,7 @@ export const Alvl2one = new Attack({
         x:0,
         y:0
     },
-    width:150,
+    width:80,
     height:120,
     offset: {
         x: 50,
@@ -1356,7 +1357,7 @@ export const Alvl2two = new Attack({
         x:0,
         y:0
     },
-    width:150,
+    width:80,
     height:120,
     offset: {
         x: 50,
@@ -1385,7 +1386,7 @@ export const Alvl3one = new Attack({
         x:0,
         y:0
     },
-    width:150,
+    width:80,
     height:120,
     offset: {
         x: 50,
@@ -1415,7 +1416,7 @@ export const Alvl3two = new Attack({
         x:0,
         y:0
     },
-    width:150,
+    width:80,
     height:120,
     offset: {
         x: 50,
@@ -1445,7 +1446,7 @@ export const Blvl3two = new Attack({
         x:0,
         y:0
     },
-    width:150,
+    width:80,
     height:120,
     offset: {
         x: 50,
@@ -1476,7 +1477,7 @@ export const Blvl3one = new Attack({
         x:0,
         y:0
     },
-    width:150,
+    width:80,
     height:120,
     offset: {
         x: 50,
@@ -1510,7 +1511,7 @@ export const ddAone = new Attack({
     width:80,
     height:80,
     offset: {
-        x: 70,
+        x: 40,
         y: 70,
     },
     damage:6,
@@ -1537,10 +1538,10 @@ export const ddAtwo = new Attack({
         x:0,
         y:0
     },
-    width:70,
-    height:70,
+    width:80,
+    height:80,
     offset: {
-        x: 70,
+        x: 40,
         y: 70,
     },
     damage:6,
@@ -2235,13 +2236,13 @@ export function update(who, move, playerProjectile) {
     if(who.position.y + who.height + who.velocity.y + 95>= who.canvasRef.height ){
         //lo toca
         who.position.y = who.canvasRef.height - who.height - 95
-        who.jumps.n = 2
-        //who.fakePosition.y = 380
+        who.fakePosition.y = 385
         if(!who.GB){
+            who.jumps.n = 2
+            who.velocity.y = 0
             if(!who.DashRemains){
                 who.inCombo = false
             }
-                who.velocity.y = 0
             if(who.HKD){
                 who.HKD = false
                 who.juggleMultiplier = 100
@@ -2258,9 +2259,11 @@ export function update(who, move, playerProjectile) {
                 setTimeout(GetUpKnockDown, (15)*1000/FPS, who)
             }
         }else{
-            who.GB = false
             who.velocity.y = -who.velocity.y
+            who.position.y = who.canvasRef.height - who.height + who.velocity - 100
+            console.log(enemy.position.y)
             who.WB = false
+            who.GB = false
         }
         playerSide()
         if(who == player){
@@ -2278,41 +2281,43 @@ export function update(who, move, playerProjectile) {
             }
         }
     } else {
-        if(!who.airDashRemains){
             if(!who.wallSplated){
+                //console.log(who.velocity.y)
                 who.velocity.y += GRAVITY//aceleración en caida
             }else{
                 //console.log("miau")
                 who.velocity.y = 0
                 setTimeout(stopWS, (40)*1000/FPS, who)
             }
-        }
     }
+    //console.log(enemy.velocity.y)
     who.checkJumpMaxHeight()
 }
 
 export function draw(who, move, playerProjectile) {
     //pintar personaje
-    //who.canvasContext.fillStyle = who.color //color
-    //who.canvasContext.fillRect(who.position.x, who.position.y, who.width, who.height)
-    //painting hitBox
-    if (who.isAttacking){
-        who.canvasContext.fillStyle = "white"
-        who.canvasContext.fillRect(
-            move.position.x, 
-            move.position.y, 
-            move.width, 
-            move.height)
+    if(PAINTINGHURTBOXESNHITBOXES){
+        who.canvasContext.fillStyle = who.color //color
+        who.canvasContext.fillRect(who.position.x, who.position.y, who.width, who.height)
+        //painting hitBox
+        if (who.isAttacking){
+            who.canvasContext.fillStyle = "white"
+            who.canvasContext.fillRect(
+                move.position.x, 
+                move.position.y, 
+                move.width, 
+                move.height)
+            }
+        if(playerProjectile.onScreen){
+            who.canvasContext.fillStyle = "brown"
+            who.canvasContext.fillRect(
+                playerProjectile.position.x, 
+                playerProjectile.position.y, 
+                playerProjectile.width, 
+                playerProjectile.height
+            )
         }
-    /*if(playerProjectile.onScreen){
-        who.canvasContext.fillStyle = "brown"
-        who.canvasContext.fillRect(
-            playerProjectile.position.x, 
-            playerProjectile.position.y, 
-            playerProjectile.width, 
-            playerProjectile.height
-        )
-    }*/
+    }
 }
 
 //reloj-----------------------------------------------------------------------------------
