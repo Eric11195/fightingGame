@@ -319,6 +319,34 @@ class Fighter extends Sprite{
                         this.framesCurrent = 0
                     }
                     break
+                case 'HKD':
+                    if(this.image !== this.sprites.HKDI.image){
+                        this.image = this.sprites.HKDI.image
+                        this.framesMax = this.sprites.HKDI.framesMax
+                        this.framesCurrent = 0
+                    }
+                    break
+                case 'hurt':
+                    if(this.image !== this.sprites.hurtI.image){
+                        this.image = this.sprites.hurtI.image
+                        this.framesMax = this.sprites.hurtI.framesMax
+                        this.framesCurrent = 0
+                    }
+                    break
+                case 'blocking':
+                    if(this.image !== this.sprites.blockingI.image){
+                        this.image = this.sprites.blockingI.image
+                        this.framesMax = this.sprites.blockingI.framesMax
+                        this.framesCurrent = 0
+                    }
+                    break
+                case 'blockingLow':
+                    if(this.image !== this.sprites.blockingLowI.image){
+                        this.image = this.sprites.blockingLowI.image
+                        this.framesMax = this.sprites.blockingLowI.framesMax
+                        this.framesCurrent = 0
+                    }
+                    break
                 
             }
         }else if(this.side === "right"){
@@ -473,6 +501,34 @@ class Fighter extends Sprite{
                         this.framesCurrent = 0
                     }
                     break
+                case 'HKD':
+                    if(this.image !== this.sprites.HKDD.image){
+                        this.image = this.sprites.HKDD.image
+                        this.framesMax = this.sprites.HKDD.framesMax
+                        this.framesCurrent = 0
+                    }
+                    break
+                case 'hurt':
+                    if(this.image !== this.sprites.hurtD.image){
+                        this.image = this.sprites.hurtD.image
+                        this.framesMax = this.sprites.hurtD.framesMax
+                        this.framesCurrent = 0
+                    }
+                    break
+                case 'blocking':
+                    if(this.image !== this.sprites.blockingD.image){
+                        this.image = this.sprites.blockingD.image
+                        this.framesMax = this.sprites.blockingD.framesMax
+                        this.framesCurrent = 0
+                    }
+                    break
+                case 'blockingLow':
+                    if(this.image !== this.sprites.blockingLowD.image){
+                        this.image = this.sprites.blockingLowD.image
+                        this.framesMax = this.sprites.blockingLowD.framesMax
+                        this.framesCurrent = 0
+                    }
+                    break
             }
         }
     }
@@ -580,7 +636,7 @@ export const stAone = new Attack({
 
     startup: 4,
     active: 2,
-    recovery: 9,
+    recovery: 6,
 
     onHit: 3,
     onBlock: -2,
@@ -611,7 +667,7 @@ export const stAtwo = new Attack({
 
     startup: 4,
     active: 2,
-    recovery: 9,
+    recovery: 6 ,
 
     onHit: 3,
     onBlock: -2,
@@ -640,11 +696,11 @@ export const aAone = new Attack({
     attackClass: "OVERHEAD",
     lowProfile: false,
 
-    startup: 5,
-    active: 5,
-    recovery: 8,
+    startup: 3,
+    active: 4,
+    recovery: 4,
 
-    onHit: 5,
+    onHit: 4,
     onBlock: 2,
 
     position: {
@@ -671,12 +727,12 @@ export const aAtwo = new Attack({
     attackClass: "OVERHEAD",
     lowProfile: false,
 
-    startup: 5,
-    active: 5,
-    recovery: 8,
+    startup: 3,
+    active: 4,
+    recovery: 4,
 
-    onHit: 5,
-    onBlock: 2,
+    onHit: 2,
+    onBlock: 0,
 
     position: {
         x:0,
@@ -703,12 +759,12 @@ export const crAone = new Attack({
     attackClass: "LOW",
     lowProfile: true,
 
-    startup: 7,
+    startup: 6,
     active: 2,
     recovery: 12,
 
-    onHit: 1,
-    onBlock: -4,
+    onHit: 5,
+    onBlock: -2,
 
     position: {
         x:0,
@@ -733,12 +789,12 @@ export const crAtwo = new Attack({
     attackClass: "LOW",
     lowProfile: true,
 
-    startup: 7,
+    startup: 6,
     active: 2,
     recovery: 12,
 
-    onHit: 1,
-    onBlock: -4,
+    onHit: 5,
+    onBlock: -2,
 
     position: {
         x:0,
@@ -828,7 +884,7 @@ export const stBone = new Attack({
     active: 5,
     recovery: 15,
 
-    onHit: 5,
+    onHit: 8,
     onBlock: 2,
 
     position: {
@@ -858,7 +914,7 @@ export const stBtwo = new Attack({
     active: 5,
     recovery: 15,
 
-    onHit: 5,
+    onHit: 8,
     onBlock: 2,
 
     position: {
@@ -884,9 +940,9 @@ export const crBone = new Attack({
     attackClass: "LOW",
     lowProfile: true,
 
-    startup: 16,
-    active: 7,
-    recovery: 15,
+    startup: 12,
+    active: 6,
+    recovery: 18,
 
     onHit: "HKD",
     onBlock: -14,
@@ -915,9 +971,9 @@ export const crBtwo = new Attack({
     attackClass: "LOW",
     lowProfile: true,
 
-    startup: 16,
-    active: 7,
-    recovery: 15,
+    startup: 12,
+    active: 6,
+    recovery: 18,
 
     onHit: "HKD",
     onBlock: -14,
@@ -948,7 +1004,7 @@ export const aBone = new Attack({
 
     startup: 16,
     active: 5,
-    recovery: 20,
+    recovery: 10,
 
     onHit: 12,
     onBlock: 5,
@@ -980,7 +1036,7 @@ export const aBtwo = new Attack({
 
     startup: 16,
     active: 5,
-    recovery: 20,
+    recovery: 10,
 
     onHit: 12,
     onBlock: 5,
@@ -1736,6 +1792,30 @@ export const player = new Fighter({
             imageSrc: './img/batGirl/crouchD.png',
             framesMax: 10,
         },
+        hurtI:{
+            imageSrc: './img/batGirl/hurtI.png',
+            framesMax: 1,
+        },
+        hurtD:{
+            imageSrc: './img/batGirl/hurtD.png',
+            framesMax: 1,
+        },
+        blockingI:{
+            imageSrc: './img/batGirl/blockI.png',
+            framesMax: 1,
+        },
+        blockingD:{
+            imageSrc: './img/batGirl/blockD.png',
+            framesMax: 1,
+        },
+        blockingLowI:{
+            imageSrc: './img/batGirl/blockLowI.png',
+            framesMax: 1,
+        },
+        blockingLowD:{
+            imageSrc: './img/batGirl/blockLowD.png',
+            framesMax: 1,
+        },
 
 
         stAI:{
@@ -1850,6 +1930,14 @@ export const player = new Fighter({
             imageSrc: './img/batGirl/22BD.png',
             framesMax: 7,
         },
+        HKDI:{
+            imageSrc: './img/batGirl/HKDI.png',
+            framesMax: 1,
+        },
+        HKDD:{
+            imageSrc: './img/batGirl/HKDD.png',
+            framesMax: 1,
+        },
     }
 })
 
@@ -1963,6 +2051,30 @@ export const enemy = new Fighter({
         crouchD:{
             imageSrc: './img/batGirl/crouch2D.png',
             framesMax: 10,
+        },
+        hurtI:{
+            imageSrc: './img/batGirl/hurt2I.png',
+            framesMax: 1,
+        },
+        hurtD:{
+            imageSrc: './img/batGirl/hurt2D.png',
+            framesMax: 1,
+        },
+        blockingI:{
+            imageSrc: './img/batGirl/block2I.png',
+            framesMax: 1,
+        },
+        blockingD:{
+            imageSrc: './img/batGirl/block2D.png',
+            framesMax: 1,
+        },
+        blockingLowI:{
+            imageSrc: './img/batGirl/blockLow2I.png',
+            framesMax: 1,
+        },
+        blockingLowD:{
+            imageSrc: './img/batGirl/blockLow2D.png',
+            framesMax: 1,
         },
 
 
@@ -2085,6 +2197,14 @@ export const enemy = new Fighter({
         ddBD:{
             imageSrc: './img/batGirl/22B2D.png',
             framesMax: 7,
+        },
+        HKDI:{
+            imageSrc: './img/batGirl/HKD2I.png',
+            framesMax: 1,
+        },
+        HKDD:{
+            imageSrc: './img/batGirl/HKD2D.png',
+            framesMax: 1,
         },
     }
 })
@@ -2240,8 +2360,8 @@ export function update(who, move, playerProjectile) {
         if(!who.GB){
             who.jumps.n = 2
             who.velocity.y = 0
-            if(!who.DashRemains){
-                who.inCombo = false
+            if(!who.enable){
+                //who.inCombo = false
             }
             if(who.HKD){
                 who.HKD = false
@@ -2249,7 +2369,7 @@ export function update(who, move, playerProjectile) {
                 who.velocity.x = 0
                 who.invulnerable = true
                 who.unable = true
-                setTimeout(GetUpKnockDown, (62)*1000/FPS, who)
+                setTimeout(GetUpKnockDown, (72)*1000/FPS, who)
             }else if(who.SKD){
                 who.SKD = false
                 who.juggleMultiplier = 100
@@ -2370,6 +2490,7 @@ function GetUpKnockDown(character){
     character.unable = false
     character.HKD = false
     character.SKD = false
+    character.inCombo = false
     //console.log("miau")
 }
 

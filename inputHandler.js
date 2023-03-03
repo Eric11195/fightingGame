@@ -355,7 +355,7 @@ export function checkSpecialInputs(){
         p1InputBuffer.splice(0)
     }
     if(depuredBuffer1.lastIndexOf("B") != -1 && depuredBuffer1.lastIndexOf(2) != -1 && (2 == depuredBuffer1[depuredBuffer1.lastIndexOf(2)-1])&& ("B" == depuredBuffer1[depuredBuffer1.lastIndexOf(2)+1] )){
-        console.log("miau")
+        //console.log("miau")
         SpecialInput1 = "22B"
         p1InputBuffer.splice(0)
     }

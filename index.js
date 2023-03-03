@@ -1,4 +1,4 @@
-import {FPS, player, enemy, background, shop, speed, jumpForce, pDerecha, playerSide, xEnemyCollision, xPlayerCollision, minusxEnemyCollision, minusxPlayerCollision, hitboxCollision, attack, update, secondJumpForce, airDash, stAone, stAtwo, aAone ,aAtwo, crAone, crAtwo, Alvl1one, Alvl1two, Alvl3one, ddAone, ddAtwo, stBone, stBtwo, crBone, crBtwo, aBone, aBtwo, crstAone, crstAtwo, fBone, fBtwo, Alvl2one, Alvl2two, Alvl3two, Blvl1one,Blvl1two, Blvl2two, Blvl2one,  Blvl3one, Blvl3two, timer, timerId, playing, checkWinner, decreaseTimer, runSpeed, longJumpForce, highJumpForce, airRunSpeed, Dash, longJumpSpeed, rock1, rock2, ddBone, ddBtwo, pictureRock1} from './charactersData.js'
+import {FPS, player, enemy, background, shop, speed, jumpForce, pDerecha, playerSide, xEnemyCollision, xPlayerCollision, minusxEnemyCollision, minusxPlayerCollision, hitboxCollision, attack, update, secondJumpForce, airDash, stAone, stAtwo, aAone ,aAtwo, crAone, crAtwo, Alvl1one, Alvl1two, Alvl3one, ddAone, ddAtwo, stBone, stBtwo, crBone, crBtwo, aBone, aBtwo, crstAone, crstAtwo, fBone, fBtwo, Alvl2one, Alvl2two, Alvl3two, Blvl1one,Blvl1two, Blvl2two, Blvl2one,  Blvl3one, Blvl3two, timer, timerId, playing, checkWinner, decreaseTimer, runSpeed, longJumpForce, highJumpForce, airRunSpeed, Dash, longJumpSpeed, rock1, rock2, ddBone, ddBtwo, pictureRock1, pictureRock2} from './charactersData.js'
 import {keys, p1InputBuffer, p2InputBuffer, checkSpecialInputs, getPlayerOneInput, getPlayerTwoInput, SpecialInput1, SpecialInput2, playerOneRunning, playerTwoRunning, p1FramesCharging, p2FramesCharging} from './inputHandler.js'
 import {canvas, c, CROUCHING, STANDING} from './System.js'
 
@@ -35,22 +35,17 @@ var localPlayerTwoInput = getPlayerTwoInput()
 
 //barras de vida, movimiento, ataques...
 function animate(){ 
+    console.log(enemy.inCombo)
+
     background.update()
     shop.update()
     //console.log(pictureRock1.fakePosition)
-    if(rock1.onScreen){
-        pictureRock1.update()
-    }
-    if(rock2.onScreen){
-        pictureRock2.update()
-    }
-
     n++    
     //ea para donde se mira y cambia la hitbox en consecuencia, mira a ver si toca bloquar
     playerSide()
     if(pDerecha == "izq"){
         if (keys.a.pressed && !player.inCombo){
-            player.blockState= true
+            player.blockState = true
             player.framesBlocking++
             if(keys.s.pressed){
                 player.blockType = CROUCHING
@@ -191,8 +186,8 @@ function animate(){
         checkSpecialInputs();
 
 //player--------------------------------------------------------------------------------------------------------
-        if(keys.space.pressed && ((!player.unable || player.DashRemains || (player.velocity.y != 0 || player.jumpMaxPoint)))){
-            player.inCombo = true
+        if(keys.space.pressed && !player.inCombo && ((!player.unable || player.DashRemains || (player.velocity.y != 0 || player.jumpMaxPoint)))){
+            //player.inCombo = true
             setTimeout(jumpInvulnerabilityEnds, 6*1000/FPS, player)
             keys.space.pressed = false
             if (player.jumps.n > 0 ){
@@ -417,8 +412,8 @@ function animate(){
 
 
 //enemy---------------------------------------------------------------------------------------------------------
-        if(keys.AU.pressed && ((!enemy.unable || enemy.DashRemains || (enemy.velocity.y != 0 || enemy.jumpMaxPoint)))){
-            enemy.inCombo = true
+        if(keys.AU.pressed && !enemy.inCombo && ((!enemy.unable || enemy.DashRemains || (enemy.velocity.y != 0 || enemy.jumpMaxPoint)))){
+            //enemy.inCombo = true
             setTimeout(jumpInvulnerabilityEnds, 5.2*1000/FPS, enemy)
             keys.AU.pressed = false
             if (enemy.jumps.n > 0 ){
@@ -929,41 +924,6 @@ function animate(){
         player.velocity.x = 0
     }
 
-    if(player.HKD){
-        player.color = "green"
-    }else if(player.SKD) {
-        player.color = "purple"
-    }else if(player.FramesCharging  > 60){
-        player.color = "grey"
-        player.switchSprite('charging3')
-    }else if(player.FramesCharging  > 25){
-        player.color = "magenta"
-        player.switchSprite('charging2')
-    }else if(player.FramesCharging  <= 25 && player.FramesCharging  != 0){
-        player.color = "violet"
-        player.switchSprite('charging1')
-    }else if(player.unable) {
-        player.color = "yellow"
-    }else player.color = "blue"
-
-    if(enemy.HKD){
-        enemy.color = "green"
-    }else if(enemy.SKD) {
-        enemy.color = "purple"
-    }else if(enemy.FramesCharging  > 60){
-        enemy.color = "grey"
-        enemy.switchSprite('charging3')
-    }else if(enemy.FramesCharging  > 25){
-        enemy.color = "magenta"
-        enemy.switchSprite('charging2')
-    }else if(enemy.FramesCharging  <= 25 && enemy.FramesCharging  != 0){
-        enemy.color = "violet"
-        enemy.switchSprite('charging1')
-    }else if(enemy.unable) {
-        enemy.color = "yellow"
-    }else enemy.color = "red"
-
-
     //console.log(SpecialInput1)
 
 
@@ -1055,17 +1015,82 @@ function animate(){
     if(p2InputBuffer.length > 14){
         p2InputBuffer.shift()
     }
+
+    if(rock1.onScreen){
+        pictureRock1.update()
+    }
+    if(rock2.onScreen){
+        pictureRock2.update()
+    }
+    if(player.invulnerable){
+        player.switchSprite("HKD")
+    }else if(player.HKD){
+        player.switchSprite("hurt")
+        player.color = "green"
+    }else if(player.SKD) {
+        player.switchSprite("hurt")
+        player.color = "purple"
+    }else if(player.FramesCharging  > 60){
+        player.color = "grey"
+        player.switchSprite('charging3')
+    }else if(player.FramesCharging  > 25){
+        player.color = "magenta"
+        player.switchSprite('charging2')
+    }else if(player.FramesCharging  <= 25 && player.FramesCharging  != 0){
+        player.color = "violet"
+        player.switchSprite('charging1')
+    }else if(player.blockState && !player.agachado && !(player.attackHitting || player.initAttack || player.cancelWindow)&& (enemy.attackHitting || enemy.initAttack || enemy.cancelWindow)){
+        player.switchSprite("blocking")
+        player.color = "green"
+    }else if(player.blockState && player.agachado && !player.DashRemains && !(player.attackHitting || player.initAttack || player.cancelWindow) && (enemy.attackHitting || enemy.initAttack || enemy.cancelWindow)){
+        player.switchSprite("blockingLow")
+        player.color = "green"
+    }else if(player.unable && !player.initAttack && !player.attackHitting && !player.cancelWindow && !player.DashRemains) {
+        player.switchSprite("hurt")
+        player.color = "yellow"
+    }else player.color = "blue"
+
+    if(enemy.invulnerable){
+        enemy.switchSprite("HKD")
+    }else if(enemy.HKD){
+        enemy.switchSprite("hurt")
+        enemy.color = "green"
+    }else if(enemy.SKD) {
+        enemy.switchSprite("hurt")
+        enemy.color = "purple"
+    }else if(enemy.FramesCharging  > 60){
+        enemy.color = "grey"
+        enemy.switchSprite('charging3')
+    }else if(enemy.FramesCharging  > 25){
+        enemy.color = "magenta"
+        enemy.switchSprite('charging2')
+    }else if(enemy.FramesCharging  <= 25 && enemy.FramesCharging  != 0){
+        enemy.color = "violet"
+        enemy.switchSprite('charging1')
+    }else if(enemy.blockState && !enemy.agachado && !(enemy.attackHitting || enemy.initAttack || enemy.cancelWindow) && (player.attackHitting || player.initAttack || player.cancelWindow)){
+        enemy.switchSprite("blocking")
+        enemy.color = "green"
+    }else if(enemy.blockState && enemy.agachado && !enemy.DashRemains && !(enemy.attackHitting || enemy.initAttack || enemy.cancelWindow) && (player.attackHitting || player.initAttack || player.cancelWindow)){
+        enemy.switchSprite("blockingLow")
+        enemy.color = "green"
+    }else if(enemy.unable && !enemy.initAttack && !enemy.attackHitting && !enemy.cancelWindow && !enemy.DashRemains) {
+        enemy.switchSprite("hurt")
+        enemy.color = "yellow"
+    }else enemy.color = "red"
+
 }
 
 //jugador o enemigo se recuperan tras un ataque, no pasa si hay un ataque del que ha hecho un ataque pegando a la vez que se recupera
 function unableP(){
     if(!(enemy.attackhitting && enemy.attackHasLand)){
         player.unable = false
+        player.inCombo = false
     }
 }
 function unableE(){
     if(!(player.attackHitting && player.attackHasLand)){
         enemy.unable = false
+        enemy.inCombo = false
     }
 }
 
