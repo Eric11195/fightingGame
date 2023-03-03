@@ -9,7 +9,3 @@ hitstun
 A > B
 
 A||B + directional input
-
-turn
-
-otra actividad
