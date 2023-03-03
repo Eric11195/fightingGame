@@ -15,7 +15,7 @@ const c = canvas.getContext("2d")
 
 export var pDerecha = "izq"
 
-export let timer = 60;
+export let timer = 90;
 export let timerId
 //la partida no ha acabado
 export let playing = true
@@ -763,7 +763,7 @@ export const crAone = new Attack({
     active: 2,
     recovery: 12,
 
-    onHit: 5,
+    onHit: 6,
     onBlock: -2,
 
     position: {
@@ -793,7 +793,7 @@ export const crAtwo = new Attack({
     active: 2,
     recovery: 12,
 
-    onHit: 5,
+    onHit: 6,
     onBlock: -2,
 
     position: {
@@ -884,7 +884,7 @@ export const stBone = new Attack({
     active: 5,
     recovery: 15,
 
-    onHit: 8,
+    onHit: 9,
     onBlock: 2,
 
     position: {
@@ -914,7 +914,7 @@ export const stBtwo = new Attack({
     active: 5,
     recovery: 15,
 
-    onHit: 8,
+    onHit: 9,
     onBlock: 2,
 
     position: {
@@ -1006,7 +1006,7 @@ export const aBone = new Attack({
     active: 5,
     recovery: 10,
 
-    onHit: 12,
+    onHit: 15,
     onBlock: 5,
 
     position: {
@@ -1038,7 +1038,7 @@ export const aBtwo = new Attack({
     active: 5,
     recovery: 10,
 
-    onHit: 12,
+    onHit: 15,
     onBlock: 5,
 
     position: {
