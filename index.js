@@ -1104,7 +1104,7 @@ function attackFunction(goodGuy, badGuy, theAttack){
         badGuy.unable = true
         if (badGuy.blockState && theAttack.attackClass !="UNBLOCKABLE" &&((badGuy.velocity.y != 0 || badGuy.jumpMaxPoint)|| ((theAttack.attackClass =="MID" || theAttack.attackClass =="PROJECTILE") || (badGuy.blockType == CROUCHING && theAttack.attackClass =="LOW") || (badGuy.blockType == STANDING && theAttack.attackClass =="OVERHEAD") || (theAttack.attackClass =="HIGH" && badGuy.blockType == STANDING)))){ 
             if(badGuy.perfectBlock){
-                badGuy.health += 3
+                badGuy.health += 9
             }else{
                 badGuy.health -= theAttack.damage/20
             }

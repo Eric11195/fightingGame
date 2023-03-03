@@ -824,7 +824,7 @@ export const crstAone = new Attack({
     recovery: 12,
 
     onHit: 1,
-    onBlock: -8,
+    onBlock: -9,
 
     position: {
         x:0,
@@ -854,7 +854,7 @@ export const crstAtwo = new Attack({
     recovery: 17,
 
     onHit: 1,
-    onBlock: -8,
+    onBlock: -9,
 
     position: {
         x:0,
@@ -1085,13 +1085,14 @@ export const fBone = new Attack({
         y:  30,
     },
 
-    damage:4,
+    damage:10,
     pushblock:40,
     pushhit:30, 
 
-    forceApply: "air",
+    forceApply: "WS",
     forceX:10,
-    forceY:5
+    forceY:5,
+    juggleValue: -30
 })
 export const fBtwo = new Attack({
     attackClass: "HIGH",
@@ -1116,13 +1117,14 @@ export const fBtwo = new Attack({
         y:  30,
     },
 
-    damage:4,
+    damage:10,
     pushblock:40,
     pushhit:30, 
 
-    forceApply: "air",
+    forceApply: "WS",
     forceX:10,
-    forceY:5
+    forceY:5,
+    juggleValue: -30
 })
 //special moves---------------------------------------------------------------------------------------------------------------------
 export const ddBone = new Attack({
@@ -1195,7 +1197,7 @@ export const Alvl1one = new Attack({
 
     startup: 5,
     active: 5,
-    recovery: 20,
+    recovery: 16,
 
     onHit: "SKD",
     onBlock: -4,
@@ -1225,7 +1227,7 @@ export const Alvl1two = new Attack({
 
     startup: 5,
     active: 5,
-    recovery: 20,
+    recovery: 16,
 
     onHit: "SKD",
     onBlock: -4,
@@ -1253,12 +1255,12 @@ export const Blvl1one = new Attack({
     attackClass: "MID",
     lowProfile: false,
 
-    startup: 7,
+    startup: 5,
     active: 5,
-    recovery: 20,
+    recovery: 16,
 
     onHit: "SKD",
-    onBlock: -13,
+    onBlock: -4,
 
     position: {
         x:0,
@@ -1283,9 +1285,9 @@ export const Blvl1two = new Attack({
     attackClass: "MID",
     lowProfile: false,
 
-    startup: 7,
+    startup: 5,
     active: 5,
-    recovery: 20,
+    recovery: 16,
 
     onHit: "SKD",
     onBlock: -4,
@@ -1314,11 +1316,11 @@ export const Blvl2one = new Attack({
     lowProfile: false,
 
     startup: 2,
-    active: 5,
-    recovery: 20,
+    active: 7,
+    recovery: 18,
 
     onHit: "SKD",
-    onBlock: -2,
+    onBlock: 3,
 
     position: {
         x:0,
@@ -1330,7 +1332,7 @@ export const Blvl2one = new Attack({
         x: 50,
         y: 0,
     },
-    damage:5,
+    damage:8,
     pushblock:40,
     pushhit:25, 
 
@@ -1344,11 +1346,11 @@ export const Blvl2two = new Attack({
     lowProfile: false,
 
     startup: 2,
-    active: 5,
-    recovery: 20,
+    active: 7,
+    recovery: 18,
 
     onHit: "SKD",
-    onBlock: -2,
+    onBlock: 3,
 
     position: {
         x:0,
@@ -1360,7 +1362,7 @@ export const Blvl2two = new Attack({
         x: 50,
         y: 0,
     },
-    damage:5,
+    damage:8,
     pushblock:40,
     pushhit:25, 
 
@@ -1432,8 +1434,8 @@ export const Alvl3one = new Attack({
     lowProfile: false,
 
     startup: 1,
-    active: 5,
-    recovery: 30,
+    active: 9,
+    recovery: 16,
 
     onHit: "HKD",
     onBlock: 40,
@@ -1462,8 +1464,8 @@ export const Alvl3two = new Attack({
     lowProfile: false,
 
     startup: 1,
-    active: 5,
-    recovery: 30,
+    active: 9,
+    recovery: 16,
 
     onHit: "HKD",
     onBlock: 40,
@@ -1492,8 +1494,8 @@ export const Blvl3two = new Attack({
     lowProfile: false,
 
     startup: 1,
-    active: 5,
-    recovery: 35,
+    active: 9,
+    recovery: 16,
 
     onHit: "HKD",
     //onBlock: 40,
@@ -1523,8 +1525,8 @@ export const Blvl3one = new Attack({
     lowProfile: false,
 
     startup: 1,
-    active: 5,
-    recovery: 35,
+    active: 9,
+    recovery: 16,
 
     onHit: "HKD",
     //onBlock: -2,
@@ -1558,7 +1560,7 @@ export const ddAone = new Attack({
     recovery: 18,
 
     onHit: "HKD",
-    onBlock: -12,
+    onBlock: -6,
 
     position: {
         x:0,
@@ -1588,7 +1590,7 @@ export const ddAtwo = new Attack({
     recovery: 18,
 
     onHit: 40,
-    onBlock: -12,
+    onBlock: -6,
 
     position: {
         x:0,
@@ -2369,7 +2371,7 @@ export function update(who, move, playerProjectile) {
                 who.velocity.x = 0
                 who.invulnerable = true
                 who.unable = true
-                setTimeout(GetUpKnockDown, (72)*1000/FPS, who)
+                setTimeout(GetUpKnockDown, (62)*1000/FPS, who)
             }else if(who.SKD){
                 who.SKD = false
                 who.juggleMultiplier = 100
