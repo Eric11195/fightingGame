@@ -1,2 +1,2 @@
 # fightingGame
-El juegazo de Izan
+Juego de Lucha
