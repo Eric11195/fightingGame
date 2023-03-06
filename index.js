@@ -995,7 +995,7 @@ function animate(){
         }
     }
     //Crea un bucle infinito para que el juego funcione a un numero de fps concreto
-    setTimeout(() => {unableP
+    setTimeout(() => {//unableP
         requestAnimationFrame(animate)
     },1000/FPS)
 

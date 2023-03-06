@@ -2287,25 +2287,29 @@ export function attack(who,move) {
 }
 
 function STARTUP(who){
-    who.isAttacking = true
-    who.initAttack = false
-    who.attackHitting = true
+    if(!who.inCombo){
+        who.isAttacking = true
+        who.initAttack = false
+        who.attackHitting = true
+    } else who.switchSprite("hurt")
 }
 
 function ACTIVE(who){
-    who.isAttacking = false
-    who.attackHitting = false
-    who.cancelWindow = true
+    if(!who.inCombo){
+        who.isAttacking = false
+        who.attackHitting = false
+        who.cancelWindow = true
+    } else who.switchSprite("hurt")
 
 }
 
 function RECOVERY(who){
-    if(!who.batting){
+    if(!who.batting && !who.inCombo){
         who.unable = false
         who.myAttack = "none"
         who.agachado = false
         who.cancelWindow = false
-    }
+    } else who.switchSprite("hurt")
 }
 export function update(who, move, playerProjectile) {
     pictureRock1.fakePosition.x = rock1.position.x
