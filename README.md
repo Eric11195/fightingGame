@@ -1,6 +1,8 @@
 # fightingGame
 Fighting Game in Javascript
 
+![Imagen ejemplo del juego](https://github.com/Eric11195/fightingGame/blob/main/ReadMeMedia/Demo.JPG)
+
 There's quite a bunch of mecanics from fighting games since I'm a big fan of them. So even if it's quite simple there's still okizeme and mixup strategies, as the character, or at least the special moves are thought to be of a rushdown archetype.
 Features:
 - Life and time indicators
@@ -14,6 +16,8 @@ Features:
 - Combo system based on frame data and launcher moves. There's also ground bounce and wall bounce if you like being fancy. And also a wall splat, that is basically the combo ender.
 - An anticombos system based on juggle decay.
 - No grabs :( , i am too lazy to make a synchronized animation.
+
+
 
 Instructions and video demonstrations on the following link. It is in spanish I may warn. There are no code explanations since it´s just a complete mesh. And there's very few comments on the code itself (things of my chaotic mind).
 https://drive.google.com/drive/folders/1yVa0FHmqECTOUr2sNjzcebJirO9LAI-O?usp=share_link
