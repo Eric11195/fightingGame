@@ -42,7 +42,7 @@ Some Combos:
 
 ![Image charge moves](https://github.com/Eric11195/fightingGame/blob/main/ReadMeMedia/Combos.JPG)
 
-Instructions and video demonstrations on the following link. It is in spanish I may warn. There are no code explanations since it´s just a complete mesh. And there's very few comments on the code itself (things of my chaotic mind).
+Instructions and video demonstrations on the following link. It is in spanish I may warn. There are no code explanations since it´s just a complete mesh. And there are very few comments on the code itself (things of my chaotic mind).
 https://drive.google.com/drive/folders/1yVa0FHmqECTOUr2sNjzcebJirO9LAI-O?usp=share_link
 
 Feel free to use my code, or modify it. But it is horribly estructured, and there are probably lots of bugs. This project is not going to be further developed (it was a class project which got out of hand). If it is (inexplicably) useful for you, or if you have achieved to do something good with it, contact me or link me somewhere (even a little mention) on your state of the art javascript game xD. 
