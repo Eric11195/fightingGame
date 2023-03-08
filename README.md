@@ -18,7 +18,7 @@ Features:
 - No grabs :( , i am too lazy to make a synchronized animation.
 
 Controls (Left ones for player 1, Right ones for player 2):
-Directions are indicated qith the number of the numpad(generic fighting game notation), the first attack is A and the second is B.
+Directions are indicated with the number of the numpad(generic fighting game notation), the first attack is A and the second is B.
 
 ![Imagen controls](https://github.com/Eric11195/fightingGame/blob/main/ReadMeMedia/Controles.JPG)
 
