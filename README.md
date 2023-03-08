@@ -17,7 +17,26 @@ Features:
 - An anticombos system based on juggle decay.
 - No grabs :( , i am too lazy to make a synchronized animation.
 
+Controls (Left ones for player 1, Right ones for player 2):
+Directions are indicated qith the number of the numpad(generic fighting game notation), the first attack is A and the second is B.
 
+![Imagen ejemplo del juego](https://github.com/Eric11195/fightingGame/blob/main/ReadMeMedia/Controles.JPG)
+
+Attacks (S = startup frames, A = active frames, R = recovery frames):
+
+![Imagen ejemplo del juego](https://github.com/Eric11195/fightingGame/blob/main/ReadMeMedia/Ataques.JPG)
+
+Launcher Special attack(begins combos):
+
+![Imagen ejemplo del juego](https://github.com/Eric11195/fightingGame/blob/main/ReadMeMedia/22A.JPG)
+
+Multitrayectory proyectile(also your okizeme tool, alter trayectory by not pressing anything or holding A or B):
+
+![Imagen ejemplo del juego](https://github.com/Eric11195/fightingGame/blob/main/ReadMeMedia/22B.JPG)
+
+Charge cancellable moves (pressure and combos):
+
+![Imagen ejemplo del juego](https://github.com/Eric11195/fightingGame/blob/main/ReadMeMedia/236.JPG)
 
 Instructions and video demonstrations on the following link. It is in spanish I may warn. There are no code explanations since it´s just a complete mesh. And there's very few comments on the code itself (things of my chaotic mind).
 https://drive.google.com/drive/folders/1yVa0FHmqECTOUr2sNjzcebJirO9LAI-O?usp=share_link
